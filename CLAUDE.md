@@ -60,7 +60,7 @@ Items 1–4 and 6 apply to EVERY step. Item 5 (user approval) is required only a
 |---|---|---|
 | 1 Scaffold + PRD | done | Gate |
 | 2 Data contracts + tests | done | |
-| 3 Case selection (matched pairs) | in review | Gate |
+| 3 Case selection (matched pairs) | done | Gate |
 | 4 Companies House fetcher | not started | |
 | 5 Dated evidence collection | not started | |
 | 6 LLM extraction + accuracy check | not started | Gate |
