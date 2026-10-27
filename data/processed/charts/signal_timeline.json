@@ -1,0 +1,233 @@
+[
+ {
+  "pair_id": "P1",
+  "anchor": "2025-02-04",
+  "companies": [
+   {
+    "company_id": "hsl_compliance",
+    "role": "deal",
+    "horizons": {
+     "12m": [
+      "pe_holding_clock (psc_notified)"
+     ],
+     "6m": [
+      "pe_holding_clock (psc_notified)"
+     ],
+     "3m": [
+      "pe_holding_clock (psc_notified)"
+     ]
+    },
+    "late_window": []
+   },
+   {
+    "company_id": "ptsg",
+    "role": "control",
+    "horizons": {
+     "12m": [
+      "pe_holding_clock (announced_proxy)",
+      "debt_event_12m"
+     ],
+     "6m": [
+      "pe_holding_clock (announced_proxy)"
+     ],
+     "3m": [
+      "pe_holding_clock (announced_proxy)"
+     ]
+    },
+    "late_window": [
+     "debt_charge_event"
+    ]
+   }
+  ]
+ },
+ {
+  "pair_id": "P2",
+  "anchor": "2025-03-12",
+  "companies": [
+   {
+    "company_id": "peak_ai",
+    "role": "deal",
+    "horizons": {
+     "12m": [
+      "debt_event_12m"
+     ],
+     "6m": [
+      "debt_event_12m"
+     ],
+     "3m": [
+      "debt_event_12m"
+     ]
+    },
+    "late_window": []
+   },
+   {
+    "company_id": "causaly",
+    "role": "control",
+    "horizons": {
+     "12m": [],
+     "6m": [],
+     "3m": []
+    },
+    "late_window": []
+   }
+  ]
+ },
+ {
+  "pair_id": "P3",
+  "anchor": "2025-06-09",
+  "companies": [
+   {
+    "company_id": "oxford_ionics",
+    "role": "deal",
+    "horizons": {
+     "12m": [],
+     "6m": [],
+     "3m": []
+    },
+    "late_window": []
+   },
+   {
+    "company_id": "universal_quantum",
+    "role": "control",
+    "horizons": {
+     "12m": [
+      "debt_event_12m"
+     ],
+     "6m": [],
+     "3m": []
+    },
+    "late_window": []
+   }
+  ]
+ },
+ {
+  "pair_id": "P4",
+  "anchor": "2025-09-09",
+  "companies": [
+   {
+    "company_id": "cytora",
+    "role": "deal",
+    "horizons": {
+     "12m": [
+      "readiness_18m"
+     ],
+     "6m": [
+      "readiness_18m",
+      "debt_event_12m"
+     ],
+     "3m": [
+      "readiness_18m",
+      "debt_event_12m"
+     ]
+    },
+    "late_window": []
+   },
+   {
+    "company_id": "artificial_labs",
+    "role": "control",
+    "horizons": {
+     "12m": [
+      "debt_event_12m",
+      "fundraise_12m"
+     ],
+     "6m": [
+      "debt_event_12m"
+     ],
+     "3m": []
+    },
+    "late_window": []
+   }
+  ]
+ },
+ {
+  "pair_id": "P5",
+  "anchor": "2025-09-24",
+  "companies": [
+   {
+    "company_id": "signal_ai",
+    "role": "deal",
+    "horizons": {
+     "12m": [],
+     "6m": [
+      "debt_event_12m"
+     ],
+     "3m": [
+      "debt_event_12m"
+     ]
+    },
+    "late_window": [
+     "debt_charge_event"
+    ]
+   },
+   {
+    "company_id": "cognism",
+    "role": "control",
+    "horizons": {
+     "12m": [
+      "debt_event_12m"
+     ],
+     "6m": [
+      "debt_event_12m"
+     ],
+     "3m": [
+      "debt_event_12m"
+     ]
+    },
+    "late_window": []
+   }
+  ]
+ },
+ {
+  "pair_id": "P6",
+  "anchor": "2025-07-01",
+  "companies": [
+   {
+    "company_id": "aab",
+    "role": "deal",
+    "horizons": {
+     "12m": [
+      "pe_holding_clock (psc_notified)",
+      "readiness_18m",
+      "debt_event_12m"
+     ],
+     "6m": [
+      "pe_holding_clock (psc_notified)",
+      "readiness_18m",
+      "debt_event_12m"
+     ],
+     "3m": [
+      "pe_holding_clock (psc_notified)",
+      "readiness_18m",
+      "debt_event_12m"
+     ]
+    },
+    "late_window": [
+     "debt_charge_event"
+    ]
+   },
+   {
+    "company_id": "xeinadin",
+    "role": "control",
+    "horizons": {
+     "12m": [
+      "pe_holding_clock (announced_proxy)",
+      "readiness_18m"
+     ],
+     "6m": [
+      "pe_holding_clock (announced_proxy)",
+      "readiness_18m"
+     ],
+     "3m": [
+      "pe_holding_clock (announced_proxy)",
+      "readiness_18m"
+     ]
+    },
+    "late_window": [
+     "advisers_appointed",
+     "exploring_options",
+     "pe_holding_period"
+    ]
+   }
+  ]
+ }
+]

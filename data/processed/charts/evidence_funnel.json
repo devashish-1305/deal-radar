@@ -1,0 +1,53 @@
+{
+ "note": "Search-level counts (search_results, unique_urls) are not a subset chain. Pages were opened mechanically from the search results; every opened page ends in exactly one of blocked_or_paywalled, discarded or kept (evidence_log.md); usable_dated is a subset of kept.",
+ "search": [
+  {
+   "label": "Search results (60 queries; with repeats)",
+   "count": 585
+  },
+  {
+   "label": "Unique URLs in search results",
+   "count": 519
+  }
+ ],
+ "opened": {
+  "label": "Pages opened (pass 1 + pass 2 + 1 logged exception)",
+  "count": 201,
+  "split": [
+   {
+    "label": "Blocked or paywalled",
+    "count": 52
+   },
+   {
+    "label": "Discarded (other company, dates, duplicates, leakage, cap)",
+    "count": 112
+   },
+   {
+    "label": "Kept as evidence",
+    "count": 37
+   }
+  ]
+ },
+ "usable_dated": {
+  "label": "Kept and dated before the pair anchor (usable)",
+  "count": 16
+ },
+ "registry": [
+  {
+   "label": "Companies House events",
+   "count": 971
+  },
+  {
+   "label": "With a publication date",
+   "count": 858
+  },
+  {
+   "label": "Without a usable publication date (no unique matching filing)",
+   "count": 113
+  },
+  {
+   "label": "Published before the pair anchor (usable)",
+   "count": 628
+  }
+ ]
+}

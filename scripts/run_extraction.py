@@ -1,11 +1,16 @@
 """Step 6b: run the LLM extractor on in-scope evidence with both models and write the accuracy evaluation.
 
-Run from the repo root:  PYTHONPATH=src .venv/bin/python scripts/run_extraction.py [--from-cache]
-(--from-cache: rebuild outputs from data/raw/llm/ only, with no API call; a missing cache file is an error.)
-Inputs:  data/processed/evidence.json, data/raw/articles/, data/cases/gold_signals.json, prompts/extract_v1.md,
-         ANTHROPIC_API_KEY from .env (never printed or logged).
-Outputs: data/processed/llm_signals_{haiku,sonnet}.json, docs/extraction_eval.md,
-         raw responses cached in data/raw/llm/extract_v1/<model>/ (git-ignored; reused on re-runs).
+Run from the repo root:  PYTHONPATH=src .venv/bin/python scripts/run_extraction.py [--from-cache | --from-committed]
+Modes:
+  api (default)     calls the API (key from .env); raw responses cached in data/raw/llm/ (git-ignored).
+  --from-cache      rebuilds everything from data/raw/llm/ only; no API call; a missing cache file is an error.
+  --from-committed  no cache, no API: rebuilds the evaluation from the committed llm_signals_*.json,
+                    extraction_runs.json (per-document tokens, failures, rejections) and gold_signals.json.
+In every mode the report is rendered from the same committed record, so cache and committed modes are identical.
+Inputs:  data/processed/evidence.json, data/cases/gold_signals.json, prompts/extract_v1.md; data/raw/articles/ and
+         ANTHROPIC_API_KEY (never printed or logged) only in api/cache modes.
+Outputs: data/processed/llm_signals_{haiku,sonnet}.json and extraction_runs.json (api/cache modes),
+         docs/extraction_eval.md, data/processed/charts/extraction_compare.json.
 """
 
 import json
@@ -20,11 +25,14 @@ from deal_radar.cases import load_cases
 from deal_radar.features import apply_prd_rules
 from deal_radar.extract import PROMPT_VERSION, ModelUnavailable, check_models, extract_document, match, norm
 from deal_radar.rules import is_usable
-from deal_radar.schemas import Evidence
+from deal_radar.schemas import MAX_QUOTE_WORDS, SIGNAL_CLASS_OF, Evidence, Signal
 
 ROOT = Path(__file__).resolve().parents[1]
 CASES = ROOT / "data" / "cases"
 ARTICLES = ROOT / "data" / "raw" / "articles"
+PROCESSED = ROOT / "data" / "processed"
+RUNS = PROCESSED / "extraction_runs.json"
+CHARTS = PROCESSED / "charts"
 LLM_CACHE = ROOT / "data" / "raw" / "llm" / PROMPT_VERSION
 MODELS = {"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5"}
 # Planned temperature 0 is not possible: anthropic SDK 1.5.0 has no `temperature` parameter, and the API returns
@@ -51,7 +59,7 @@ NOTES = {
     ("sonnet", "missed", "ev-oxford_ionics-543ab30517", "large_recent_fundraise"): "the only candidate was rejected by the 25-word quote check (see below); the safeguard rejected rather than truncated",
     ("duplicate", "ev-aab-8a6861f66c", "governance_change"): "second item for the same CEO succession (outgoing CEO's new role); not counted",
     ("duplicate", "ev-artificial_labs-bc9a862bce", "governance_change"): "COO / Head of Portfolio Strategy hires; executive roles, not board changes",
-    ("rejected", "ev-oxford_ionics-543ab30517", "large_recent_fundraise"): "quote of 28 words exceeds the 25-word limit",
+    ("rejected", "ev-oxford_ionics-543ab30517", "large_recent_fundraise"): "rejected rather than truncated (25-word data policy)",
 }
 STEP7_NOTES = [
     "Gate 6 decision: `claude-sonnet-5-5` is the extraction model for Step 7; `claude-haiku-5-5` stays as the cost "
@@ -78,9 +86,10 @@ RECOMMENDATION = (
 )
 
 
-def main() -> None:
-    if "--from-cache" in sys.argv:
-        client = None  # no API call at all; a missing cache file is an error (extract.extract_document)
+def main(mode: str = "api") -> None:
+    """mode: "api", "cache" (data/raw/llm only) or "committed" (committed files only)."""
+    if mode in ("cache", "committed"):
+        client = None  # no API call at all; in cache mode a missing cache file is an error (extract.extract_document)
     else:
         key = dotenv_values(ROOT / ".env").get("ANTHROPIC_API_KEY")
         if not key:
@@ -102,10 +111,21 @@ def main() -> None:
     gold = json.loads((CASES / "gold_signals.json").read_text())["signals"]
     if {e.evidence_id for e in scope} != set(gold):
         sys.exit("STOP: in-scope evidence and gold ids differ")
-    system = (ROOT / "prompts" / f"{PROMPT_VERSION}.md").read_text()
+    if mode != "committed":
+        extract_all(client, scope, anchor, aliases)
+    results = load_results(scope)
+    stats = {short: model_stats(MODELS[short], results[short], gold, {}) for short in MODELS}
+    (ROOT / "docs" / "extraction_eval.md").write_text(render(scope, companies, gold, {}, results))
+    CHARTS.mkdir(parents=True, exist_ok=True)
+    (CHARTS / "extraction_compare.json").write_text(
+        json.dumps(compare_json(scope, gold, stats), indent=1, ensure_ascii=False) + "\n")
 
+
+def extract_all(client, scope, anchor, aliases) -> None:
+    """Run (api) or replay (cache) extraction; write the signal files and the sanitised run record."""
+    system = (ROOT / "prompts" / f"{PROMPT_VERSION}.md").read_text()
     texts = {e.evidence_id: (ARTICLES / f"{e.evidence_id}.txt").read_text() for e in scope}
-    results = {}
+    runs = {}
     for short, model in MODELS.items():
         per_doc = {}
         for e in scope:
@@ -113,14 +133,59 @@ def main() -> None:
                 client, model, system, e, anchor[e.company_id], texts[e.evidence_id],
                 aliases[e.company_id][0], aliases[e.company_id], LLM_CACHE / model, TEMPERATURE)
         signals = [s for r in per_doc.values() for s in r["signals"]]
-        (ROOT / "data" / "processed" / f"llm_signals_{short}.json").write_text(
+        (PROCESSED / f"llm_signals_{short}.json").write_text(
             json.dumps([s.model_dump(mode="json") for s in signals], indent=1, ensure_ascii=False) + "\n")
-        results[short] = per_doc
+        runs[short] = {eid: {"failure": r["failure"],
+                             "attempts": [{"input_tokens": a["input_tokens"], "output_tokens": a["output_tokens"]}
+                                          for a in r["attempts"]],
+                             "rejections": [sanitise_rejection(x) for x in r["rejections"]]}
+                       for eid, r in per_doc.items()}
         print(f"{model}: {len(signals)} signals, "
               f"{sum(len(r['rejections']) for r in per_doc.values())} rejected, "
               f"{sum(r['failure'] is not None for r in per_doc.values())} failures")
+    RUNS.write_text(json.dumps(runs, indent=1, ensure_ascii=False) + "\n")
 
-    (ROOT / "docs" / "extraction_eval.md").write_text(render(scope, companies, gold, texts, results))
+
+def sanitise_rejection(x: dict) -> dict:
+    """Keep a rejected item's quote only if it is within the 25-word data policy (CLAUDE.md); otherwise its length."""
+    item = dict(x["item"])
+    words = len(item["evidence_quote"].split())
+    if words > MAX_QUOTE_WORDS:
+        item["evidence_quote"] = None
+    item["quote_words"] = words
+    return {"evidence_id": x["evidence_id"], "reason": x["reason"], "item": item}
+
+
+def load_results(scope) -> dict:
+    """Per model and document: signals (from llm_signals_*.json) plus failure, attempts and rejections (from RUNS)."""
+    runs = json.loads(RUNS.read_text())
+    results = {}
+    for short in MODELS:
+        signals = [Signal.model_validate(s) for s in json.loads((PROCESSED / f"llm_signals_{short}.json").read_text())]
+        results[short] = {e.evidence_id: {**runs[short][e.evidence_id],
+                                          "signals": [s for s in signals if s.evidence_id == e.evidence_id]}
+                          for e in scope}
+    return results
+
+
+def compare_json(scope, gold, stats) -> dict:
+    """Chart data for the model comparison (also the source of extraction figures in docs/findings.md)."""
+    out = {"n_documents": len(scope), "n_gold_signals": sum(map(len, gold.values())),
+           "cost_note": "provisional estimate: list prices cached 2026-10-06, not invoice-verified",
+           "sample_note": f"small sample ({len(scope)} articles)", "models": {}}
+    for short, s in stats.items():
+        m = s["m"]
+        out["models"][short] = {
+            "model": MODELS[short], "tp": m["tp"], "fp": len(m["fp"]), "fn": len(m["fn"]),
+            "duplicates": len(m["duplicates"]), "precision": round(m["precision"], 4), "recall": round(m["recall"], 4),
+            "verbatim_quote_rate": round(s["quote_validity"], 4), "rejected_by_check": len(s["rejections"]),
+            "failures": len(s["failures"]), "tokens_in": s["tokens_in"], "tokens_out": s["tokens_out"],
+            "cost_usd_provisional": round(s["cost"], 6),
+            "false_direct_intent": sum(SIGNAL_CLASS_OF[p.signal_type] == "direct_intent" for p in m["fp"])}
+    after = match(gold, apply_prd_rules(stats["sonnet"]["signals"]))
+    out["sonnet_after_prd_rules"] = {"tp": after["tp"], "fp": len(after["fp"]), "fn": len(after["fn"]),
+                                     "precision": round(after["precision"], 4), "recall": round(after["recall"], 4)}
+    return out
 
 
 def model_stats(model, per_doc, gold, texts):
@@ -136,6 +201,12 @@ def model_stats(model, per_doc, gold, texts):
             "quote_validity": quote_ok / returned if returned else None,
             "failures": [eid for eid, r in per_doc.items() if r["failure"]], "calls": len(attempts),
             "tokens_in": tin, "tokens_out": tout, "cost": tin / 1e6 * pin + tout / 1e6 * pout}
+
+
+def quote_text(item: dict) -> str:
+    if item["evidence_quote"] is None:
+        return f"[quote not reproduced: {item['quote_words']} words, over the 25-word limit]"
+    return f"\"{item['evidence_quote']}\""
 
 
 def pct(x):
@@ -158,7 +229,8 @@ def render(scope, companies, gold, texts, results) -> str:
          "the API rejects it for both models (HTTP 400 \"`temperature` is deprecated for this model\", request ids "
          "req_011CgTBqjUpeW24NKpDqnNKU and req_011CgTBqqmr51D6nFzRpP7HG, 2026-10-27). API default settings were used, "
          "identical for both models. Consequences: outputs are not guaranteed deterministic (re-runs reuse the cached "
-         "raw responses in `data/raw/llm/`, so this report is reproducible from the cache), and the API's default "
+         "raw responses in `data/raw/llm/`, or the committed run record `data/processed/extraction_runs.json` in a "
+         "fresh clone, so this report is reproducible without API calls), and the API's default "
          "reasoning effort differs by model (per the Claude API reference: medium for Haiku 5.5, high for Sonnet 5.5).",
          "- Scope: Evidence usable at the pair anchor after the content_leak exclusion. Undated, post-anchor and "
          "excluded items are never sent (enforced in `extract.extract_document`).",
@@ -222,7 +294,7 @@ def render(scope, companies, gold, texts, results) -> str:
         lines += [f"- status · {p.evidence_id} · {p.signal_type} · gold {g['status']} vs {p.status}"
                   for g, p in s["m"]["pairs"] if g["status"] != p.status]
         lines += [f"- rejected ({x['reason']}) · {x['evidence_id']} · {x['item']['signal_type']} · subject "
-                  f"\"{x['item']['subject_company']}\" · \"{x['item']['evidence_quote']}\"{note('rejected', x['evidence_id'], x['item']['signal_type'])}" for x in s["rejections"]]
+                  f"\"{x['item']['subject_company']}\" · {quote_text(x['item'])}{note('rejected', x['evidence_id'], x['item']['signal_type'])}" for x in s["rejections"]]
         lines += [f"- failure · {eid}" for eid in s["failures"]]
         L += lines or ["- none"]
         L.append("")
@@ -238,9 +310,10 @@ def render(scope, companies, gold, texts, results) -> str:
         L += [f"### {short} (`{MODELS[short]}`): predictions", "",
               "| # | evidence_id | signal_type | status | outcome | quote |", "|---|---|---|---|---|---|"]
         rows = [(p.evidence_id, p.signal_type, p.status, outcome[p.signal_id], p.evidence_quote) for p in s["signals"]]
+        rows = [(eid, t, st, o, f'"{q}"') for eid, t, st, o, q in rows]
         rows += [(x["evidence_id"], x["item"]["signal_type"], x["item"]["status"], f"rejected-by-check ({x['reason']})",
-                  x["item"]["evidence_quote"]) for x in s["rejections"]]
-        L += [f"| {i} | {eid} | {t} | {st} | {o} | \"{q}\" |" for i, (eid, t, st, o, q) in enumerate(rows, 1)]
+                  quote_text(x["item"])) for x in s["rejections"]]
+        L += [f"| {i} | {eid} | {t} | {st} | {o} | {q} |" for i, (eid, t, st, o, q) in enumerate(rows, 1)]
         count = Counter(o.split(" ")[0] for *_, o, _ in rows)
         L += ["", f"### {short} (`{MODELS[short]}`): gold signals", "",
               "| # | evidence_id | signal_type | gold status | outcome |", "|---|---|---|---|---|"]
@@ -283,4 +356,4 @@ def render(scope, companies, gold, texts, results) -> str:
 
 
 if __name__ == "__main__":
-    main()
+    main("cache" if "--from-cache" in sys.argv else "committed" if "--from-committed" in sys.argv else "api")

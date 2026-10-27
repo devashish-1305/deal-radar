@@ -1,0 +1,290 @@
+[
+ {
+  "pair_id": "P1",
+  "horizon": "12m",
+  "deal": "hsl_compliance",
+  "control": "ptsg",
+  "full": {
+   "deal": 1.944,
+   "control": 2.088,
+   "outcome": "loss"
+  },
+  "holding_only": {
+   "deal": 1.944,
+   "control": 1.088,
+   "outcome": "win"
+  }
+ },
+ {
+  "pair_id": "P1",
+  "horizon": "6m",
+  "deal": "hsl_compliance",
+  "control": "ptsg",
+  "full": {
+   "deal": 2.0,
+   "control": 1.288,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 2.0,
+   "control": 1.288,
+   "outcome": "win"
+  }
+ },
+ {
+  "pair_id": "P1",
+  "horizon": "3m",
+  "deal": "hsl_compliance",
+  "control": "ptsg",
+  "full": {
+   "deal": 2.0,
+   "control": 1.388,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 2.0,
+   "control": 1.388,
+   "outcome": "win"
+  }
+ },
+ {
+  "pair_id": "P2",
+  "horizon": "12m",
+  "deal": "peak_ai",
+  "control": "causaly",
+  "full": {
+   "deal": 1.0,
+   "control": 0,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P2",
+  "horizon": "6m",
+  "deal": "peak_ai",
+  "control": "causaly",
+  "full": {
+   "deal": 1.0,
+   "control": 0,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P2",
+  "horizon": "3m",
+  "deal": "peak_ai",
+  "control": "causaly",
+  "full": {
+   "deal": 1.0,
+   "control": 0,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P3",
+  "horizon": "12m",
+  "deal": "oxford_ionics",
+  "control": "universal_quantum",
+  "full": {
+   "deal": 0,
+   "control": 1.0,
+   "outcome": "loss"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P3",
+  "horizon": "6m",
+  "deal": "oxford_ionics",
+  "control": "universal_quantum",
+  "full": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P3",
+  "horizon": "3m",
+  "deal": "oxford_ionics",
+  "control": "universal_quantum",
+  "full": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P4",
+  "horizon": "12m",
+  "deal": "cytora",
+  "control": "artificial_labs",
+  "full": {
+   "deal": 1.0,
+   "control": 0.0,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P4",
+  "horizon": "6m",
+  "deal": "cytora",
+  "control": "artificial_labs",
+  "full": {
+   "deal": 2.0,
+   "control": 1.0,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P4",
+  "horizon": "3m",
+  "deal": "cytora",
+  "control": "artificial_labs",
+  "full": {
+   "deal": 2.0,
+   "control": 0,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P5",
+  "horizon": "12m",
+  "deal": "signal_ai",
+  "control": "cognism",
+  "full": {
+   "deal": 0,
+   "control": 1.0,
+   "outcome": "loss"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P5",
+  "horizon": "6m",
+  "deal": "signal_ai",
+  "control": "cognism",
+  "full": {
+   "deal": 1.0,
+   "control": 1.0,
+   "outcome": "tie"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P5",
+  "horizon": "3m",
+  "deal": "signal_ai",
+  "control": "cognism",
+  "full": {
+   "deal": 1.0,
+   "control": 1.0,
+   "outcome": "tie"
+  },
+  "holding_only": {
+   "deal": 0,
+   "control": 0,
+   "outcome": "tie"
+  }
+ },
+ {
+  "pair_id": "P6",
+  "horizon": "12m",
+  "deal": "aab",
+  "control": "xeinadin",
+  "full": {
+   "deal": 3.08,
+   "control": 1.956,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 1.08,
+   "control": 0.956,
+   "outcome": "win"
+  }
+ },
+ {
+  "pair_id": "P6",
+  "horizon": "6m",
+  "deal": "aab",
+  "control": "xeinadin",
+  "full": {
+   "deal": 3.284,
+   "control": 2.156,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 1.284,
+   "control": 1.156,
+   "outcome": "win"
+  }
+ },
+ {
+  "pair_id": "P6",
+  "horizon": "3m",
+  "deal": "aab",
+  "control": "xeinadin",
+  "full": {
+   "deal": 3.38,
+   "control": 2.256,
+   "outcome": "win"
+  },
+  "holding_only": {
+   "deal": 1.38,
+   "control": 1.256,
+   "outcome": "win"
+  }
+ }
+]

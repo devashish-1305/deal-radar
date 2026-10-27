@@ -1,0 +1,340 @@
+{
+ "haiku": {
+  "ev-ptsg-2276fbd570": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 1921,
+     "output_tokens": 832
+    }
+   ],
+   "rejections": []
+  },
+  "ev-ptsg-a027db6cd8": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2586,
+     "output_tokens": 687
+    }
+   ],
+   "rejections": []
+  },
+  "ev-peak_ai-a644f27c4f": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2499,
+     "output_tokens": 1172
+    }
+   ],
+   "rejections": []
+  },
+  "ev-oxford_ionics-543ab30517": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 3440,
+     "output_tokens": 367
+    }
+   ],
+   "rejections": []
+  },
+  "ev-cytora-65c38c74db": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2086,
+     "output_tokens": 428
+    }
+   ],
+   "rejections": []
+  },
+  "ev-artificial_labs-bc9a862bce": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 3742,
+     "output_tokens": 1058
+    }
+   ],
+   "rejections": []
+  },
+  "ev-signal_ai-85c934c567": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2213,
+     "output_tokens": 177
+    }
+   ],
+   "rejections": []
+  },
+  "ev-signal_ai-fc9d3d7854": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2139,
+     "output_tokens": 442
+    }
+   ],
+   "rejections": []
+  },
+  "ev-cognism-5244a86892": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 4298,
+     "output_tokens": 4
+    }
+   ],
+   "rejections": []
+  },
+  "ev-aab-8a6861f66c": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 7500,
+     "output_tokens": 720
+    }
+   ],
+   "rejections": []
+  },
+  "ev-aab-f2a91fefa7": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2583,
+     "output_tokens": 332
+    }
+   ],
+   "rejections": []
+  },
+  "ev-aab-f5ed4daff0": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2858,
+     "output_tokens": 549
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-27a448b196": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 1322,
+     "output_tokens": 440
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-c34d355840": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2717,
+     "output_tokens": 992
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-776e274fc5": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 3986,
+     "output_tokens": 624
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-1678c55951": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2011,
+     "output_tokens": 1017
+    }
+   ],
+   "rejections": []
+  }
+ },
+ "sonnet": {
+  "ev-ptsg-2276fbd570": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 1921,
+     "output_tokens": 277
+    }
+   ],
+   "rejections": []
+  },
+  "ev-ptsg-a027db6cd8": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2586,
+     "output_tokens": 451
+    }
+   ],
+   "rejections": []
+  },
+  "ev-peak_ai-a644f27c4f": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2499,
+     "output_tokens": 264
+    }
+   ],
+   "rejections": []
+  },
+  "ev-oxford_ionics-543ab30517": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 3440,
+     "output_tokens": 157
+    }
+   ],
+   "rejections": [
+    {
+     "evidence_id": "ev-oxford_ionics-543ab30517",
+     "reason": "quote_over_25_words",
+     "item": {
+      "signal_type": "large_recent_fundraise",
+      "signal_class": "counter_signal",
+      "evidence_quote": null,
+      "event_date": "2023-01-09",
+      "status": "confirmed",
+      "subject_company": "Oxford Ionics",
+      "quote_words": 27
+     }
+    }
+   ]
+  },
+  "ev-cytora-65c38c74db": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2086,
+     "output_tokens": 132
+    }
+   ],
+   "rejections": []
+  },
+  "ev-artificial_labs-bc9a862bce": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 3742,
+     "output_tokens": 291
+    }
+   ],
+   "rejections": []
+  },
+  "ev-signal_ai-85c934c567": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2213,
+     "output_tokens": 4
+    }
+   ],
+   "rejections": []
+  },
+  "ev-signal_ai-fc9d3d7854": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2139,
+     "output_tokens": 97
+    }
+   ],
+   "rejections": []
+  },
+  "ev-cognism-5244a86892": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 4298,
+     "output_tokens": 4
+    }
+   ],
+   "rejections": []
+  },
+  "ev-aab-8a6861f66c": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 7500,
+     "output_tokens": 193
+    }
+   ],
+   "rejections": []
+  },
+  "ev-aab-f2a91fefa7": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2583,
+     "output_tokens": 137
+    }
+   ],
+   "rejections": []
+  },
+  "ev-aab-f5ed4daff0": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2858,
+     "output_tokens": 132
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-27a448b196": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 1322,
+     "output_tokens": 134
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-c34d355840": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2717,
+     "output_tokens": 276
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-776e274fc5": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 3986,
+     "output_tokens": 4
+    }
+   ],
+   "rejections": []
+  },
+  "ev-xeinadin-1678c55951": {
+   "failure": null,
+   "attempts": [
+    {
+     "input_tokens": 2011,
+     "output_tokens": 411
+    }
+   ],
+   "rejections": []
+  }
+ }
+}

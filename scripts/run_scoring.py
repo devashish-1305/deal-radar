@@ -16,13 +16,13 @@ from deal_radar.extract import match
 from deal_radar.features import late_clues, load_json_list
 from deal_radar.schemas import Signal
 from deal_radar.score import (
-    CATEGORY_RANK,
     TERMS,
     VARIANTS,
     band,
     compare_pairs,
     confidence,
     contributions,
+    hypothesis_verdicts,
     load_config,
     score,
 )
@@ -145,59 +145,42 @@ def render(rows, out, comparisons, config, confirmed, pairs, clues) -> str:
                  f"{s['band']} / confidence {s['confidence']}{tag}. {why}")
 
     L += ["", "## Hypotheses (against the pre-registered criteria in docs/scoring.md §5)", ""]
-    intent_rows = [r for r in rows if r["features"]["intent_present"]]
+    v = hypothesis_verdicts(rows, comparisons, [p.pair_id for p in pairs], PE_PAIRS)
+    h1, h2, h3 = v["H1"], v["H2"], v["H3"]
     L += ["### H1: clock + intent beats either alone and beats holding-only", "",
-          ("**Untestable** on this sample: `intent_present` is False in all 36 rows." if not intent_rows else
-           f"Testable: intent present in {len(intent_rows)} rows (see table).")]
-    full = comparisons["full"]
-    seg = {s: [c for c in full if (c["pair_id"] in PE_PAIRS) == (s == "PE")] for s in ("PE", "VC")}
-    wins = {s: sum(c["outcome"] == "win" for c in seg[s]) for s in seg}
-    share = {s: wins[s] / len(seg[s]) for s in seg}
-    h2a = "not contradicted" if share["PE"] > share["VC"] else "contradicted"
-    cats = {s: Counter(c["category"] for c in seg[s] if c["outcome"] == "win") for s in seg}
-    pe_supportive = cats["PE"]["clock-driven"] + cats["PE"]["other"]
-    vc_supportive = cats["VC"]["clock-driven"] + cats["VC"]["other"]
-    h2b = ("PE advantage rests on clock-driven/other wins" if pe_supportive / len(seg["PE"]) > vc_supportive / len(seg["VC"])
+          ("**Untestable** on this sample: `intent_present` is False in all 36 rows." if not h1["testable"] else
+           f"Testable: intent present in {h1['intent_rows']} rows (see table).")]
+    h2b = ("PE advantage rests on clock-driven/other wins" if h2["labelled_pe_advantage"]
            else "no PE advantage once weak and unconfirmed-only wins are set aside")
     L += ["", "### H2: PE-backed companies are the most predictable segment", "",
-          f"- **(a) Simple verdict: {h2a}.** Full-score wins: PE pairs {wins['PE']} of {len(seg['PE'])} comparisons; "
-          f"VC pairs {wins['VC']} of {len(seg['VC'])}.",
-          f"- **(b) Labelled breakdown:** PE wins by category {dict(cats['PE'])}; VC wins by category {dict(cats['VC'])}. "
-          f"Counting only clock-driven and other wins: PE {pe_supportive}/{len(seg['PE'])}, VC {vc_supportive}/{len(seg['VC'])}: {h2b}.",
+          f"- **(a) Simple verdict: {h2['simple']}.** Full-score wins: PE pairs {h2['wins']['PE']} of {h2['n']['PE']} comparisons; "
+          f"VC pairs {h2['wins']['VC']} of {h2['n']['VC']}.",
+          f"- **(b) Labelled breakdown:** PE wins by category {h2['categories']['PE']}; VC wins by category {h2['categories']['VC']}. "
+          f"Counting only clock-driven and other wins: PE {h2['supportive']['PE']}/{h2['n']['PE']}, VC {h2['supportive']['VC']}/{h2['n']['VC']}: {h2b}.",
           "- Carve-outs: **untestable** (none in the sample). Two PE pairs are anecdotal; hypothesis-generating, not validation."]
-    if (h2a == "not contradicted") != (h2b.startswith("PE advantage")):
+    if (h2["simple"] == "not contradicted") != h2["labelled_pe_advantage"]:
         L.append("- (a) and (b) disagree: the simple verdict counts every win, while the breakdown discounts weak "
                  "(debt-only) and unconfirmed-only wins.")
-    per_pair = {}
-    for p in pairs:
-        early = [c for c in full if c["pair_id"] == p.pair_id and c["horizon"] in ("12m", "6m") and c["outcome"] == "win"]
-        simple = any(c["category"] != "unconfirmed-only" for c in early)
-        best = max(early, key=lambda c: CATEGORY_RANK[c["category"]], default=None)
-        label = "no support" if best is None or best["category"] == "unconfirmed-only" else best["category"]
-        per_pair[p.pair_id] = (simple, label, best)
-    fragile = {pid for pid, (simple, label, best) in per_pair.items() if best is not None and simple
-               and cmp_of["verified_only"][(pid, best["horizon"])]["outcome"] != "win"}
-    n_simple = sum(v[0] for v in per_pair.values())
-    counts = Counter(v[1] for v in per_pair.values())
+    counts = h3["counts"]
     L += ["", "### H3: useful signals appear at least 6 months before the announcement", "",
-          f"- **(a) Simple verdict:** {n_simple} of 6 pairs support it (a full-score deal win at 12m or 6m not resting "
-          f"solely on gold-unconfirmed terms); {'not contradicted' if n_simple else 'contradicted'} on this sample.",
+          f"- **(a) Simple verdict:** {h3['n_simple']} of 6 pairs support it (a full-score deal win at 12m or 6m not resting "
+          f"solely on gold-unconfirmed terms); {'not contradicted' if h3['n_simple'] else 'contradicted'} on this sample.",
           f"- **(b) Labelled breakdown:** clock-driven {counts['clock-driven']}, other (named) {counts['other']}, "
           f"weak (debt-only) {counts['weak (debt-only)']}, no support {counts['no support']}; "
           f"{'not contradicted' if counts['clock-driven'] + counts['other'] else 'contradicted'} on this sample.", "",
           "| Pair | (a) support | (b) category | Strongest early win (horizon: drivers) |", "|---|---|---|---|"]
-    for pid, (simple, label, best) in per_pair.items():
-        support = ("yes (technically supported, fragile)" if pid in fragile else "yes") if simple else "no"
-        L.append(f"| {pid} | {support} | {label} | "
+    for pid, x in h3["per_pair"].items():
+        best = x["best"]
+        support = ("yes (technically supported, fragile)" if x["fragile"] else "yes") if x["simple"] else "no"
+        L.append(f"| {pid} | {support} | {x['label']} | "
                  f"{best['horizon'] + ': ' + ', '.join(best['drivers']) if best else '—'} |")
-    disagree = [pid for pid, (simple, label, _) in per_pair.items() if simple != (label in ("clock-driven", "other"))]
-    if disagree:
+    if h3["disagree"]:
         L.append("")
-        L.append(f"- (a) and (b) disagree for {', '.join(disagree)}: the early win is weak (debt-only), which "
+        L.append(f"- (a) and (b) disagree for {', '.join(h3['disagree'])}: the early win is weak (debt-only), which "
                  "(a) counts as support and (b) does not, because debt events do not separate deals from controls "
                  "elsewhere in this sample.")
-    for pid in sorted(fragile):
-        best = per_pair[pid][2]
+    for pid in sorted(p for p, x in h3["per_pair"].items() if x["fragile"]):
+        best = h3["per_pair"][pid]["best"]
         L.append(f"- **{pid}: technically supported, fragile.** Its supporting {best['horizon']} win meets the "
                  f"pre-registered rule ({best['category']}: {', '.join(best['drivers'])}; not solely gold-unconfirmed "
                  "terms), but it is **not a win under verified-only**: it needs a gold-unconfirmed LLM term (see "

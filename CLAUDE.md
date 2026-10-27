@@ -67,5 +67,5 @@ Items 1–4 and 6 apply to EVERY step. Item 5 (user approval) is required only a
 | 6 LLM extraction + accuracy check | done | Gate |
 | 7 Point-in-time features at 12/6/3 months + leakage tests | done | |
 | 8 Baseline score + benchmarks | done | Gate |
-| 9 Findings + chart | not started | |
+| 9 Findings + chart | done | |
 | 10 Slide content | not started | |

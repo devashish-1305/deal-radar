@@ -6,6 +6,7 @@ which was committed before any score was computed. The score is a ranking aid, n
 
 import json
 import re
+from collections import Counter
 
 TERMS = ["intent_present", "clock", "debt_event_12m", "readiness_18m", "recently_acquired", "fundraise_12m"]
 LLM_TERMS = {"intent_present", "readiness_18m", "fundraise_12m"}
@@ -105,3 +106,35 @@ def compare_pairs(rows: list[dict], config: dict, confirmed_ids: set[str], varia
         out.append({"pair_id": pair_id, "horizon": horizon, "deal": deal["company_id"], "control": control["company_id"],
                     "deal_score": ds, "control_score": cs, "outcome": outcome, "category": category, "drivers": drivers})
     return out
+
+
+def hypothesis_verdicts(rows: list[dict], comparisons: dict[str, list[dict]], pair_ids: list[str],
+                        pe_pairs: set[str]) -> dict:
+    """H1/H2/H3 verdicts exactly as pre-registered in docs/scoring.md §5 (simple verdict and labelled breakdown)."""
+    full = comparisons["full"]
+    verified = {(c["pair_id"], c["horizon"]): c for c in comparisons["verified_only"]}
+    h1 = {"testable": any(r["features"]["intent_present"] for r in rows),
+          "intent_rows": sum(bool(r["features"]["intent_present"]) for r in rows)}
+
+    seg = {s: [c for c in full if (c["pair_id"] in pe_pairs) == (s == "PE")] for s in ("PE", "VC")}
+    wins = {s: sum(c["outcome"] == "win" for c in seg[s]) for s in seg}
+    n = {s: len(seg[s]) for s in seg}
+    cats = {s: Counter(c["category"] for c in seg[s] if c["outcome"] == "win") for s in seg}
+    supportive = {s: cats[s]["clock-driven"] + cats[s]["other"] for s in seg}
+    h2 = {"wins": wins, "n": n, "categories": {s: dict(cats[s]) for s in seg}, "supportive": supportive,
+          "simple": "not contradicted" if wins["PE"] / n["PE"] > wins["VC"] / n["VC"] else "contradicted",
+          "labelled_pe_advantage": supportive["PE"] / n["PE"] > supportive["VC"] / n["VC"]}
+
+    per_pair = {}
+    for pid in pair_ids:
+        early = [c for c in full if c["pair_id"] == pid and c["horizon"] in ("12m", "6m") and c["outcome"] == "win"]
+        simple = any(c["category"] != "unconfirmed-only" for c in early)
+        best = max(early, key=lambda c: CATEGORY_RANK[c["category"]], default=None)
+        label = "no support" if best is None or best["category"] == "unconfirmed-only" else best["category"]
+        fragile = bool(best is not None and simple and verified[(pid, best["horizon"])]["outcome"] != "win")
+        per_pair[pid] = {"simple": simple, "label": label, "best": best, "fragile": fragile}
+    counts = Counter(v["label"] for v in per_pair.values())
+    h3 = {"per_pair": per_pair, "n_simple": sum(v["simple"] for v in per_pair.values()),
+          "counts": {k: counts[k] for k in ("clock-driven", "other", "weak (debt-only)", "no support")},
+          "disagree": [pid for pid, v in per_pair.items() if v["simple"] != (v["label"] in ("clock-driven", "other"))]}
+    return {"H1": h1, "H2": h2, "H3": h3}
