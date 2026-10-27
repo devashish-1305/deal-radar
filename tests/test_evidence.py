@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import date, datetime
 from pathlib import Path
 
@@ -247,3 +248,27 @@ def test_applied_exceptions_are_dated_and_pre_anchor():
 def test_guard_excluded_pages_never_return():
     urls = {e["url"] for e in real_evidence()}
     assert not urls & set(GUARD_EXCLUDED)
+
+
+OVERRIDES = ROOT / "data" / "cases" / "evidence_overrides.json"
+PROXY_PREFIX = "VC funding-age proxy (last priced round before anchor), not a holding-period start: "
+
+
+def quoted_part(field: str, value: str) -> str:
+    """The verbatim quote inside an override field: ownership_basis may carry our own label prefix and a trailing
+    parenthetical note; date_evidence is all quote."""
+    if field == "ownership_basis":
+        value = value.removeprefix(PROXY_PREFIX)
+        value = re.sub(r"\s*\([^()]*\)\s*$", "", value) if value.rstrip().endswith(".)") else value
+    return value
+
+
+def test_override_quotes_are_at_most_25_words_and_verbatim():
+    for eid, o in json.loads(OVERRIDES.read_text()).items():
+        for field in ("ownership_basis", "date_evidence"):
+            if field not in o:
+                continue
+            quote = quoted_part(field, o[field])
+            assert len(quote.split()) <= 25, (eid, field, len(quote.split()))
+            if field == "ownership_basis" and (ARTICLES / f"{eid}.txt").exists():
+                assert " ".join(quote.split()) in " ".join((ARTICLES / f"{eid}.txt").read_text().split()), eid
