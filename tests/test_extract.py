@@ -183,3 +183,21 @@ def test_real_llm_signals_validate_and_quotes_are_in_source_text(model):
         if articles.exists():
             text = " ".join((articles / f"{s.evidence_id}.txt").read_text().split())
             assert " ".join(s.evidence_quote.split()) in text
+
+
+def test_real_eval_audit_tables_reproduce_headline():
+    path = ROOT / "docs" / "extraction_eval.md"
+    if not path.exists():
+        pytest.skip("eval not generated yet")
+    doc = path.read_text()
+    headline = {"haiku": (17, 9, 1), "sonnet": (16, 6, 2)}  # approved at Gate 6: correct / wrong / missed
+    for model, (tp, fp, fn) in headline.items():
+        preds = doc.split(f"### {model} (`claude-{model}-5-5`): predictions", 1)[1].split("\n### ", 1)[0]
+        golds = doc.split(f"### {model} (`claude-{model}-5-5`): gold signals", 1)[1].split("\nTotals", 1)[0]
+        outcomes = [row.split(" | ")[4] for row in preds.splitlines() if row.startswith("| ") and row[2].isdigit()]
+        gold_outcomes = [row.split(" | ")[4].rstrip(" |") for row in golds.splitlines() if row.startswith("| ") and row[2].isdigit()]
+        assert outcomes.count("correct") == tp and outcomes.count("wrong") == fp
+        assert gold_outcomes.count("missed") == fn and gold_outcomes.count("matched") == tp
+        assert len(gold_outcomes) == 18
+        signals = json.loads((ROOT / "data" / "processed" / f"llm_signals_{model}.json").read_text())
+        assert sum(o in ("correct", "wrong", "duplicate") for o in outcomes) == len(signals)

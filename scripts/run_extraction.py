@@ -51,6 +51,17 @@ NOTES = {
     ("duplicate", "ev-artificial_labs-bc9a862bce", "governance_change"): "COO / Head of Portfolio Strategy hires; executive roles, not board changes",
     ("rejected", "ev-oxford_ionics-543ab30517", "large_recent_fundraise"): "quote of 28 words exceeds the 25-word limit",
 }
+STEP7_NOTES = [
+    "Gate 6 decision: `claude-sonnet-5-5` is the extraction model for Step 7; `claude-haiku-5-5` stays as the cost "
+    "benchmark for the scale design.",
+    "Post-extraction rules are allowed ONLY if they follow directly from PRD definitions. No rule may be designed from "
+    "individual gold disagreements. Report metrics before and after any such rule, separately.",
+    "Scoring must ensure sector-context mentions, undated sponsor references and advisers on completed past deals can "
+    "never create direct-intent points.",
+    "Model comparison is illustrative (16 articles, 18 gold signals), not statistically conclusive.",
+    "Design note for slides: at scale, route only documents with possible intent language to the stronger model; "
+    "Haiku made the costliest error (a false advisers_appointed signal).",
+]
 RECOMMENDATION = (
     "**Use `claude-sonnet-5-5` for Step 7.** On this sample it had higher precision (73% vs 65%) at slightly lower "
     "recall (89% vs 94%), no duplicates, and, most importantly, **no false direct-intent signal**: Haiku labelled "
@@ -210,8 +221,38 @@ def render(scope, companies, gold, texts, results) -> str:
         lines += [f"- failure · {eid}" for eid in s["failures"]]
         L += lines or ["- none"]
         L.append("")
+    L += ["## Audit: every prediction and every gold signal", "",
+          "Recompute by hand: precision = correct / (correct + wrong); recall = matched / (matched + missed). "
+          "Matching is one-to-one on (evidence_id, signal_type). `duplicate` and `rejected-by-check` predictions are "
+          "counted as neither correct nor wrong.", ""]
+    for short in MODELS:
+        s, m = stats[short], stats[short]["m"]
+        outcome = {p.signal_id: "correct" for _, p in m["pairs"]}
+        outcome |= {p.signal_id: "wrong" for p in m["fp"]} | {p.signal_id: "duplicate" for p in m["duplicates"]}
+        matched = {id(g) for g, _ in m["pairs"]}
+        L += [f"### {short} (`{MODELS[short]}`): predictions", "",
+              "| # | evidence_id | signal_type | status | outcome | quote |", "|---|---|---|---|---|---|"]
+        rows = [(p.evidence_id, p.signal_type, p.status, outcome[p.signal_id], p.evidence_quote) for p in s["signals"]]
+        rows += [(x["evidence_id"], x["item"]["signal_type"], x["item"]["status"], f"rejected-by-check ({x['reason']})",
+                  x["item"]["evidence_quote"]) for x in s["rejections"]]
+        L += [f"| {i} | {eid} | {t} | {st} | {o} | \"{q}\" |" for i, (eid, t, st, o, q) in enumerate(rows, 1)]
+        count = Counter(o.split(" ")[0] for *_, o, _ in rows)
+        L += ["", f"### {short} (`{MODELS[short]}`): gold signals", "",
+              "| # | evidence_id | signal_type | gold status | outcome |", "|---|---|---|---|---|"]
+        gold_rows = [(eid, g["signal_type"], g["status"], "matched" if id(g) in matched else "missed")
+                     for eid, items in gold.items() for g in items]
+        L += [f"| {i} | {eid} | {t} | {st} | {o} |" for i, (eid, t, st, o) in enumerate(gold_rows, 1)]
+        gcount = Counter(o for *_, o in gold_rows)
+        totals = (count["correct"], count["wrong"], gcount["missed"])
+        if totals != (m["tp"], len(m["fp"]), len(m["fn"])) or gcount["matched"] != m["tp"]:
+            sys.exit(f"STOP: audit totals {totals} do not reproduce the headline for {short}")
+        L += ["", f"Totals ({short}): correct {count['correct']}, wrong {count['wrong']}, duplicate {count['duplicate']}, "
+              f"rejected-by-check {count['rejected-by-check']}; gold matched {gcount['matched']}, missed {gcount['missed']}. "
+              f"Precision {count['correct']}/{count['correct'] + count['wrong']} = {pct(m['precision'])}; recall "
+              f"{gcount['matched']}/{gcount['matched'] + gcount['missed']} = {pct(m['recall'])}.", ""]
     if RECOMMENDATION:
         L += ["## Recommendation for Step 7", "", RECOMMENDATION, ""]
+    L += ["## Notes for Step 7", "", *[f"- {n}" for n in STEP7_NOTES], ""]
     return "\n".join(L) + "\n"
 
 
