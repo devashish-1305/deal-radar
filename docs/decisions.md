@@ -18,3 +18,5 @@
 16. Track risks: undisclosed deals, late signals, coverage bias, holding chains, thin accounts, leakage, entity matching — known failure modes to measure and report.
 17. PoC = 5–8 matched pairs (deals Jan–Sep 2025), controls verified clean ±12 months or marked "unresolved", snapshots at 12/6/3 months anchored to the deal date, reported per pair — a feasibility study, not validation; never assume no transaction occurred.
 18. Deliverables: 3 slides (approach, evidence, product/success) plus optional notebook and prompt sample — brief allows max 3 slides plus a small PoC.
+19. large_recent_fundraise is labelled for every disclosed round as a fact; PRD §8 does not define size/recency, so Step 7 applies the thresholds — keeps gold labels factual and judgement in one place.
+20. Xeinadin/Exponent 2022 significant minority investment with board seats is labelled pe_holding_period: a PE sponsor's investment with board control starts the sponsor's holding clock.

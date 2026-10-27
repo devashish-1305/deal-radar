@@ -124,3 +124,19 @@ def test_review_doc_covers_every_gold_id():
     review = (ROOT / "docs" / "gold_review.md").read_text()
     for eid in json.loads(GOLD.read_text())["signals"]:
         assert eid in review
+
+
+def content_leak_ids() -> set[str]:
+    log = (ROOT / "docs" / "evidence_log.md").read_text()
+    section = log.split("## Excluded as content_leak", 1)[1].split("\n## ", 1)[0]
+    return {line.split(" · ", 1)[0][2:] for line in section.splitlines() if line.startswith("- ev-")}
+
+
+def test_no_gold_label_references_a_content_leak_excluded_item():
+    leaked = content_leak_ids()
+    assert OXFORD_LEAKED in leaked and len(leaked) == 8
+    gold = json.loads(GOLD.read_text())["signals"]
+    assert not leaked & set(gold)
+    oxford = {eid: s for eid, s in gold.items() if eid.startswith("ev-oxford_ionics-")}
+    assert oxford == {"ev-oxford_ionics-543ab30517": oxford["ev-oxford_ionics-543ab30517"]}
+    assert len(oxford["ev-oxford_ionics-543ab30517"]) == 1
