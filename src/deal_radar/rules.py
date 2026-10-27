@@ -57,7 +57,10 @@ def label_window(transactions: list[Transaction], prediction_date: date) -> Labe
          ipo -> excluded_competing_ipo. A same-day tie counts as IPO-first (excluded),
          because a change of control is positive only if announced before any IPO.
       c. Nothing in the window -> no_publicly_observed_transaction.
+    Raises ValueError if the transactions belong to more than one company.
     """
+    if len({t.company_id for t in transactions}) > 1:
+        raise ValueError("label_window expects transactions for a single company")
     if any(t.transaction_type == "ipo" and t.announcement_date <= prediction_date for t in transactions):
         return "out_of_scope_public"
 

@@ -137,6 +137,12 @@ def test_no_events_not_observed():
     assert label_window([], PRED) == "no_publicly_observed_transaction"
 
 
+def test_mixed_company_ids_rejected():
+    other = tx("change_of_control", date(2024, 9, 1)).model_copy(update={"company_id": "c2"})
+    with pytest.raises(ValueError):
+        label_window([tx("change_of_control", date(2024, 9, 1)), other], PRED)
+
+
 def test_ipo_exclusion_applies_to_window_only():
     # IPO excludes the window it falls in; an earlier window without it is still labelled normally.
     txs = [tx("ipo", date(2025, 3, 1))]
