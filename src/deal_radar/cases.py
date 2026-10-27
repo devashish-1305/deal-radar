@@ -5,7 +5,7 @@ from typing import get_args
 
 from pydantic import TypeAdapter
 
-from deal_radar.schemas import Company, LabelSourceType, MatchedPair, Transaction
+from deal_radar.schemas import Company, EntityGroup, LabelSourceType, MatchedPair, Transaction
 
 ALL_LABEL_SOURCES = set(get_args(LabelSourceType))
 
@@ -61,3 +61,29 @@ def check_pairs(
         if deal_owner != control_owner:
             warnings.append(f"{p.pair_id}: owner types differ ({deal_owner} vs {control_owner})")
     return warnings
+
+
+def load_entities(cases_dir: Path) -> list[EntityGroup]:
+    """Read and validate entities.json (company_id -> Companies House numbers of its group)."""
+    return TypeAdapter(list[EntityGroup]).validate_json((Path(cases_dir) / "entities.json").read_text())
+
+
+def check_entities(companies: list[Company], groups: list[EntityGroup]) -> None:
+    """Every company has exactly one group containing its own CH number; no CH number is shared."""
+    by_company = {g.company_id: g for g in groups}
+    if len(by_company) != len(groups):
+        raise ValueError("duplicate company_id in entities.json")
+    seen: dict[str, str] = {}
+    for g in groups:
+        for number in g.ch_numbers:
+            if number in seen:
+                raise ValueError(f"CH number {number} is in both {seen[number]} and {g.company_id}")
+            seen[number] = g.company_id
+    for c in companies:
+        if c.company_id not in by_company:
+            raise ValueError(f"{c.company_id}: no entity group")
+        if c.companies_house_number not in by_company[c.company_id].ch_numbers:
+            raise ValueError(f"{c.company_id}: own CH number {c.companies_house_number} not in its group")
+    unknown = set(by_company) - {c.company_id for c in companies}
+    if unknown:
+        raise ValueError(f"entity groups for unknown companies: {sorted(unknown)}")

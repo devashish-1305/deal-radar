@@ -1,0 +1,135 @@
+{
+ "hsl_compliance": {
+  "entities": [
+   "11738872"
+  ],
+  "registry_events": 44,
+  "latest_accounts_type": "group",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "ptsg": {
+  "entities": [
+   "06005074",
+   "13237699",
+   "13236412",
+   "13232295"
+  ],
+  "registry_events": 140,
+  "latest_accounts_type": "audit-exemption-subsiduary",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "peak_ai": {
+  "entities": [
+   "09307701"
+  ],
+  "registry_events": 46,
+  "latest_accounts_type": "full",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "causaly": {
+  "entities": [
+   "11368328"
+  ],
+  "registry_events": 12,
+  "latest_accounts_type": "small",
+  "has_officers": true,
+  "has_charges": false,
+  "has_psc": true
+ },
+ "oxford_ionics": {
+  "entities": [
+   "11795789"
+  ],
+  "registry_events": 39,
+  "latest_accounts_type": "total-exemption-full",
+  "has_officers": true,
+  "has_charges": false,
+  "has_psc": true
+ },
+ "universal_quantum": {
+  "entities": [
+   "11710367"
+  ],
+  "registry_events": 19,
+  "latest_accounts_type": "group",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "cytora": {
+  "entities": [
+   "08229538"
+  ],
+  "registry_events": 71,
+  "latest_accounts_type": "full",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "artificial_labs": {
+  "entities": [
+   "08766928"
+  ],
+  "registry_events": 38,
+  "latest_accounts_type": "total-exemption-full",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "signal_ai": {
+  "entities": [
+   "08468207"
+  ],
+  "registry_events": 61,
+  "latest_accounts_type": "group",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "cognism": {
+  "entities": [
+   "09392705"
+  ],
+  "registry_events": 59,
+  "latest_accounts_type": "group",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "aab": {
+  "entities": [
+   "SO301668",
+   "13639975",
+   "13639406",
+   "13639126",
+   "13638179"
+  ],
+  "registry_events": 284,
+  "latest_accounts_type": "full",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ },
+ "xeinadin": {
+  "entities": [
+   "11354408",
+   "13834919",
+   "13834629",
+   "13834293",
+   "13833419",
+   "13847302",
+   "13832759"
+  ],
+  "registry_events": 158,
+  "latest_accounts_type": "audit-exemption-subsiduary",
+  "has_officers": true,
+  "has_charges": true,
+  "has_psc": true
+ }
+}

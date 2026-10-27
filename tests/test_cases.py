@@ -4,8 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from deal_radar.cases import check_pairs, load_cases
+from deal_radar.cases import check_entities, check_pairs, load_cases, load_entities
 from deal_radar.rules import add_months, usable_pairs
+from deal_radar.schemas import Company, EntityGroup
 
 REAL_CASES = Path(__file__).resolve().parents[1] / "data" / "cases"
 ANCHOR = date(2025, 3, 31)
@@ -132,3 +133,44 @@ def test_real_case_files_validate():
     companies, transactions, pairs = load_cases(REAL_CASES)
     check_pairs(companies, transactions, pairs)
     assert pairs, "pairs.json is empty"
+
+
+# --- entities.json -----------------------------------------------------------------------------------
+
+def make_company(company_id, number):
+    return Company(company_id=company_id, name=f"Fakeco {company_id} Ltd", companies_house_number=number, owner_type="pe_backed")
+
+
+def test_entity_group_rejects_duplicates_and_empty():
+    with pytest.raises(ValueError):
+        EntityGroup(company_id="a", ch_numbers=["1", "1"])
+    with pytest.raises(ValueError):
+        EntityGroup(company_id="a", ch_numbers=[])
+
+
+def test_check_entities_happy_path():
+    check_entities(
+        [make_company("alpha", "100"), make_company("beta", "200")],
+        [EntityGroup(company_id="alpha", ch_numbers=["100", "101"]), EntityGroup(company_id="beta", ch_numbers=["200"])],
+    )
+
+
+@pytest.mark.parametrize(
+    "groups, message",
+    [
+        ([EntityGroup(company_id="alpha", ch_numbers=["101"])], "own CH number"),
+        ([EntityGroup(company_id="beta", ch_numbers=["200"])], "no entity group"),
+        ([EntityGroup(company_id="alpha", ch_numbers=["100"]), EntityGroup(company_id="beta", ch_numbers=["100"])], "is in both"),
+        ([EntityGroup(company_id="alpha", ch_numbers=["100"]), EntityGroup(company_id="ghost", ch_numbers=["900"])], "unknown companies"),
+    ],
+)
+def test_check_entities_failures(groups, message):
+    with pytest.raises(ValueError, match=message):
+        check_entities([make_company("alpha", "100")], groups)
+
+
+def test_real_entities_file_covers_every_company():
+    if not (REAL_CASES / "entities.json").exists():
+        pytest.skip("data/cases/entities.json not present yet")
+    companies, _, _ = load_cases(REAL_CASES)
+    check_entities(companies, load_entities(REAL_CASES))

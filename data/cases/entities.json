@@ -1,0 +1,14 @@
+[
+  {"company_id": "hsl_compliance", "ch_numbers": ["11738872"]},
+  {"company_id": "ptsg", "ch_numbers": ["06005074", "13237699", "13236412", "13232295"]},
+  {"company_id": "peak_ai", "ch_numbers": ["09307701"]},
+  {"company_id": "causaly", "ch_numbers": ["11368328"]},
+  {"company_id": "oxford_ionics", "ch_numbers": ["11795789"]},
+  {"company_id": "universal_quantum", "ch_numbers": ["11710367"]},
+  {"company_id": "cytora", "ch_numbers": ["08229538"]},
+  {"company_id": "artificial_labs", "ch_numbers": ["08766928"]},
+  {"company_id": "signal_ai", "ch_numbers": ["08468207"]},
+  {"company_id": "cognism", "ch_numbers": ["09392705"]},
+  {"company_id": "aab", "ch_numbers": ["SO301668", "13639975", "13639406", "13639126", "13638179"]},
+  {"company_id": "xeinadin", "ch_numbers": ["11354408", "13834919", "13834629", "13834293", "13833419", "13847302", "13832759"]}
+]

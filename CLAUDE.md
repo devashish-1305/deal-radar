@@ -48,7 +48,8 @@ Items 1–4 and 6 apply to EVERY step. Item 5 (user approval) is required only a
 ## Repo map
 - `docs/` — PRD and decisions log.
 - `src/deal_radar/` — Python package (pipeline code).
-- `tests/` — pytest tests.
+- `scripts/` — runnable pipeline scripts (e.g. `fetch_registry.py`).
+- `tests/` — pytest tests (fixtures in `tests/fixtures/`).
 - `prompts/` — LLM extraction/summary prompts.
 - `data/raw/` — raw downloaded source data (git-ignored).
 - `data/processed/` — cleaned, derived datasets.
@@ -61,7 +62,7 @@ Items 1–4 and 6 apply to EVERY step. Item 5 (user approval) is required only a
 | 1 Scaffold + PRD | done | Gate |
 | 2 Data contracts + tests | done | |
 | 3 Case selection (matched pairs) | done | Gate |
-| 4 Companies House fetcher | not started | |
+| 4 Companies House fetcher | done | |
 | 5 Dated evidence collection | not started | |
 | 6 LLM extraction + accuracy check | not started | Gate |
 | 7 Point-in-time features at 12/6/3 months + leakage tests | not started | |

@@ -24,6 +24,17 @@ Xeinadin's entity was resolved the same way. Each company's PSC is the next comp
 - No PSC filing at any level of this chain is dated after 2022-08-03.
 - Exponent's ownership is not visible in PSC records. It comes from press: [Accountancy Age, 27 May 2025](https://www.accountancyage.com/2025/05/27/xeinadin-prepares-for-potential-800m-sale-to-private-equity/) and [PE Wire, 2 Feb 2026](https://www.privateequitywire.co.uk/exponent-abandons-1bn-sale-of-uk-accountancy-group-xeinadin/).
 
+### Entity chains (used by Step 4)
+`data/cases/entities.json` is built only from this section. Every number below was read from the Companies House API (company search, and each entity's PSC list with its `identification.registration_number`). Companies with no documented chain are fetched under their own number only.
+
+| company_id | CH numbers (operating company first, then holding entities) | Source of the chain |
+|---|---|---|
+| hsl_compliance | 11738872 | No chain documented |
+| ptsg | 06005074 (PTSG) → 13237699 (Graphmars Bidco) → 13236412 (Graphmars Midco) → 13232295 (Graphmars Holdco) | Each entity's PSC is the next one up. Bidco's number and the Midco were not in this doc before Step 4; found via CH API PSC lists (Bidco's PSC is Graphmars Midco, Midco's PSC is Graphmars Holdco). |
+| aab | SO301668 (AAB Business & Tax Advisory LLP) → 13639975 (Pioneer Bidco) → 13639406 (Pioneer Finco) → 13639126 (Pioneer Midco) → 13638179 (Pioneer Topco) | LLP, Bidco and Topco as documented above. **Finco and Midco added in Step 4: found via CH API, Bidco PSC list** (Pioneer Finco 13639406 was Bidco's PSC from 2021-09-23 to 2026-08-31; Pioneer Midco 13639126 and Pioneer Topco 13638179 were notified and ceased on 2026-08-31). The exact order of Finco and Midco between Bidco and Topco was not traced; both are group holding entities. |
+| xeinadin | 11354408 → 13834919 → 13834629 → 13834293 → 13833419, plus 13847302 (Member GP) and 13832759 (Debtco 1) | Chain as documented above. Debtco 1's number was not in this doc before Step 4; found via CH API search (Topco 1's PSC list names "Xeinadin Debtco 1 Limited"). |
+| peak_ai, causaly, oxford_ionics, universal_quantum, cytora, artificial_labs, signal_ai, cognism | own number only | No chain documented. Their PSCs are acquirers or investors, not group entities. |
+
 ### Deal cross-checks (Companies House PSC)
 "Notified" is when control began, as stated in the filing. "Filed" is the date the filing became public on Companies House. Only the filed date matters for point-in-time use.
 
@@ -54,7 +65,7 @@ Every control was checked against all four label sources. Method:
 | Xeinadin | "Xeinadin accountancy group Exponent owner revenue 2025 sale OR acquired OR new investor"; "Xeinadin acquired OR agreed to sell OR majority stake 2025 2026 accountancy" | **Exploring options only, not a transaction.** [Accountancy Age, 27 May 2025](https://www.accountancyage.com/2025/05/27/xeinadin-prepares-for-potential-800m-sale-to-private-equity/): "preparing" a sale that could exceed GBP 800m, auction expected; no agreed deal. [PE Wire, 2 Feb 2026](https://www.privateequitywire.co.uk/exponent-abandons-1bn-sale-of-uk-accountancy-group-xeinadin/): sale **shelved** after Exponent failed to secure bids; Exponent remains the owner. Otherwise only Xeinadin's own bolt-on acquisitions. | Only an unrelated credit-union report naming Xeinadin Audit as auditor | 0 | Whole chain (Group → Bidco → Holdco → Midco 1 → Topco 1 → Member GP) checked: no PSC filing after 2022-08-03 |
 
 ### PTSG finding (P1 control): kept verified
-- **What changed:** at Graphmars Holdco Ltd (13232295), two levels above PTSG, Charles Robert Kaye (PSC since 2021-02-27, address "C/O Warburg Pincus LLC, 450 Lexington Avenue, New York") ceased on 2024-09-02. Jeffery David Perlman (nature: "significant influence or control **as firm**") was notified the same day. Both filings (PSC07, PSC01) were made public on 2025-02-27.
+- **What changed:** at Graphmars Holdco Ltd (13232295), three levels above PTSG (PTSG ← Bidco ← Midco ← Holdco; corrected in Step 4, this originally said "two levels"), Charles Robert Kaye (PSC since 2021-02-27, address "C/O Warburg Pincus LLC, 450 Lexington Avenue, New York") ceased on 2024-09-02. Jeffery David Perlman (nature: "significant influence or control **as firm**") was notified the same day. Both filings (PSC07, PSC01) were made public on 2025-02-27.
 - **Public explanation:** [Bloomberg Law, 17 Jul 2024](https://news.bloomberglaw.com/esg/warburg-pincus-names-jeffrey-perlman-ceo-succeeding-chip-kaye): Warburg Pincus named Jeffrey Perlman CEO, succeeding Chip Kaye, effective 2 Sept. [Wikipedia](https://en.wikipedia.org/wiki/Warburg_Pincus) gives Kaye's name as "Charles R. 'Chip' Kaye". The PSC date matches the succession date exactly, and the controlling firm (Warburg Pincus) is unchanged.
 - **Ties to a sale?** None found in press, RNS or CMA. PTSG's own PSC (Graphmars Bidco) is unchanged.
 - **Conclusion:** this was an internal leadership change at the existing owner, not a change of control of PTSG. P1 stays **verified**.
