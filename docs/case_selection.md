@@ -117,3 +117,5 @@ Every control was checked against all four label sources. Method:
   - Xeinadin sale shelved (2026-02).
 - **In-window pre-anchor events at controls are real evidence.** Example: Xeinadin's reported sale preparation (Accountancy Age, 27 May 2025, before the 2025-07-01 anchor) is an "exploring options" intent signal at a control that did **not** transact. It is a useful false-positive test case for steps 7–8.
 - **PTSG outcome:** kept verified. The only PSC change in the period (Graphmars Holdco, 2024-09-02) is Warburg Pincus's CEO succession (Kaye → Perlman), with no change of owner. See "PTSG finding" above.
+- Step 7: the PE holding-period start may come from ownership_history evidence OR from the sponsor's psc_added registry event (using its publication date), whichever is earlier and usable. For HSL Compliance, use the LDC entity's psc_added event.
+  - Reference: `11738872-psc_added-ad583df478` in `data/processed/registry_events.json` (Ldc (Managers) Limited at HSL Compliance Group Ltd, 11738872; notified 2019-03-28, publication date 2019-07-26).
