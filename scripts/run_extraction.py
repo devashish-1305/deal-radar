@@ -1,6 +1,7 @@
 """Step 6b: run the LLM extractor on in-scope evidence with both models and write the accuracy evaluation.
 
-Run from the repo root:  PYTHONPATH=src .venv/bin/python scripts/run_extraction.py
+Run from the repo root:  PYTHONPATH=src .venv/bin/python scripts/run_extraction.py [--from-cache]
+(--from-cache: rebuild outputs from data/raw/llm/ only, with no API call; a missing cache file is an error.)
 Inputs:  data/processed/evidence.json, data/raw/articles/, data/cases/gold_signals.json, prompts/extract_v1.md,
          ANTHROPIC_API_KEY from .env (never printed or logged).
 Outputs: data/processed/llm_signals_{haiku,sonnet}.json, docs/extraction_eval.md,
@@ -16,6 +17,7 @@ import anthropic
 from dotenv import dotenv_values
 
 from deal_radar.cases import load_cases
+from deal_radar.features import apply_prd_rules
 from deal_radar.extract import PROMPT_VERSION, ModelUnavailable, check_models, extract_document, match, norm
 from deal_radar.rules import is_usable
 from deal_radar.schemas import Evidence
@@ -77,14 +79,17 @@ RECOMMENDATION = (
 
 
 def main() -> None:
-    key = dotenv_values(ROOT / ".env").get("ANTHROPIC_API_KEY")
-    if not key:
-        sys.exit("ANTHROPIC_API_KEY is missing or empty in .env; nothing was sent.")
-    client = anthropic.Anthropic(api_key=key)
-    try:
-        check_models(client, list(MODELS.values()), key, TEMPERATURE)
-    except ModelUnavailable as exc:
-        sys.exit(f"STOP: model unavailable, no substitution: {exc}")
+    if "--from-cache" in sys.argv:
+        client = None  # no API call at all; a missing cache file is an error (extract.extract_document)
+    else:
+        key = dotenv_values(ROOT / ".env").get("ANTHROPIC_API_KEY")
+        if not key:
+            sys.exit("ANTHROPIC_API_KEY is missing or empty in .env; nothing was sent.")
+        client = anthropic.Anthropic(api_key=key)
+        try:
+            check_models(client, list(MODELS.values()), key, TEMPERATURE)
+        except ModelUnavailable as exc:
+            sys.exit(f"STOP: model unavailable, no substitution: {exc}")
 
     companies = {c["company_id"]: c for c in json.loads((CASES / "companies.json").read_text())}
     aliases = {cid: v["aliases"] for cid, v in json.loads((CASES / "evidence_queries.json").read_text())["companies"].items()}
@@ -250,6 +255,27 @@ def render(scope, companies, gold, texts, results) -> str:
               f"rejected-by-check {count['rejected-by-check']}; gold matched {gcount['matched']}, missed {gcount['missed']}. "
               f"Precision {count['correct']}/{count['correct'] + count['wrong']} = {pct(m['precision'])}; recall "
               f"{gcount['matched']}/{gcount['matched'] + gcount['missed']} = {pct(m['recall'])}.", ""]
+    sonnet = stats["sonnet"]
+    after = match(gold, apply_prd_rules(sonnet["signals"]))
+    removed = len(sonnet["signals"]) - len(apply_prd_rules(sonnet["signals"]))
+    L += ["## Metrics after PRD-derived rules (Step 7, `claude-sonnet-5-5`)", "",
+          "Exactly the Step 6 matching (`extract.match`: one-to-one on (evidence_id, signal_type); duplicates and "
+          "rejected-by-check predictions count as neither correct nor wrong). Only two rules are applied, both as "
+          "filters on the predicted signals before matching, and both follow from PRD §8 definitions (not from gold "
+          "disagreements): (1) drop `external_context` signals (PRD §8: context only); (2) drop LLM "
+          "`recently_acquired` signals (the counter-signal is derived from the sponsor entry date). "
+          "Implemented in `features.apply_prd_rules`, the same function the features use.", "",
+          "| | Before rules | After rules |", "|---|---|---|",
+          f"| Predictions considered | {len(sonnet['signals'])} | {len(sonnet['signals']) - removed} |",
+          f"| Correct (TP) | {sonnet['m']['tp']} | {after['tp']} |",
+          f"| Wrong (FP) | {len(sonnet['m']['fp'])} | {len(after['fp'])} |",
+          f"| Missed (FN) | {len(sonnet['m']['fn'])} | {len(after['fn'])} |",
+          f"| Duplicates | {len(sonnet['m']['duplicates'])} | {len(after['duplicates'])} |",
+          f"| Rejected by check | {len(sonnet['rejections'])} | {len(sonnet['rejections'])} |",
+          f"| Precision | {pct(sonnet['m']['precision'])} | {pct(after['precision'])} |",
+          f"| Recall | {pct(sonnet['m']['recall'])} | {pct(after['recall'])} |", "",
+          "Removed by the rules: " + ("; ".join(f"{s.evidence_id} · {s.signal_type}" for s in sonnet["signals"]
+                                                if s not in apply_prd_rules(sonnet["signals"])) or "none") + ".", ""]
     if RECOMMENDATION:
         L += ["## Recommendation for Step 7", "", RECOMMENDATION, ""]
     L += ["## Notes for Step 7", "", *[f"- {n}" for n in STEP7_NOTES], ""]

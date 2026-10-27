@@ -1,0 +1,10 @@
+[
+ {"company_id": "hsl_compliance", "event_id": "11738872-psc_added-d0d32cdb9c", "name": "Mariner Bidco Limited"},
+ {"company_id": "peak_ai", "event_id": "09307701-psc_added-096cff9132", "name": "Uipath Uk Limited"},
+ {"company_id": "oxford_ionics", "event_id": "11795789-psc_added-df2befaadd", "name": "Ionq, Inc."},
+ {"company_id": "oxford_ionics", "event_id": "11795789-psc_added-ed746f1373", "name": "Ionq Group Holdings, Llc"},
+ {"company_id": "cytora", "event_id": "08229538-psc_added-160f88b3e5", "name": "Applied Uk Holdings Ii Limited"},
+ {"company_id": "signal_ai", "event_id": "08468207-psc_added-13a161b18f", "name": "Kalahari Bidco Limited"},
+ {"company_id": "aab", "event_id": "13638179-psc_added-16a8ce4923", "name": "Seeker Bidco Ltd"},
+ {"company_id": "aab", "event_id": "13639975-psc_added-92c7399fde", "name": "Seeker Bidco Ltd"}
+]

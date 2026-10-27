@@ -59,29 +59,29 @@ Total estimated API cost for this run: $0.1352 (excludes the two minimal model-c
 
 ### haiku (`claude-haiku-5-5`)
 
-- FP · ev-xeinadin-776e274fc5 · sector_consolidation (confirmed) · "Xeinadin’s acquisition aligns with a broader trend of consolidation in the UK accountancy sector" — sector context sentence; gold excludes external_context (rule 1)
-- FP · ev-xeinadin-c34d355840 · advisers_appointed (confirmed) · "Xeinadin was advised by Canaccord Genuity, Hill Dickinson and EY." — advisers on the completed 2022 Exponent deal: the deliberate trap (gold rule 5, prompt rule 5); a false direct-intent signal
-- FP · ev-xeinadin-1678c55951 · pe_holding_period (confirmed) · "The firm, backed by UK-based private equity entity Exponent" — names the sponsor but states no investment event or date; gold labels sponsor entry from dated announcements only
 - FP · ev-artificial_labs-bc9a862bce · governance_change (confirmed) · "the appointments of Ascot founder Martin Reith as Chairman in 2022" — chair appointment typed as governance_change instead of new_cfo_or_chair (also counted as a miss)
+- FP · ev-artificial_labs-bc9a862bce · pe_holding_period (confirmed) · "The investment round was spearheaded by Augmentum Fintech, Europe’s premier publicly listed FinTech fund" — VC round lead (Augmentum) typed as pe_holding_period; same VC/PE confusion
 - FP · ev-cytora-65c38c74db · governance_change (confirmed) · "Cytora has announced the expansion of its global advisory board in welcoming insurance industry veteran Emmanuel Clarke." — advisory board, not the company board (gold borderline 3); both models labelled it
 - FP · ev-peak_ai-a644f27c4f · pe_holding_period (attributed) · "Sky News’s Mark Kleinman reported that SoftBank injected around $50m into Peak for a "meaningful" stake in the company." — SoftBank VC stake typed as pe_holding_period; gold types VC rounds as large_recent_fundraise
-- FP · ev-artificial_labs-bc9a862bce · pe_holding_period (confirmed) · "The investment round was spearheaded by Augmentum Fintech, Europe’s premier publicly listed FinTech fund" — VC round lead (Augmentum) typed as pe_holding_period; same VC/PE confusion
-- FP · ev-xeinadin-1678c55951 · peer_deals_in_sector (confirmed) · "Evelyn Partners divested its Professional Services business to funds advised by British private equity firm Apax in November 2024." — another company's deal (sector context); gold excludes external_context (rule 1)
 - FP · ev-ptsg-2276fbd570 · recently_acquired (confirmed) · "the acquisition of the UK’s Premier Technical Services Group (PTSG) - at an enterprise value of over £300 million" — sponsor acquisition double-labelled; gold rule 2 labels it pe_holding_period only (Step 7 derives recency)
+- FP · ev-xeinadin-1678c55951 · pe_holding_period (confirmed) · "The firm, backed by UK-based private equity entity Exponent" — names the sponsor but states no investment event or date; gold labels sponsor entry from dated announcements only
+- FP · ev-xeinadin-1678c55951 · peer_deals_in_sector (confirmed) · "Evelyn Partners divested its Professional Services business to funds advised by British private equity firm Apax in November 2024." — another company's deal (sector context); gold excludes external_context (rule 1)
+- FP · ev-xeinadin-776e274fc5 · sector_consolidation (confirmed) · "Xeinadin’s acquisition aligns with a broader trend of consolidation in the UK accountancy sector" — sector context sentence; gold excludes external_context (rule 1)
+- FP · ev-xeinadin-c34d355840 · advisers_appointed (confirmed) · "Xeinadin was advised by Canaccord Genuity, Hill Dickinson and EY." — advisers on the completed 2022 Exponent deal: the deliberate trap (gold rule 5, prompt rule 5); a false direct-intent signal
 - missed · ev-artificial_labs-bc9a862bce · new_cfo_or_chair (confirmed) · gold quote "the appointments of Ascot founder Martin Reith as Chairman in 2022" — chair appointment typed as governance_change instead
-- duplicate · ev-artificial_labs-bc9a862bce · governance_change · "in 2023, Deana Murfitt as Chief Operating Officer and Jen Tan as Head of Portfolio Strategy." — COO / Head of Portfolio Strategy hires; executive roles, not board changes
 - duplicate · ev-aab-8a6861f66c · governance_change · "Allan will remain on the AAB Group board of directors and transition into the role of group executive director" — second item for the same CEO succession (outgoing CEO's new role); not counted
+- duplicate · ev-artificial_labs-bc9a862bce · governance_change · "in 2023, Deana Murfitt as Chief Operating Officer and Jen Tan as Head of Portfolio Strategy." — COO / Head of Portfolio Strategy hires; executive roles, not board changes
 
 ### sonnet (`claude-sonnet-5-5`)
 
-- FP · ev-xeinadin-1678c55951 · pe_holding_period (attributed) · "The firm, backed by UK-based private equity entity Exponent" — names the sponsor but states no investment event or date; gold labels sponsor entry from dated announcements only
-- FP · ev-xeinadin-1678c55951 · peer_deals_in_sector (confirmed) · "Evelyn Partners divested its Professional Services business to funds advised by British private equity firm Apax in November 2024." — another company's deal (sector context); gold excludes external_context (rule 1)
 - FP · ev-artificial_labs-bc9a862bce · governance_change (confirmed) · "the appointments of Ascot founder Martin Reith as Chairman in 2022 and, in 2023, Deana Murfitt as Chief Operating Officer" — chair appointment typed as governance_change instead of new_cfo_or_chair (also counted as a miss)
+- FP · ev-cytora-65c38c74db · governance_change (confirmed) · "Cytora has announced the expansion of its global advisory board in welcoming insurance industry veteran Emmanuel Clarke." — advisory board, not the company board (gold borderline 3); both models labelled it
 - FP · ev-ptsg-2276fbd570 · recently_acquired (confirmed) · "Macquarie completes acquisition of the UK’s Premier Technical Services Group for more than £300 Million" — sponsor acquisition double-labelled; gold rule 2 labels it pe_holding_period only (Step 7 derives recency)
 - FP · ev-ptsg-a027db6cd8 · recently_acquired (confirmed) · "jointly acquire a majority stake in Premier Technical Services Group Ltd ("PTSG"), a leader in building compliance services in the United Kingdom" — sponsor acquisition double-labelled; gold rule 2 labels it pe_holding_period only (Step 7 derives recency)
-- FP · ev-cytora-65c38c74db · governance_change (confirmed) · "Cytora has announced the expansion of its global advisory board in welcoming insurance industry veteran Emmanuel Clarke." — advisory board, not the company board (gold borderline 3); both models labelled it
-- missed · ev-oxford_ionics-543ab30517 · large_recent_fundraise (confirmed) · gold quote "Oxford Ionics raises £30m with participation from Prosus Ventures" — the only candidate was rejected by the 25-word quote check (see below); the safeguard rejected rather than truncated
+- FP · ev-xeinadin-1678c55951 · pe_holding_period (attributed) · "The firm, backed by UK-based private equity entity Exponent" — names the sponsor but states no investment event or date; gold labels sponsor entry from dated announcements only
+- FP · ev-xeinadin-1678c55951 · peer_deals_in_sector (confirmed) · "Evelyn Partners divested its Professional Services business to funds advised by British private equity firm Apax in November 2024." — another company's deal (sector context); gold excludes external_context (rule 1)
 - missed · ev-artificial_labs-bc9a862bce · new_cfo_or_chair (confirmed) · gold quote "the appointments of Ascot founder Martin Reith as Chairman in 2022" — chair appointment typed as governance_change instead
+- missed · ev-oxford_ionics-543ab30517 · large_recent_fundraise (confirmed) · gold quote "Oxford Ionics raises £30m with participation from Prosus Ventures" — the only candidate was rejected by the 25-word quote check (see below); the safeguard rejected rather than truncated
 - rejected (quote_over_25_words) · ev-oxford_ionics-543ab30517 · large_recent_fundraise · subject "Oxford Ionics" · "Oxford Ionics – the multi-world record-breaking startup solving the critical scalability issues facing the future of quantum computing – has raised £30 million in Series A funding." — quote of 28 words exceeds the 25-word limit
 
 ## Audit: every prediction and every gold signal
@@ -198,6 +198,23 @@ Totals (haiku): correct 17, wrong 9, duplicate 2, rejected-by-check 0; gold matc
 | 18 | ev-xeinadin-1678c55951 | advisers_appointed | attributed | matched |
 
 Totals (sonnet): correct 16, wrong 6, duplicate 0, rejected-by-check 1; gold matched 16, missed 2. Precision 16/22 = 73%; recall 16/18 = 89%.
+
+## Metrics after PRD-derived rules (Step 7, `claude-sonnet-5-5`)
+
+Exactly the Step 6 matching (`extract.match`: one-to-one on (evidence_id, signal_type); duplicates and rejected-by-check predictions count as neither correct nor wrong). Only two rules are applied, both as filters on the predicted signals before matching, and both follow from PRD §8 definitions (not from gold disagreements): (1) drop `external_context` signals (PRD §8: context only); (2) drop LLM `recently_acquired` signals (the counter-signal is derived from the sponsor entry date). Implemented in `features.apply_prd_rules`, the same function the features use.
+
+| | Before rules | After rules |
+|---|---|---|
+| Predictions considered | 22 | 19 |
+| Correct (TP) | 16 | 16 |
+| Wrong (FP) | 6 | 3 |
+| Missed (FN) | 2 | 2 |
+| Duplicates | 0 | 0 |
+| Rejected by check | 1 | 1 |
+| Precision | 73% | 84% |
+| Recall | 89% | 89% |
+
+Removed by the rules: ev-ptsg-2276fbd570 · recently_acquired; ev-ptsg-a027db6cd8 · recently_acquired; ev-xeinadin-1678c55951 · peer_deals_in_sector.
 
 ## Recommendation for Step 7
 

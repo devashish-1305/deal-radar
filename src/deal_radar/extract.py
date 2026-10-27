@@ -109,6 +109,8 @@ def extract_document(client, model: str, system: str, evidence: Evidence, anchor
         if path and path.exists():
             result = json.loads(path.read_text())
         else:
+            if client is None:
+                raise RuntimeError(f"cache-only run but no cached response for {evidence.evidence_id} ({model})")
             result = call_model(client, model, system, company_name, text, temperature)
             if path:
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -151,7 +153,7 @@ def match(gold: dict[str, list[dict]], predicted: list[Signal]) -> dict:
         for g in items:
             gold_count.setdefault((eid, g["signal_type"]), []).append(g)
     tp, fp, dup, fn, pairs = 0, [], [], [], []
-    for key in set(by_key) | set(gold_count):
+    for key in sorted(set(by_key) | set(gold_count)):
         preds, golds = by_key.get(key, []), gold_count.get(key, [])
         n = min(len(preds), len(golds))
         tp += n

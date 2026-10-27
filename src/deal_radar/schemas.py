@@ -188,3 +188,22 @@ class EntityGroup(BaseModel):
         if len(set(v)) != len(v):
             raise ValueError("duplicate ch_numbers")
         return v
+
+
+class SponsorEntry(BaseModel):
+    """Current PE sponsor's entry for a PE-backed company. Three distinct dates, each only as its source states it.
+
+    entry_basis: psc_notified (PSC notified_on = control began), completion_stated, or
+    announced_completion_not_confirmed (announcement date used; completion not confirmed by the source).
+    publication_date gates usability (point-in-time); it never replaces entry_date.
+    """
+
+    company_id: str
+    sponsor: str
+    announced_date: date | None
+    entry_date: date
+    entry_basis: Literal["psc_notified", "completion_stated", "announced_completion_not_confirmed"]
+    source_kind: Literal["evidence", "registry_event"]
+    source_id: str
+    publication_date: date
+    note: str | None = None
