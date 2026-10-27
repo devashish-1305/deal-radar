@@ -12,7 +12,7 @@ from deal_radar.schemas import Signal
 from deal_radar.score import band, classify_win, compare_pairs, confidence, contributions, load_config, score
 
 ROOT = Path(__file__).resolve().parents[1]
-PHASE_A_COMMIT = "f9ce1fd"  # latest pre-registration commit ("step 8a.1"); 98865d2 had the same JSON block
+PHASE_A_COMMIT = "ecf3b3b"  # latest pre-registration commit ("step 8a.1"); bb19cdc had the same JSON block
 CONFIG = load_config((ROOT / "docs" / "scoring.md").read_text())
 
 

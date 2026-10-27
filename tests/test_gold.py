@@ -117,7 +117,7 @@ def test_gold_quotes_are_verbatim_in_stored_text():
             assert norm(g["evidence_quote"]) in text, (eid, g["evidence_quote"])
 
 
-PHASE_A_COMMIT = "4dbb030"  # "step 6a: gold labels", committed before any LLM call or output existed
+PHASE_A_COMMIT = "a5a6003"  # "step 6a: gold labels", committed before any LLM call or output existed
 
 
 def test_gold_labels_unchanged_since_phase_a():
