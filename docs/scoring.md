@@ -71,7 +71,13 @@ Confidence is **capped at Medium** for any row with zero usable news or press ev
   - clock only (identical to holding-only);
   - full minus clock (every term except the clock);
   - full.
-- **Sensitivity:** every non-zero weight is set to ±1 with the same sign (`sensitivity_weights` above), and the clock becomes min(years / 5, 1).
+- **Sensitivity:** every non-zero weight is set to ±1 with the same sign (`sensitivity_weights` above). The resulting weights are:
+  - intent_present +1
+  - clock min(pe_holding_years / 5, 1) (0 if None)
+  - debt_event_12m +1
+  - readiness_18m +1
+  - recently_acquired −1
+  - fundraise_12m −1
 - **Diagnostic "verified-only":** recompute the full score, dropping any contribution from an LLM signal (intent, readiness, fundraise) that did **not** match a gold label in the Step 6 evaluation (`extract.match`, as in `docs/extraction_eval.md`).
   - An LLM term is kept if at least one of its provenance signals matched gold.
   - Registry contributions (debt) and sponsor-entry contributions (clock, recently_acquired) are unaffected.
@@ -87,15 +93,18 @@ Confidence is **capped at Medium** for any row with zero usable news or press ev
 - **H1: a clock plus an intent signal beats either one alone and beats the holding-only baseline.**
   - **Testable only if `intent_present` is True in at least one of the 36 rows.** If intent is absent in all of them, H1 is reported as **"untestable"** and nothing more. No pass or fail is implied, and no other result is used as support for or against it.
   - If testable: H1 is contradicted if, in the comparisons where either company has intent, the full score does not win more often than **both** clock only and full minus clock, or does not win more often than holding-only.
+
+H2 and H3 are each reported with **two verdicts, both pre-registered here**: (a) a simple verdict (the original rule) and (b) a labelled breakdown by driving-term category (§4). If (a) and (b) disagree, both are reported, with the reason.
+
 - **H2: PE-backed companies (and carve-outs) are the most predictable segments.**
-  - Contradicted if the full-score win share in the PE-backed pairs (P1 and P6, 6 comparisons) is **not higher** than in the VC-backed pairs (P2–P5, 12 comparisons).
-  - Each win is also labelled with its driving term (clock-driven / weak (debt-only) / unconfirmed-only / other), reported per segment.
-  - A PE advantage resting only on weak or unconfirmed-only wins is reported as such, not as support.
+  - **(a) Simple verdict:** contradicted if the full-score win share in the PE-backed pairs (P1 and P6, 6 comparisons) is **not higher** than in the VC-backed pairs (P2–P5, 12 comparisons).
+  - **(b) Labelled breakdown:** each win in each segment is labelled with its driving term (clock-driven / weak (debt-only) / unconfirmed-only / other, named), reported per segment. A PE advantage resting only on weak or unconfirmed-only wins is reported as such, not as support.
   - The carve-out part is **untestable**: the sample has no carve-outs. Two PE pairs are anecdotal.
 - **H3: useful signals appear at least 6 months before the announcement.**
-  - For each pair, look at the full-score wins at the 12-month and 6-month horizons and classify the pair by its strongest win, in this order: clock-driven, then other (named), then weak (debt-only), then no support. Unconfirmed-only wins, losses and ties count as no support.
+  - **(a) Simple verdict:** a pair counts as support if the deal wins at the 12-month or 6-month horizon under the full score and that win does not rest solely on gold-unconfirmed terms. Reported as the number of supporting pairs out of 6. Contradicted on this sample if no pair supports it.
+  - **(b) Labelled breakdown:** for each pair, look at the full-score wins at the 12-month and 6-month horizons and classify the pair by its strongest win, in this order: clock-driven, then other (named), then weak (debt-only), then no support. Unconfirmed-only wins, losses and ties count as no support.
   - **Report H3 as counts across the 6 pairs:** clock-driven, other (named terms), weak (debt-only) and no support.
-  - H3 is contradicted on this sample if **no** pair has clock-driven or other support.
+  - Under (b), H3 is contradicted on this sample if **no** pair has clock-driven or other support. (A weak, debt-only win counts as support under (a) but only as "weak" under (b); this is the expected source of any disagreement between the two.)
   - Signals that appear only in the late-clue window (the last 3 months; `docs/features.md`) count **against** H3, never for it. They are shown separately and never scored.
 
 ## 6. Wording rules (all outputs)
