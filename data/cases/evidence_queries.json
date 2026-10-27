@@ -1,0 +1,3563 @@
+{
+ "protocol": {
+  "note": "Searches used grouped OR-queries (one query per template per company), not exhaustive keyword-level searches. Same five templates for every company; no buyer names or deal terms.",
+  "search_tool": "Claude Code WebSearch (standard mode); results recorded in the order returned",
+  "searched_on": "2026-10-27",
+  "templates": {
+   "T1": "\"<name>\" acquisition OR acquires OR sale OR sold",
+   "T2": "\"<name>\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "T3": "\"<name>\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "T4": "\"<name>\" investment OR funding OR backed OR \"private equity\"",
+   "T5": "\"<name>\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\""
+  },
+  "per_template_open_limit": 3,
+  "per_company_keep_cap": 10,
+  "selection_rule": "In result order, open results whose title or URL contains one of the company's aliases (token match, case-insensitive), up to the per-template limit. Skip disallowed sites and URLs already opened for that company. No judgement of headlines.",
+  "disallowed_domains": [
+   "linkedin.com",
+   "facebook.com",
+   "twitter.com",
+   "x.com",
+   "instagram.com"
+  ],
+  "press_release_domains": {
+   "pr_wires": [
+    "businesswire.com",
+    "prnewswire.com",
+    "globenewswire.com"
+   ],
+   "investor_sites": [
+    "ldc.co.uk",
+    "ikpartners.com",
+    "macquarie.com",
+    "warburgpincus.com",
+    "prosus.com",
+    "exponentpe.com",
+    "news.bluecloudventures.com",
+    "peakspancapital.com",
+    "am.gs.com",
+    "foresight.group",
+    "enterprise.cam.ac.uk"
+   ]
+  },
+  "source_type_rule": "press_release if the domain is the company's own site, a PR wire or an investor (PE/VC) site listed above; otherwise news."
+ },
+ "companies": {
+  "hsl_compliance": {
+   "search_name": "HSL Compliance",
+   "aliases": [
+    "HSL Compliance"
+   ],
+   "own_domains": [
+    "hslcompliance.co.uk"
+   ]
+  },
+  "ptsg": {
+   "search_name": "Premier Technical Services Group",
+   "aliases": [
+    "Premier Technical Services Group",
+    "PTSG"
+   ],
+   "own_domains": [
+    "ptsg.co.uk"
+   ]
+  },
+  "peak_ai": {
+   "search_name": "Peak AI",
+   "aliases": [
+    "Peak AI"
+   ],
+   "own_domains": [
+    "peak.ai"
+   ]
+  },
+  "causaly": {
+   "search_name": "Causaly",
+   "aliases": [
+    "Causaly"
+   ],
+   "own_domains": [
+    "causaly.com"
+   ]
+  },
+  "oxford_ionics": {
+   "search_name": "Oxford Ionics",
+   "aliases": [
+    "Oxford Ionics"
+   ],
+   "own_domains": [
+    "oxionics.com"
+   ]
+  },
+  "universal_quantum": {
+   "search_name": "Universal Quantum",
+   "aliases": [
+    "Universal Quantum"
+   ],
+   "own_domains": [
+    "universalquantum.com"
+   ]
+  },
+  "cytora": {
+   "search_name": "Cytora",
+   "aliases": [
+    "Cytora"
+   ],
+   "own_domains": [
+    "cytora.com"
+   ]
+  },
+  "artificial_labs": {
+   "search_name": "Artificial Labs",
+   "aliases": [
+    "Artificial Labs"
+   ],
+   "own_domains": [
+    "artificial.io"
+   ]
+  },
+  "signal_ai": {
+   "search_name": "Signal AI",
+   "aliases": [
+    "Signal AI"
+   ],
+   "own_domains": [
+    "signal-ai.com"
+   ]
+  },
+  "cognism": {
+   "search_name": "Cognism",
+   "aliases": [
+    "Cognism"
+   ],
+   "own_domains": [
+    "cognism.com"
+   ]
+  },
+  "aab": {
+   "search_name": "AAB accountants",
+   "aliases": [
+    "AAB"
+   ],
+   "own_domains": [
+    "aab.uk"
+   ]
+  },
+  "xeinadin": {
+   "search_name": "Xeinadin",
+   "aliases": [
+    "Xeinadin"
+   ],
+   "own_domains": [
+    "xeinadin.com"
+   ]
+  }
+ },
+ "queries": [
+  {
+   "company_id": "hsl_compliance",
+   "template": "T1",
+   "query": "\"HSL Compliance\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "dte corporate finance advises rj urmson group on sale to hsl compliance",
+     "url": "https://gmchamber.co.uk/news-opinions/member-news/dte-corporate-finance-advises-rj-urmson-group-on-sale-to-hsl-compliance"
+    },
+    {
+     "rank": 2,
+     "title": "FSP advises on the sale of Carb’n-Off Limited to HSL Compliance Holdings Limited",
+     "url": "https://fsp.21digital.agency/fsp-advises-on-the-sale-of-carbn-off-limited-to-hsl-compliance-holdings-limited/"
+    },
+    {
+     "rank": 3,
+     "title": "ldc.co.uk",
+     "url": "https://ldc.co.uk/?p=12896"
+    },
+    {
+     "rank": 4,
+     "title": "ldc backed hsl compliance makes second acquisition in three months",
+     "url": "https://www.ldc.co.uk/news/ldc-backed-hsl-compliance-makes-second-acquisition-in-three-months/"
+    },
+    {
+     "rank": 5,
+     "title": "ldc.co.uk",
+     "url": "https://ldc.co.uk/?p=1499"
+    },
+    {
+     "rank": 6,
+     "title": "ldc.co.uk",
+     "url": "https://ldc.co.uk/?p=20035"
+    },
+    {
+     "rank": 7,
+     "title": "HSL Compliance (SGI) Acquires Albany Oak Limited",
+     "url": "https://www.privsource.com/acquisitions/deal/e4S2Dm"
+    },
+    {
+     "rank": 8,
+     "title": "FSP advises on the sale of Carb’n-Off Limited to HSL Compliance Holdings Limited",
+     "url": "https://www.fsp-law.com/fsp-advises-on-the-sale-of-carbn-off-limited-to-hsl-compliance-holdings-limited/"
+    },
+    {
+     "rank": 9,
+     "title": "HSL Compliance Acquires Jordan Environmental",
+     "url": "https://www.privsource.com/acquisitions/deal/x7Szqm"
+    }
+   ]
+  },
+  {
+   "company_id": "hsl_compliance",
+   "template": "T2",
+   "query": "\"HSL Compliance\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "DC Advisory advises IK Partners on its acquisition of a majority stake in HSL Compliance",
+     "url": "https://www.dcadvisory.com/news-deals-insights/deal-announcements/dc-advisory-advises-ik-partners-on-its-acquisition-of-a-majority-stake-in-hsl-compliance/"
+    },
+    {
+     "rank": 2,
+     "title": "ldc.co.uk",
+     "url": "https://ldc.co.uk/?p=1499"
+    },
+    {
+     "rank": 3,
+     "title": "www.dcadvisory.com",
+     "url": "https://www.dcadvisory.com/media/nbfaibil/dcadvisoryadvisesikpartnersonitsacquisitionofamajoritystakeinhslcompliance.pdf"
+    },
+    {
+     "rank": 4,
+     "title": "Back to feed",
+     "url": "https://finder.techleap.nl/news/feed/hsl-compliance-makes-six-acquisitions"
+    },
+    {
+     "rank": 5,
+     "title": "HSL Compliance Overview",
+     "url": "https://pitchbook.com/profiles/company/681203-53"
+    },
+    {
+     "rank": 6,
+     "title": "www.menzies.co.uk",
+     "url": "https://www.menzies.co.uk/?p=27959"
+    },
+    {
+     "rank": 7,
+     "title": "ldc.co.uk",
+     "url": "https://ldc.co.uk/?p=18039"
+    },
+    {
+     "rank": 8,
+     "title": "HSL Compliance",
+     "url": "https://ikpartners.com/investments/hsl-compliance/"
+    },
+    {
+     "rank": 9,
+     "title": "About HSL Compliance",
+     "url": "https://hslcompliancelimited.teamtailor.com/pages/about-hsl-compliance"
+    }
+   ]
+  },
+  {
+   "company_id": "hsl_compliance",
+   "template": "T3",
+   "query": "\"HSL Compliance\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Follow Us:",
+     "url": "https://taxguru.in/?p=1055040"
+    },
+    {
+     "rank": 2,
+     "title": "Steven Coniglio Named Chief Financial Officer of Harbor Compliance",
+     "url": "https://www.constructionbusinessowner.com/?p=9418"
+    },
+    {
+     "rank": 3,
+     "title": "hiscox appoints chief financial officer for london market",
+     "url": "https://insuranceassetrisk.com/content/in-brief/hiscox-appoints-chief-financial-officer-for-london-market.html"
+    },
+    {
+     "rank": 4,
+     "title": "moderngov.stockton.gov.uk",
+     "url": "https://moderngov.stockton.gov.uk/documents/s20337/Report.pdf"
+    },
+    {
+     "rank": 5,
+     "title": "Follow Us:",
+     "url": "https://taxguru.in/company-law/appointing-cfo-trigger-section-203-private-companies.html"
+    },
+    {
+     "rank": 6,
+     "title": "Released November 12, 2018",
+     "url": "https://harborcompliance.com/blog/?p=3794"
+    },
+    {
+     "rank": 7,
+     "title": "www.wallstreetcareers.com",
+     "url": "https://www.wallstreetcareers.com/jobs/661369518/apply"
+    },
+    {
+     "rank": 8,
+     "title": "Change - Announcement of Appointment::Announcement of Appointment of Chief Financial Officer",
+     "url": "https://links.sgx.com/1.0.0/corporate-announcements/ZQBZ2LJC0HWJ31GX/"
+    },
+    {
+     "rank": 9,
+     "title": "7 1131.06",
+     "url": "https://code.dccouncil.gov/us/dc/council/code/sections/7-1131.06"
+    },
+    {
+     "rank": 10,
+     "title": "56e86565 8bd2 4c56 a50a 1126abd57685",
+     "url": "https://bseindia.com/xml-data/corpfiling/AttachHis/56e86565-8bd2-4c56-a50a-1126abd57685.pdf"
+    }
+   ]
+  },
+  {
+   "company_id": "hsl_compliance",
+   "template": "T4",
+   "query": "\"HSL Compliance\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "ikpartners.com",
+     "url": "https://ikpartners.com/?p=15215"
+    },
+    {
+     "rank": 2,
+     "title": "Press Releases",
+     "url": "https://ikpartners.com/press-release/ik-partners-to-invest-in-hsl-compliance/"
+    },
+    {
+     "rank": 3,
+     "title": "PE News & Analysis",
+     "url": "https://listalpha.com/news/ik-partners-acquires-hsl-compliance-from-ldc"
+    },
+    {
+     "rank": 4,
+     "title": "News 星期五 7th 2 月 2025",
+     "url": "https://www.occstrategy.com/cn/?p=67139"
+    },
+    {
+     "rank": 5,
+     "title": "foresight injects another 3 5m equity into medical devices firm hsl 2553901",
+     "url": "https://www.irishnews.com/business/2022/01/07/news/foresight-injects-another-3-5m-equity-into-medical-devices-firm-hsl-2553901/"
+    },
+    {
+     "rank": 6,
+     "title": "Investment type",
+     "url": "https://www.ldc.co.uk/portfolio/hsl-compliance-investment-in-expansion/"
+    },
+    {
+     "rank": 7,
+     "title": "Real Assets",
+     "url": "https://foresight.group/news-insights/news/2022/foresight-invests-an-additional-35-million-into-hospital-services-limited-a-specialist-distributor-of-medical-devices-to-private-and-public-hospitals/"
+    },
+    {
+     "rank": 8,
+     "title": "Investment type",
+     "url": "https://www.ldc.co.uk/portfolio/hsl-compliance-delivering-organic-and-acquisitive-growth/"
+    },
+    {
+     "rank": 9,
+     "title": "hospital services ltd with belfast hq secures a 4 2m investment 1.4771020",
+     "url": "https://irishtimes.com/business/health-pharma/hospital-services-ltd-with-belfast-hq-secures-a-4-2m-investment-1.4771020"
+    },
+    {
+     "rank": 10,
+     "title": "Private Equity Portfolio Company",
+     "url": "https://privateequityinfo.com/directory/private-equity-portfolio-company/1/hsl-compliance"
+    }
+   ]
+  },
+  {
+   "company_id": "hsl_compliance",
+   "template": "T5",
+   "query": "\"HSL Compliance\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "DC Advisory advises IK Partners on its acquisition of a majority stake in HSL Compliance",
+     "url": "https://www.dcadvisory.com/news-deals-insights/deal-announcements/dc-advisory-advises-ik-partners-on-its-acquisition-of-a-majority-stake-in-hsl-compliance/"
+    },
+    {
+     "rank": 2,
+     "title": "PE News & Analysis",
+     "url": "https://listalpha.com/news/ik-partners-acquires-hsl-compliance-from-ldc"
+    },
+    {
+     "rank": 3,
+     "title": "ikpartners.com",
+     "url": "https://ikpartners.com/?p=15215"
+    },
+    {
+     "rank": 4,
+     "title": "HSL Compliance Overview",
+     "url": "https://pitchbook.com/profiles/company/681203-53"
+    },
+    {
+     "rank": 5,
+     "title": "Press Releases",
+     "url": "https://ikpartners.com/press-release/ik-partners-to-invest-in-hsl-compliance/"
+    },
+    {
+     "rank": 6,
+     "title": "hospital services ltd with belfast hq secures a 4 2m investment 1.4771020",
+     "url": "https://irishtimes.com/business/health-pharma/hospital-services-ltd-with-belfast-hq-secures-a-4-2m-investment-1.4771020"
+    },
+    {
+     "rank": 7,
+     "title": "Investment type",
+     "url": "https://www.ldc.co.uk/portfolio/hsl-compliance-investment-in-expansion/"
+    },
+    {
+     "rank": 8,
+     "title": "Investment type",
+     "url": "https://www.ldc.co.uk/portfolio/hsl-compliance-delivering-organic-and-acquisitive-growth/"
+    },
+    {
+     "rank": 9,
+     "title": "organic growth how hsl grew revenues sevenfold returning 2.5 8.5x for foresight",
+     "url": "https://realdeals.eu.com/article/organic-growth-how-hsl-grew-revenues-sevenfold-returning-2.5-8.5x-for-foresight"
+    }
+   ]
+  },
+  {
+   "company_id": "ptsg",
+   "template": "T1",
+   "query": "\"Premier Technical Services Group\" acquisition OR acquires OR sale OR sold",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ch/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 2,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/at/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 3,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/br/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 4,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/cn/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 5,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ph/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 6,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/in/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 7,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/au/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 8,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/cz/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 9,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/my/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 10,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/be/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    }
+   ]
+  },
+  {
+   "company_id": "ptsg",
+   "template": "T2",
+   "query": "\"Premier Technical Services Group\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Accountants & Business Advisers",
+     "url": "https://www.jamescowperkreston.co.uk/news/our-corporate-finance-team-advises-premier-technical-services-group-ltd-ptsg-on-their-acquisition-of-hd-sharman-group-limited/"
+    },
+    {
+     "rank": 2,
+     "title": "Premier, Inc. Evaluating Strategic Alternatives",
+     "url": "https://premierinc.com/newsroom/press-releases/premier-inc-evaluating-strategic-alternatives"
+    },
+    {
+     "rank": 3,
+     "title": "2016 project directus",
+     "url": "https://www.grantthornton.co.uk/services/deals/our-credentials/2016-project-directus"
+    },
+    {
+     "rank": 4,
+     "title": "Pinsent Masons advises Premier Technical Services Group plc on £265m takeover",
+     "url": "https://www.pinsentmasons.com/about-us/announcements/pinsent-masons-advises-premier-technical-services-group-on-takeover"
+    },
+    {
+     "rank": 5,
+     "title": "August 2013",
+     "url": "https://www.grantthornton.co.uk/services/deals/our-credentials/2013-project-ptsg"
+    },
+    {
+     "rank": 6,
+     "title": "www.businesswire.com",
+     "url": "https://www.businesswire.com/news/home/20230508005622/en"
+    },
+    {
+     "rank": 7,
+     "title": "Premier Technical Services trading well after acquisition spree",
+     "url": "https://sharecast.com/amp/news/aim-bulletin/premier-technical-services-trading-well-after-acquisition-spree--3204166.html"
+    },
+    {
+     "rank": 8,
+     "title": "Premier Technical Services Group PLC",
+     "url": "https://ptsg.co.uk/?p=26557"
+    },
+    {
+     "rank": 9,
+     "title": "premier inc evaluating strategic alternatives",
+     "url": "https://arc-dev.theglobeandmail.com/investing/markets/stocks/PINC/pressreleases/16688426/premier-inc-evaluating-strategic-alternatives/"
+    }
+   ]
+  },
+  {
+   "company_id": "ptsg",
+   "template": "T3",
+   "query": "\"Premier Technical Services Group\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "www.ptsg.co.uk",
+     "url": "https://www.ptsg.co.uk/?p=48532"
+    },
+    {
+     "rank": 2,
+     "title": "ptsg appoints tony lloyd as chief financial officer",
+     "url": "https://www.ptsg.co.uk/ptsg-appoints-tony-lloyd-as-chief-financial-officer"
+    },
+    {
+     "rank": 3,
+     "title": "Construction News",
+     "url": "https://www.theconstructionindex.co.uk/news/view/ptsg-appoints-divisional-director"
+    },
+    {
+     "rank": 4,
+     "title": "premier technologies appoints professional services group manager",
+     "url": "https://itwire.com/it-people-news/people-moves/premier-technologies-appoints-professional-services-group-manager"
+    },
+    {
+     "rank": 5,
+     "title": "The Netherlands: Stork Technical Services Appoints New CFO",
+     "url": "https://offshore-energy.biz/?p=223469"
+    },
+    {
+     "rank": 6,
+     "title": "PREMIER Design + Build Group names Michael Power, Jr.  as chief financial officer",
+     "url": "https://rejournals.com/premier-design-build-group-names-michael-power-jr-as-chief-financial-officer/"
+    },
+    {
+     "rank": 7,
+     "title": "investor.northropgrumman.com",
+     "url": "https://investor.northropgrumman.com/node/12676/pdf"
+    },
+    {
+     "rank": 8,
+     "title": "Northrop Grumman Fills Key Company Positions",
+     "url": "https://www.satellitetoday.com/connectivity/2008/08/29/northrop-grumman-fills-key-company-positions/"
+    },
+    {
+     "rank": 9,
+     "title": "premier farnell appoints dixons cfo",
+     "url": "https://accountancyage.com/2011/06/23/premier-farnell-appoints-dixons-cfo/?amp=1"
+    },
+    {
+     "rank": 10,
+     "title": "Premier Power Appoints Frank Sansone as CFO",
+     "url": "https://www.theglobaltreasurer.com/2009/11/09/premier-power-appoints-frank-sansone-as-cfo/"
+    }
+   ]
+  },
+  {
+   "company_id": "ptsg",
+   "template": "T4",
+   "query": "\"Premier Technical Services Group\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "warburg pincus invests premier technical services group alongside macquarie",
+     "url": "https://www.privateequitywire.co.uk/warburg-pincus-invests-premier-technical-services-group-alongside-macquarie/"
+    },
+    {
+     "rank": 2,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ch/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 3,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/at/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 4,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/au/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 5,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ae/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 6,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/id/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 7,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ph/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 8,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/tw/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 9,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/cz/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html"
+    },
+    {
+     "rank": 10,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/us/about/newsroom/2019/macquarie-completes-acquisition-of-the-uk-premier-technical-services-group-for-more-than-300-million"
+    }
+   ]
+  },
+  {
+   "company_id": "ptsg",
+   "template": "T5",
+   "query": "\"Premier Technical Services Group\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "warburg pincus invests premier technical services group alongside macquarie",
+     "url": "https://www.privateequitywire.co.uk/warburg-pincus-invests-premier-technical-services-group-alongside-macquarie/"
+    },
+    {
+     "rank": 2,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ae/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 3,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/ch/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 4,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/au/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 5,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/at/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 6,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/?p=95668"
+    },
+    {
+     "rank": 7,
+     "title": "Press Release",
+     "url": "https://www.macquarie.com/id/en/about/news/2021/warburg-pincus-invests-alongside-macquarie-capital-principal-finance-supporting-further-growth-in-premier-technical-services-group.html"
+    },
+    {
+     "rank": 8,
+     "title": "Press Release",
+     "url": "https://www.kirkland.com/news/press-release/2021/05/kirkland-advises-warburg-pincus-on-investment-in-p"
+    },
+    {
+     "rank": 9,
+     "title": "warburgpincus.com",
+     "url": "https://warburgpincus.com/?p=17677"
+    },
+    {
+     "rank": 10,
+     "title": "Global investor acquires specialist service provider",
+     "url": "https://www.thebusinessdesk.com/yorkshire/?p=2075437"
+    }
+   ]
+  },
+  {
+   "company_id": "peak_ai",
+   "template": "T1",
+   "query": "\"Peak AI\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "peak acquired by nyse listed ai giant uipath",
+     "url": "https://businesscloud.co.uk/news/peak-acquired-by-nyse-listed-ai-giant-uipath"
+    },
+    {
+     "rank": 2,
+     "title": "uipath acquires ai native company peak terms not disclosed",
+     "url": "https://www.tipranks.com/news/the-fly/uipath-acquires-ai-native-company-peak-terms-not-disclosed"
+    },
+    {
+     "rank": 3,
+     "title": "IT Brief UK - Technology news for CIOs & IT decision-makers",
+     "url": "https://itbrief.co.uk/story/uipath-acquires-peak-to-boost-vertical-ai-solutions"
+    },
+    {
+     "rank": 4,
+     "title": "IT Brief New Zealand - Technology news for CIOs & IT decision-makers",
+     "url": "https://itbrief.co.nz/story/uipath-acquires-peak-to-boost-vertical-ai-solutions"
+    },
+    {
+     "rank": 5,
+     "title": "NetApp proposes acquisition of PEAK AIO in AI infrastructure deal",
+     "url": "https://www.intelligentcio.com/eu/?p=171403"
+    },
+    {
+     "rank": 6,
+     "title": "in.linkedin.com",
+     "url": "https://in.linkedin.com/in/pranbir"
+    },
+    {
+     "rank": 7,
+     "title": "inside uipaths deal to buy peak",
+     "url": "https://businesscloud.co.uk/news/inside-uipaths-deal-to-buy-peak/"
+    },
+    {
+     "rank": 8,
+     "title": "IT Brief US - Technology news for CIOs & IT decision-makers",
+     "url": "https://itbrief.news/story/uipath-acquires-peak-to-boost-vertical-ai-solutions"
+    },
+    {
+     "rank": 9,
+     "title": "UiPath Acquires Peak to Launch Vertically Specialized Agents",
+     "url": "https://www.privsource.com/acquisitions/deal/JOSpoZ"
+    }
+   ]
+  },
+  {
+   "company_id": "peak_ai",
+   "template": "T2",
+   "query": "\"Peak AI\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Taylor Wessing advises Peak AI Limited on $21 million Series B funding to make AI accessible to all businesses",
+     "url": "https://www.cambridgenetwork.co.uk/news/taylor-wessing-advises-peak-ai-limited-21-million-series-b-funding-make-ai-accessible-all"
+    },
+    {
+     "rank": 2,
+     "title": "advising peak ai limited on 21 million series b funding to make ai accessible to all businesses",
+     "url": "https://www.taylorwessing.com/de/insights-and-events/news/media-centre/press-releases/2021/02/advising-peak-ai-limited-on-21-million-series-b-funding-to-make-ai-accessible-to-all-businesses"
+    },
+    {
+     "rank": 3,
+     "title": "Get Updates Now",
+     "url": "https://www.gpbullhound.com/articles/gp-bullhound-advised-peak-on-its-sale-to-uipath/"
+    },
+    {
+     "rank": 4,
+     "title": "22 February 2021",
+     "url": "https://www.taylorwessing.com/en/insights-and-events/news/media-centre/press-releases/2021/02/advising-peak-ai-limited-on-21-million-series-b-funding-to-make-ai-accessible-to-all-businesses"
+    },
+    {
+     "rank": 5,
+     "title": "The Opportunity",
+     "url": "https://www.builtinnyc.com/job/data/us-ai-strategist/156450"
+    },
+    {
+     "rank": 6,
+     "title": "peak technology partners",
+     "url": "https://listalpha.com/m-a-advisers/peak-technology-partners"
+    },
+    {
+     "rank": 7,
+     "title": "Image Credits:Wenjie Dong (opens in a new window) / Getty Images",
+     "url": "https://techcrunch.com/2021/08/31/peak-raises-75m-for-a-platform-that-helps-non-tech-companies-build-ai-applications"
+    },
+    {
+     "rank": 8,
+     "title": "advising peak on its acquisition by uipath",
+     "url": "https://www.taylorwessing.com/de/insights-and-events/news/media-centre/press-releases/2025/03/advising-peak-on-its-acquisition-by-uipath"
+    },
+    {
+     "rank": 9,
+     "title": "22 février 2021",
+     "url": "https://www.taylorwessing.com/fr/insights-and-events/news/media-centre/press-releases/2021/02/advising-peak-ai-limited-on-21-million-series-b-funding-to-make-ai-accessible-to-all-businesses"
+    },
+    {
+     "rank": 10,
+     "title": "peak ai $75 million funding round complete",
+     "url": "https://www.taylorwessing.com/de/insights-and-events/news/media-centre/press-releases/2021/09/peak-ai-$75-million-funding-round-complete"
+    }
+   ]
+  },
+  {
+   "company_id": "peak_ai",
+   "template": "T3",
+   "query": "\"Peak AI\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "PEAK INTERNATIONAL LTD - Form 8-K - FY2006",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001036081/000119312506101858/dex991.htm"
+    },
+    {
+     "rank": 2,
+     "title": "PEAK INTERNATIONAL LTD - Form 8-K - FY2006",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001036081/000119312506160700/dex991.htm"
+    },
+    {
+     "rank": 3,
+     "title": "Former Skype and Suade Labs exec joins Peak as CFO",
+     "url": "https://www.prolificnorth.co.uk/?p=83212"
+    },
+    {
+     "rank": 4,
+     "title": "PEAK INTERNATIONAL LTD - Form 8-K - FY2005",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001036081/000119312505075693/d8k.htm"
+    },
+    {
+     "rank": 5,
+     "title": "PEAK INTERNATIONAL LTD - Form 6-K - FY1999",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001036081/000089924399000596/0000899243-99-000596.txt"
+    },
+    {
+     "rank": 6,
+     "title": "Decision Intelligence company Peak announces Zoe Hillenmeyer as Chief Commercial Officer",
+     "url": "https://www.globenewswire.com/news-release/2022/01/13/2366545/0/en/Decision-Intelligence-company-Peak-announces-Zoe-Hillenmeyer-as-Chief-Commercial-Officer.html"
+    },
+    {
+     "rank": 7,
+     "title": "About The PEAK Group of Companies",
+     "url": "https://revpath.dealhub.io/jobs/183683900-chief-financial-officer"
+    },
+    {
+     "rank": 8,
+     "title": "Peak Re appoints CFO",
+     "url": "https://www.insuranceinsider.com/article/2876fhy9ajjsuvppkmlzm/peak-re-appoints-cfo"
+    },
+    {
+     "rank": 9,
+     "title": "Wednesday, July 29, 2026 UTC",
+     "url": "https://www.africaglobalfunds.com/news/people-moves/standard-bank-offshore-appoints-peake-as-cfo/"
+    },
+    {
+     "rank": 10,
+     "title": "CFO Briefing",
+     "url": "https://www.bloomberg.com/news/newsletters/2026-04-12/oracle-hire-shows-cfos-growing-role-in-ai-boom"
+    }
+   ]
+  },
+  {
+   "company_id": "peak_ai",
+   "template": "T4",
+   "query": "\"Peak AI\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Peak’s AI expertise ‘set to attract up to $50m of new investment’",
+     "url": "https://www.thebusinessdesk.com/northwest/?p=2084142"
+    },
+    {
+     "rank": 2,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/peak-secures-gbp25m-investment-mmc-ventures/"
+    },
+    {
+     "rank": 3,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/?p=83333"
+    },
+    {
+     "rank": 4,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/peak-secures-usd12m-extended-series-investment-power-ai-system/"
+    },
+    {
+     "rank": 5,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/peak-secures-additional-gbp15m-investment/"
+    },
+    {
+     "rank": 6,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/?p=91709"
+    },
+    {
+     "rank": 7,
+     "title": "peak xv makes lp level investments in us based vc funds to tap into ai opportunities: report",
+     "url": "https://news.ventureintelligence.com/private-equity/peak-xv-makes-lp-level-investments-in-us-based-vc-funds-to-tap-into-ai-opportunities:-report"
+    },
+    {
+     "rank": 8,
+     "title": "Peak Raises $21 Million in Series B Funding to Make AI Accessible to All Businesses",
+     "url": "https://financialit.net/news/fundraising-news/lemfi-secures-14-money-transmitter-licences-strengthening-its-us-presence-and%26quot?page=147"
+    },
+    {
+     "rank": 9,
+     "title": "Peak AI raises $75m to fund AI-based corporate decision support platform",
+     "url": "https://aibusiness.com/verticals/peak-ai-raises-75m-to-fund-ai-based-corporate-decision-support-platform"
+    },
+    {
+     "rank": 10,
+     "title": "Peak announces £2.5-million investment with MMC Ventures",
+     "url": "https://peak.ai/?p=2370"
+    }
+   ]
+  },
+  {
+   "company_id": "peak_ai",
+   "template": "T5",
+   "query": "\"Peak AI\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Peak (company)",
+     "url": "https://en.wikipedia.org/wiki/Peak_(company)"
+    },
+    {
+     "rank": 2,
+     "title": "Manchester AI firm to receive $50m SoftBank investment",
+     "url": "https://www.prolificnorth.co.uk/?p=52408"
+    },
+    {
+     "rank": 3,
+     "title": "Peak’s AI expertise ‘set to attract up to $50m of new investment’",
+     "url": "https://www.thebusinessdesk.com/northwest/?p=2084142"
+    },
+    {
+     "rank": 4,
+     "title": "AI company Peak raises $21m to fuel global expansion",
+     "url": "https://www.prolificnorth.co.uk/?p=49683"
+    },
+    {
+     "rank": 5,
+     "title": "www.alexanderjarvis.com",
+     "url": "https://www.alexanderjarvis.com/?p=13714"
+    },
+    {
+     "rank": 6,
+     "title": "peak ai raises 21 million to drive enterprise ai adoption",
+     "url": "https://venturebeat.com/ai/peak-ai-raises-21-million-to-drive-enterprise-ai-adoption"
+    },
+    {
+     "rank": 7,
+     "title": "peak ai raises 21 million to drive enterprise ai adoption",
+     "url": "https://venturebeat.com/business/peak-ai-raises-21-million-to-drive-enterprise-ai-adoption"
+    },
+    {
+     "rank": 8,
+     "title": "Peak Raises 21 Million in Series B Funding to Make AI Accessible to All Businesses",
+     "url": "https://www.businesswire.com/news/home/20210217005508/en/Peak-Raises-21-Million-in-Series-B-Funding-to-Make-AI-Accessible-to-All-Businesses"
+    },
+    {
+     "rank": 9,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/peak-secures-gbp25m-investment-mmc-ventures/"
+    },
+    {
+     "rank": 10,
+     "title": "Taylor Wessing advises Peak AI Limited on $21 million Series B funding to make AI accessible to all businesses",
+     "url": "https://cambridgenetwork.co.uk/news/taylor-wessing-advises-peak-ai-limited-21-million-series-b-funding-make-ai-accessible-all"
+    }
+   ]
+  },
+  {
+   "company_id": "causaly",
+   "template": "T1",
+   "query": "\"Causaly\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Caesars Acquisition Co - Form DEFM14A - FY2017",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312517211288/d388956ddefm14a.htm"
+    },
+    {
+     "rank": 2,
+     "title": "Caesars Acquisition Co - Form 8-K - FY2016",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312516665618/d236359dex21.htm"
+    },
+    {
+     "rank": 3,
+     "title": "Caesars Acquisition Co - Form 425 - FY2016",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312516731853/d230575dex101.htm"
+    },
+    {
+     "rank": 4,
+     "title": "Caesars Acquisition Co - Form 8-K - FY2014",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312514185176/d721046dex106.htm"
+    },
+    {
+     "rank": 5,
+     "title": "Caesars Acquisition Co - Form 8-K - FY2014",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312514192599/d725096dex102.htm"
+    },
+    {
+     "rank": 6,
+     "title": "Caesars Acquisition Co - Form 8-K - FY2014",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312514147790/d712603dex41.htm"
+    },
+    {
+     "rank": 7,
+     "title": "Caesars Acquisition Co - Form 425 - FY2017",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312517168041/d391945dex101.htm"
+    },
+    {
+     "rank": 8,
+     "title": "Caesars Acquisition Co - Form S-1/A - FY2013",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001575879/000119312513329581/d579522dex21.htm"
+    },
+    {
+     "rank": 9,
+     "title": "The Pursuant Group company logo",
+     "url": "https://www.cbinsights.com/company/the-pursuant-group/financials"
+    }
+   ]
+  },
+  {
+   "company_id": "causaly",
+   "template": "T2",
+   "query": "\"Causaly\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Strategic options review",
+     "url": "https://www.frpadvisory.com/strategic-financing-reviews"
+    },
+    {
+     "rank": 2,
+     "title": "Strategic options review",
+     "url": "https://www.frpadvisory.com/what-we-do/corporate-finance/ma-advisory/strategic-options-review/"
+    },
+    {
+     "rank": 3,
+     "title": "decision undertake review potential strategic options",
+     "url": "https://investor.livechat.com/reports/decision-undertake-review-potential-strategic-options/"
+    },
+    {
+     "rank": 4,
+     "title": "Review of strategic options",
+     "url": "https://home.kpmg/pl/en/home/services/deal-advisory/valuations/review-of-strategic-options.html"
+    },
+    {
+     "rank": 5,
+     "title": "current report no 14 2021",
+     "url": "https://tensquaregames.com/report/current-report-no-14-2021/"
+    },
+    {
+     "rank": 6,
+     "title": "EX-99.1 2 ex99-1.htm",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001579823/000149315222016193/ex99-1.htm"
+    },
+    {
+     "rank": 7,
+     "title": "Sphere 3D Retains Ernst & Young Capital Advisors as Financial Advisor to Evaluate Strategic Options",
+     "url": "https://www.storagenewsletter.com/?p=179626"
+    },
+    {
+     "rank": 8,
+     "title": "The Board of Directors (the \"Board\") of Statt Torsk ASA (STATT) (the \"Company\")",
+     "url": "https://inderes.dk/releases/statt-torsk-asa-decision-to-initiate-a-strategic-review"
+    },
+    {
+     "rank": 9,
+     "title": "statt torsk asa decision to initiate a strategic review",
+     "url": "https://www.inderes.fi/en/releases/statt-torsk-asa-decision-to-initiate-a-strategic-review"
+    },
+    {
+     "rank": 10,
+     "title": "The Advisory Board Exploring Strategic Alternatives, Including Possible Sale",
+     "url": "https://www.hcinnovationgroup.com/finance-revenue-cycle/news/13028092/the-advisory-board-exploring-strategic-alternatives-including-possible-sale"
+    }
+   ]
+  },
+  {
+   "company_id": "causaly",
+   "template": "T3",
+   "query": "\"Causaly\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "GLOBAL Alert Overide",
+     "url": "https://administrativememo.ufl.edu/?p=4966"
+    },
+    {
+     "rank": 2,
+     "title": "kap.org.tr",
+     "url": "https://kap.org.tr/en/Bildirim/934670"
+    },
+    {
+     "rank": 3,
+     "title": "lushen pather appointed acting group fd of sasfin",
+     "url": "https://cfo.co.za/articles/lushen-pather-appointed-acting-group-fd-of-sasfin/"
+    },
+    {
+     "rank": 4,
+     "title": "www.worldpipelines.com",
+     "url": "https://www.worldpipelines.com/business-news/26082022/pembina-announces-appointment-of-chief-financial-officer/amp/"
+    },
+    {
+     "rank": 5,
+     "title": "www.cfo.com",
+     "url": "https://www.cfo.com/news/cfos-on-the-move-week-ending-february-18-1/668588/"
+    },
+    {
+     "rank": 6,
+     "title": "Directorate change",
+     "url": "https://www.investegate.co.uk/announcement/rns/caffyns--cfyn/directorate-change/9281063"
+    },
+    {
+     "rank": 7,
+     "title": "thecfomag.com",
+     "url": "https://thecfomag.com/author/akinbodenaphtalgmail-com/page/11/"
+    },
+    {
+     "rank": 8,
+     "title": "Opulus Financial appoints Lorna Jack as chair",
+     "url": "https://www.scottishlegal.com/articles/opulus-financial-appoints-lorna-jack-as-chair"
+    },
+    {
+     "rank": 9,
+     "title": "329638a5 cdc6 42df 8933 b08d49d5aeb2",
+     "url": "https://bseindia.com/xml-data/corpfiling/AttachHis/329638a5-cdc6-42df-8933-b08d49d5aeb2.pdf"
+    },
+    {
+     "rank": 10,
+     "title": "enterpriseam.com",
+     "url": "https://enterpriseam.com/egypt/?p=589926"
+    }
+   ]
+  },
+  {
+   "company_id": "causaly",
+   "template": "T4",
+   "query": "\"Causaly\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "startupitalia.eu",
+     "url": "https://startupitalia.eu/?p=475768"
+    },
+    {
+     "rank": 2,
+     "title": "Back to CausalyChangelog and Sources",
+     "url": "https://seedtable.com/companies/causaly/funding-rounds/series-b-2023-07"
+    },
+    {
+     "rank": 3,
+     "title": "Predict your next investment",
+     "url": "https://www.cbinsights.com/investor/causal-investment"
+    },
+    {
+     "rank": 4,
+     "title": "All Insights|Future Nexus",
+     "url": "https://www.heyfuturenexus.com/posts/spreadsheet-busting-fintech-startup-causal-raises-20m"
+    },
+    {
+     "rank": 5,
+     "title": "Spreadsheet-busting fintech startup Causal raises $20m",
+     "url": "https://fintechnexus.com/?p=35712"
+    },
+    {
+     "rank": 6,
+     "title": "kando.tech",
+     "url": "https://kando.tech/cap-table/1051902"
+    },
+    {
+     "rank": 7,
+     "title": "citywire.com",
+     "url": "https://citywire.com/ria/news/why-mark-casady-invested-in-2bn-savvys-series-b-funding-round/a2469255"
+    },
+    {
+     "rank": 8,
+     "title": "boehly backed cais launching sports media entertainment fund",
+     "url": "https://www.dakota.com/fundraising-news/boehly-backed-cais-launching-sports-media-entertainment-fund"
+    },
+    {
+     "rank": 9,
+     "title": "PE-Led Group Injects $100M Into Cyber Security Co. Cylance",
+     "url": "https://law360.com/articles/805163"
+    },
+    {
+     "rank": 10,
+     "title": "Carlyle Draws $1.5 Billion for Asset-Backed Fund in First Round",
+     "url": "https://news.bgov.com/bankruptcy-law/carlyle-draws-1-5-billion-for-asset-backed-fund-in-first-round"
+    }
+   ]
+  },
+  {
+   "company_id": "causaly",
+   "template": "T5",
+   "query": "\"Causaly\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/company/causaly/financials"
+    },
+    {
+     "rank": 2,
+     "title": "Causaly raises $5m in Series A round led by Pentech Ventures",
+     "url": "https://causaly.com/resources/news"
+    },
+    {
+     "rank": 3,
+     "title": "machine reading company causaly identifies connections hidden in millions of biomedical publications raises 5m in series a round led by pentech business wire 20191120069",
+     "url": "https://www.thetrustedinsight.com/investment-news/machine-reading-company-causaly-identifies-connections-hidden-in-millions-of-biomedical-publications-raises-5m-in-series-a-round-led-by-pentech-business-wire-20191120069/"
+    },
+    {
+     "rank": 4,
+     "title": "If you're seeing this message, that means",
+     "url": "https://www.owler.com/company/causaly/funding"
+    },
+    {
+     "rank": 5,
+     "title": "startupitalia.eu",
+     "url": "https://startupitalia.eu/?p=475768"
+    },
+    {
+     "rank": 6,
+     "title": "Causaly scores $60M to enhance AI platform for biomedical research",
+     "url": "https://plminstitute.org/hot-topics/technology/causaly-scores-60m-to-enhance-ai-platform-for-biomedical-research/"
+    },
+    {
+     "rank": 7,
+     "title": "Back to CausalyChangelog and Sources",
+     "url": "https://seedtable.com/companies/causaly/funding-rounds/series-b-2023-07"
+    },
+    {
+     "rank": 8,
+     "title": "How Much Did Causaly Raise? Funding & Key Investors",
+     "url": "https://www.clay.com/dossier/causaly-funding"
+    },
+    {
+     "rank": 9,
+     "title": "DiscoverStartupsCausalyCausaly Funding Information",
+     "url": "https://wellfound.com/company/causaly/funding"
+    },
+    {
+     "rank": 10,
+     "title": "riassunto causaly raccoglie 60 milioni di dollari in un finanziamento di serie b per catalizzare la scoperta preclinica potenziata dallai",
+     "url": "https://www.01net.it/riassunto-causaly-raccoglie-60-milioni-di-dollari-in-un-finanziamento-di-serie-b-per-catalizzare-la-scoperta-preclinica-potenziata-dallai/"
+    }
+   ]
+  },
+  {
+   "company_id": "oxford_ionics",
+   "template": "T1",
+   "query": "\"Oxford Ionics\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "ionq acquires oxford ionics for 1 075b to fast track scalable quantum computing",
+     "url": "https://www.tipranks.com/news/ionq-acquires-oxford-ionics-for-1-075b-to-fast-track-scalable-quantum-computing"
+    },
+    {
+     "rank": 2,
+     "title": "IonQ Announces Agreement to Acquire Oxford Ionics, Accelerating Path to Pioneering Breakthroughs in Quantum Computing",
+     "url": "https://investors.ionq.com/news/news-details/2025/IonQ-Announces-Agreement-to-Acquire-Oxford-Ionics-Accelerating-Path-to-Pioneering-Breakthroughs-in-Quantum-Computing/default.aspx"
+    },
+    {
+     "rank": 3,
+     "title": "IonQ to acquire Oxford Ionics, accelerating path to pioneering breakthroughs in quantum computing",
+     "url": "https://www.intelligentcio.com/eu/2025/06/09/ionq-to-acquire-oxford-ionics-accelerating-path-to-pioneering-breakthroughs-in-quantum-computing/"
+    },
+    {
+     "rank": 4,
+     "title": "ionq completes oxford ionics acquisition",
+     "url": "https://www.verdict.co.uk/ionq-completes-oxford-ionics-acquisition/"
+    },
+    {
+     "rank": 5,
+     "title": "IonQ Announces Agreement to Acquire Oxford Ionics Accelerating Path to Pioneering Breakthroughs in Quantum Computing",
+     "url": "https://www.businesswire.com/news/home/20250609933087/en/IonQ-Announces-Agreement-to-Acquire-Oxford-Ionics-Accelerating-Path-to-Pioneering-Breakthroughs-in-Quantum-Computing"
+    },
+    {
+     "rank": 6,
+     "title": "ionq completes acquisition of oxford ionics rapidly accelerating its quantum computing roadmap",
+     "url": "https://www.barchart.com/story/news/34859027/ionq-completes-acquisition-of-oxford-ionics-rapidly-accelerating-its-quantum-computing-roadmap"
+    },
+    {
+     "rank": 7,
+     "title": "IonQ acquires Oxford Ionics for $1.07 billion, gets quantum-on-a-chip technology",
+     "url": "https://www.constellationr.com/insights/news/ionq-acquires-oxford-ionics-107-billion-gets-quantum-chip-technology"
+    },
+    {
+     "rank": 8,
+     "title": "ionq completes acquisition of oxford ionics rapidly accelerating its quantum computing roadmap",
+     "url": "https://www.businesswire.com/news/home/20250917776178/en/ionq-completes-acquisition-of-oxford-ionics-rapidly-accelerating-its-quantum-computing-roadmap"
+    },
+    {
+     "rank": 9,
+     "title": "IonQ Buys Oxford Ionics for $1.075 Billion",
+     "url": "https://quantumzeitgeist.com/oxford-ionics-acquisition-by-ionq-formally-completed-valued-at-1-075-billion/"
+    }
+   ]
+  },
+  {
+   "company_id": "oxford_ionics",
+   "template": "T2",
+   "query": "\"Oxford Ionics\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Sep 12th, 2025",
+     "url": "https://www.bloomberg.com/news/videos/2025-09-12/ionq-ceo-on-1b-takeover-of-oxford-ionics-video"
+    },
+    {
+     "rank": 2,
+     "title": "Solutions Ecosystems Reports Resources Data Pricing Login Book a demo",
+     "url": "https://dealroom.co/companies/oxford-ionics-1/"
+    },
+    {
+     "rank": 3,
+     "title": "Oxford Science Enterprises | Activity | F4Oxford Science Enterprises Activity",
+     "url": "https://f4.fund/firms/oxford-science-enterprises/activity"
+    },
+    {
+     "rank": 4,
+     "title": "[DECODE Quantum] Meeting with Chris Ballance - Oxford Ionics",
+     "url": "https://decodequantum.transistor.fm/episodes/decode-quantum-meeting-with-chris-ballance-oxford-ionics"
+    },
+    {
+     "rank": 5,
+     "title": "Ionics Announces New VP of Strategy and Operations",
+     "url": "https://www.wwdmag.com/home/news/10907817/ionics-announces-new-vp-of-strategy-and-operations"
+    },
+    {
+     "rank": 6,
+     "title": "Oxford Analytica",
+     "url": "https://sourcewatch.org/index.php/Oxford_Analytica"
+    },
+    {
+     "rank": 7,
+     "title": "Newsletter Newsletters Events Events Podcasts Videos Africanews",
+     "url": "https://www.euronews.com/next/2022/02/18/oxford-cannabinoid-meeting-ghs-capital"
+    },
+    {
+     "rank": 8,
+     "title": "www.genomeweb.com",
+     "url": "https://www.genomeweb.com/node/585721"
+    },
+    {
+     "rank": 9,
+     "title": "osi hires stockbroker numis",
+     "url": "https://globalventuring.com/osi-hires-stockbroker-numis"
+    },
+    {
+     "rank": 10,
+     "title": "scientific advisory board",
+     "url": "https://tgac.ac.uk/scientific-advisory-board"
+    }
+   ]
+  },
+  {
+   "company_id": "oxford_ionics",
+   "template": "T3",
+   "query": "\"Oxford Ionics\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "dylan murphy",
+     "url": "https://summit.sifted.eu/speakers/dylan-murphy"
+    },
+    {
+     "rank": 2,
+     "title": "executive changes oxford nanopore tech hires new ceo from danaher ce7d51ddde89ff2c",
+     "url": "https://uk.marketscreener.com/news/executive-changes-oxford-nanopore-tech-hires-new-ceo-from-danaher-ce7d51ddde89ff2c"
+    },
+    {
+     "rank": 3,
+     "title": "oxford instruments appoints new cfo as part of leadership transition",
+     "url": "https://www.tipranks.com/news/company-announcements/oxford-instruments-appoints-new-cfo-as-part-of-leadership-transition"
+    },
+    {
+     "rank": 4,
+     "title": "Stay Ahead of the Market:",
+     "url": "https://www.nasdaq.com/articles/oxford-instruments-director-transition-announcement"
+    },
+    {
+     "rank": 5,
+     "title": "appointment of non executive director and chairman designate",
+     "url": "https://www.oxinst.com/news/appointment-of-non-executive-director-and-chairman-designate/"
+    },
+    {
+     "rank": 6,
+     "title": "9 January 2025",
+     "url": "https://www.oxinst.com/news/chief-financial-officer-succession/"
+    },
+    {
+     "rank": 7,
+     "title": "news leadership update welcoming nick keher cfo tim cowper takes coo role",
+     "url": "https://nanoporetech.com/news/news-leadership-update-welcoming-nick-keher-cfo-tim-cowper-takes-coo-role"
+    },
+    {
+     "rank": 8,
+     "title": "Oxford Nanopore appoints new CFO",
+     "url": "https://sharecast.com/amp/news/news-and-announcements/oxford-nanopore--15909170.html"
+    },
+    {
+     "rank": 9,
+     "title": "Leadership reshuffle at Oxford Nanopore Technologies brings new CFO",
+     "url": "https://thebusinessmagazine.co.uk/technology-innovation/leadership-reshuffle-at-oxford-nanopore-technologies-brings-new-cfo/"
+    },
+    {
+     "rank": 10,
+     "title": "Source - LSE Regulatory",
+     "url": "https://sharesmagazine.co.uk/news/market/LSE20250109070005_5493969/chief-financial-officer-succession"
+    }
+   ]
+  },
+  {
+   "company_id": "oxford_ionics",
+   "template": "T4",
+   "query": "\"Oxford Ionics\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "09 Jan 2023",
+     "url": "https://www.prosus.com/news-insights/2023/oxford-ionics-raises-30m-with-participation-from-prosus-ventures"
+    },
+    {
+     "rank": 2,
+     "title": "Significant scale-up investment for three Oxford spinouts",
+     "url": "https://www.oxfordsparks.ox.ac.uk/news/significant-scale-up-investment-for-three-oxford-spinouts/"
+    },
+    {
+     "rank": 3,
+     "title": "oxford ionics raises 2 3m",
+     "url": "https://siliconcanals.com/oxford-ionics-raises-2-3m/"
+    },
+    {
+     "rank": 4,
+     "title": "Oxford Ionics Raises £30 Million in Series A",
+     "url": "https://thequantuminsider.com/2023/01/09/oxford-ionics-raises-30-million-in-series-a/"
+    },
+    {
+     "rank": 5,
+     "title": "Oxford quantum computing startup raises £30m Series A funding",
+     "url": "https://thebusinessmagazine.co.uk/technology-innovation/oxford-quantum-computing-startup-raises-30m-series-a-funding/"
+    },
+    {
+     "rank": 6,
+     "title": "Oxford Ionics founders",
+     "url": "https://ox.ac.uk/node/7874263"
+    },
+    {
+     "rank": 7,
+     "title": "oxford ionics bags 34 1m",
+     "url": "https://siliconcanals.com/oxford-ionics-bags-34-1m/"
+    },
+    {
+     "rank": 8,
+     "title": "Oxford Ionics Secures £2 Million in Funding From UK’s National Security Strategic Investment Fund",
+     "url": "https://thequantuminsider.com/?p=2358185"
+    },
+    {
+     "rank": 9,
+     "title": "Insider Brief",
+     "url": "https://thequantuminsider.com/2023/09/01/oxford-ionics-secures-2-million-in-funding-from-uks-national-security-strategic-investment-fund/"
+    },
+    {
+     "rank": 10,
+     "title": "2023 01 11 significant scale investment three oxford spinouts",
+     "url": "https://www.ox.ac.uk/news/2023-01-11-significant-scale-investment-three-oxford-spinouts"
+    }
+   ]
+  },
+  {
+   "company_id": "oxford_ionics",
+   "template": "T5",
+   "query": "\"Oxford Ionics\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Oxford Ionics Picks Up a £30 Million ($36.6M USD) Series A Venture Round",
+     "url": "https://quantumcomputingreport.com/oxford-ionics-picks-up-a-30-million-36-6m-usd-series-a-venture-round/"
+    },
+    {
+     "rank": 2,
+     "title": "oxford ionics raises 2 3m",
+     "url": "https://siliconcanals.com/oxford-ionics-raises-2-3m/"
+    },
+    {
+     "rank": 3,
+     "title": "Oxford Ionics founders",
+     "url": "https://ox.ac.uk/node/7874263"
+    },
+    {
+     "rank": 4,
+     "title": "Oxford Ionics Secures £2 Million in Funding From UK’s National Security Strategic Investment Fund",
+     "url": "https://thequantuminsider.com/?p=2358185"
+    },
+    {
+     "rank": 5,
+     "title": "Oxford quantum computing startup raises £30m Series A funding",
+     "url": "https://thebusinessmagazine.co.uk/technology-innovation/oxford-quantum-computing-startup-raises-30m-series-a-funding/"
+    },
+    {
+     "rank": 6,
+     "title": "2023 01 11 significant scale investment three oxford spinouts",
+     "url": "https://www.ox.ac.uk/news/2023-01-11-significant-scale-investment-three-oxford-spinouts"
+    },
+    {
+     "rank": 7,
+     "title": "Oxford Ionics Picks Up a £30 Million ($36.6M USD) Series A Venture Round",
+     "url": "https://quantumcomputingreport.com/?p=17867"
+    },
+    {
+     "rank": 8,
+     "title": "Since 1987: Covering the Fastest Computers in the World and the People Who Run Them",
+     "url": "https://www.hpcwire.com/off-the-wire/quantum-startup-oxford-ionics-raises-36-5m-series-a-funding/"
+    },
+    {
+     "rank": 9,
+     "title": "09 Jan 2023",
+     "url": "https://www.prosus.com/news-insights/2023/oxford-ionics-raises-30m-with-participation-from-prosus-ventures"
+    }
+   ]
+  },
+  {
+   "company_id": "universal_quantum",
+   "template": "T1",
+   "query": "\"Universal Quantum\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "MEDIQ INC - Form 10-Q - FY1996",
+     "url": "https://www.sec.gov/Archives/edgar/data/0000350920/000095011597000200/0000950115-97-000200.txt"
+    },
+    {
+     "rank": 2,
+     "title": "UNIVERSAL MEDIA HOLDINGS INC - Form 10QSB - FY2000",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001100779/000101054900000607/0001.txt"
+    },
+    {
+     "rank": 3,
+     "title": "universal quantum recauda usd 100 millones con apoyo del ceo de roblox y de singapur",
+     "url": "https://www.diariobitcoin.com/startups-verticales/universal-quantum-recauda-usd-100-millones-con-apoyo-del-ceo-de-roblox-y-de-singapur/"
+    },
+    {
+     "rank": 4,
+     "title": "sussex.ac.uk",
+     "url": "https://sussex.ac.uk/physics/iqt/?p=3625"
+    },
+    {
+     "rank": 5,
+     "title": "pqcee acquired by universal digital inc acquisition",
+     "url": "https://www.trysignalbase.com/news/acquisitions/pqcee-acquired-by-universal-digital-inc-acquisition"
+    },
+    {
+     "rank": 6,
+     "title": "Back to feed",
+     "url": "https://finder.techleap.nl/news/feed/universal-acquires-illumination-for-billions"
+    },
+    {
+     "rank": 7,
+     "title": "Back to Universal QuantumChangelog and Sources",
+     "url": "https://seedtable.com/companies/universal-quantum/funding-rounds/seed-2020-06"
+    },
+    {
+     "rank": 8,
+     "title": "universal energy corp diversifies with acquisitions",
+     "url": "https://www.cranehotline.com/articles/universal-energy-corp-diversifies-with-acquisitions"
+    },
+    {
+     "rank": 9,
+     "title": "universal energy corp diversifies with acquisitions",
+     "url": "https://test.cranehotline.com/articles/universal-energy-corp-diversifies-with-acquisitions"
+    }
+   ]
+  },
+  {
+   "company_id": "universal_quantum",
+   "template": "T2",
+   "query": "\"Universal Quantum\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "UNIVERSAL INSTITUTIONAL FUNDS INC - Form N-CSRS - FY2016",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001011378/000110465916142564/a16-14864_1ncsrs.htm"
+    },
+    {
+     "rank": 2,
+     "title": "Free Trial",
+     "url": "https://www.marketbeat.com/instant-alerts/filing-universal-beteiligungs-und-servicegesellschaft-mbh-takes-1677-million-position-in-strategy-incorporated-nasdaqmstr-2025-05-30"
+    },
+    {
+     "rank": 3,
+     "title": "Quantum Strategic Partners",
+     "url": "https://app.dealroom.co/companies/quantum_strategic_partners_1"
+    },
+    {
+     "rank": 4,
+     "title": "Free Trial",
+     "url": "https://www.marketbeat.com/instant-alerts/filing-two-sigma-advisers-lp-has-225-million-holdings-in-universal-co-nyseuvv-2025-05-29"
+    },
+    {
+     "rank": 5,
+     "title": "universal investment holt zwei fuehrungskraefte",
+     "url": "https://www.private-banking-magazin.de/universal-investment-holt-zwei-fuehrungskraefte/"
+    },
+    {
+     "rank": 6,
+     "title": "Free Trial",
+     "url": "https://www.marketbeat.com/instant-alerts/first-trust-advisors-lp-sells-127891-shares-of-universal-co-nyseuvv-2025-04-23"
+    },
+    {
+     "rank": 7,
+     "title": "quilter considering disposal of international business",
+     "url": "https://mail.financialplanningtoday.co.uk/news/quilter-considering-disposal-of-international-business"
+    },
+    {
+     "rank": 8,
+     "title": "SENS 20190704 S417132",
+     "url": "https://senspdf.jse.co.za/documents/SENS_20190704_S417132.pdf"
+    },
+    {
+     "rank": 9,
+     "title": "statement on mio",
+     "url": "https://www.mckinsey.com/about-us/media/statement-on-mio"
+    }
+   ]
+  },
+  {
+   "company_id": "universal_quantum",
+   "template": "T3",
+   "query": "\"Universal Quantum\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Universal appoints CFO",
+     "url": "https://seekingalpha.com/news/4548934-universal-appoints-cfo"
+    },
+    {
+     "rank": 2,
+     "title": "- United States",
+     "url": "https://simplywall.st/stocks/us/food-beverage-tobacco/nyse-uvv/universal/news/is-the-planned-cfo-succession-shaping-the-investment-case-fo"
+    },
+    {
+     "rank": 3,
+     "title": "universal corporation cfo johan kroner to retire thefly",
+     "url": "https://www.tipranks.com/news/the-fly/universal-corporation-cfo-johan-kroner-to-retire-thefly"
+    },
+    {
+     "rank": 4,
+     "title": "simplywall.st",
+     "url": "https://simplywall.st/stocks/us/food-beverage-tobacco/nyse-uvv/universal/news/is-the-planned-cfo-succession-shaping-the-investment-case-fo/amp"
+    },
+    {
+     "rank": 5,
+     "title": "quix quantum appoints new cfo",
+     "url": "https://quixquantum.com/news/quix-quantum-appoints-new-cfo"
+    },
+    {
+     "rank": 6,
+     "title": "universal cfo diel internal promotion",
+     "url": "https://fintool.com/news/universal-cfo-diel-internal-promotion"
+    },
+    {
+     "rank": 7,
+     "title": "News Details",
+     "url": "https://investor.universalcorp.com/news/news-details/2026/Universal-Corporation-Appoints-Anubhav-Mittal-as-Chief-Financial-Officer/default.aspx"
+    },
+    {
+     "rank": 8,
+     "title": "universal corporation appoints anubhav mittal as chief financial officer",
+     "url": "https://www.barchart.com/story/news/37159741/universal-corporation-appoints-anubhav-mittal-as-chief-financial-officer"
+    },
+    {
+     "rank": 9,
+     "title": "universal corporation announces chief financial officer transition plan",
+     "url": "https://www.businesswire.com/news/home/20250711895754/en/universal-corporation-announces-chief-financial-officer-transition-plan"
+    },
+    {
+     "rank": 10,
+     "title": "Universal Corporation Announces Chief Financial Officer Transition Plan",
+     "url": "https://secure.businesswire.com/news/home/20250711895754/en/Universal-Corporation-Announces-Chief-Financial-Officer-Transition-Plan"
+    }
+   ]
+  },
+  {
+   "company_id": "universal_quantum",
+   "template": "T4",
+   "query": "\"Universal Quantum\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Universal Quantum raises record US$100 million to accelerate UK quantum computing",
+     "url": "https://www.intelligentcio.com/eu/?p=171588"
+    },
+    {
+     "rank": 2,
+     "title": "www.sussex.ac.uk",
+     "url": "https://www.sussex.ac.uk/research/centres/sussex-centre-for-quantum-technologies/news-and-events/news?id=71456"
+    },
+    {
+     "rank": 3,
+     "title": "University of Sussex spin-out secures record $100 million investment for quantum computing",
+     "url": "https://www.sussex.ac.uk/broadcast/read/71456"
+    },
+    {
+     "rank": 4,
+     "title": "Universal Quantum Raises More Than $100 Million Series A To Scale Quantum Computing Technology",
+     "url": "https://pulse2.com/universal-quantum-raises-more-than-100-million-series-a-to-scale-quantum-computing-technology/"
+    },
+    {
+     "rank": 5,
+     "title": "News article",
+     "url": "https://www.sussex.ac.uk/news/article/71456-university-of-sussex-spin-out-secures-record-100-million-investment-for-quantum-computing"
+    },
+    {
+     "rank": 6,
+     "title": "Research news",
+     "url": "https://www.sussex.ac.uk/news/research?id=71456"
+    },
+    {
+     "rank": 7,
+     "title": "Universal Quantum Raises Over $100 Million Series A",
+     "url": "https://thequantuminsider.com/?p=2395546"
+    },
+    {
+     "rank": 8,
+     "title": "Universal Quantum Raises Over $100 Million Series A",
+     "url": "https://thequantuminsider.com/2026/10/08/universal-quantum-raises-over-100-million-series-a/\\"
+    },
+    {
+     "rank": 9,
+     "title": "Alumni news",
+     "url": "https://www.sussex.ac.uk/alumni/news-events/news?id=71456"
+    },
+    {
+     "rank": 10,
+     "title": "$4.5 million for large-scale quantum computer",
+     "url": "https://www.electronicspecifier.com/?p=171459"
+    }
+   ]
+  },
+  {
+   "company_id": "universal_quantum",
+   "template": "T5",
+   "query": "\"Universal Quantum\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Universal Quantum raises record US$100 million to accelerate UK quantum computing",
+     "url": "https://www.intelligentcio.com/eu/?p=171588"
+    },
+    {
+     "rank": 2,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/company/universal-quantum/financials"
+    },
+    {
+     "rank": 3,
+     "title": "Since 1987: Covering the Fastest Computers in the World and the People Who Run Them",
+     "url": "https://www.hpcwire.com/off-the-wire/universal-quantum-raises-3-6m-in-seed-funding-round/"
+    },
+    {
+     "rank": 4,
+     "title": "$4.5 million for large-scale quantum computer",
+     "url": "https://www.electronicspecifier.com/studentzone/studentzone-news/4-5-million-for-large-scale-quantum-computer/"
+    },
+    {
+     "rank": 5,
+     "title": "Research news",
+     "url": "https://www.sussex.ac.uk/news/research?id=71456"
+    },
+    {
+     "rank": 6,
+     "title": "$4.5 million for large-scale quantum computer",
+     "url": "https://www.electronicspecifier.com/?p=171459"
+    },
+    {
+     "rank": 7,
+     "title": "universal quantum raises 36m seed funding 20200615",
+     "url": "https://www.uktech.news/news/universal-quantum-raises-36m-seed-funding-20200615"
+    },
+    {
+     "rank": 8,
+     "title": "Roblox CEO, S’pore govt fund back Universal Quantum round",
+     "url": "https://www.thestar.com.my/business/business-news/2026/10/09/roblox-ceo-spore-govt-fund-back-universal-quantum-round"
+    },
+    {
+     "rank": 9,
+     "title": "Universal Quantum Raises More Than $100 Million Series A To Scale Quantum Computing Technology",
+     "url": "https://pulse2.com/universal-quantum-raises-more-than-100-million-series-a-to-scale-quantum-computing-technology/"
+    },
+    {
+     "rank": 10,
+     "title": "Inside Universal Quantum’s US$100m Series A Funding",
+     "url": "https://technologymagazine.com/news/inside-universal-quantums-us-100m-series-a-funding"
+    }
+   ]
+  },
+  {
+   "company_id": "cytora",
+   "template": "T1",
+   "query": "\"Cytora\" acquisition OR acquires OR sale OR sold",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Moore Kingston Smith advises Cytora on sale to Applied Systems Inc",
+     "url": "https://mooreks.co.uk/insights/moore-kingston-smith-advises-cytora-on-sale-to-applied-systems-inc/"
+    },
+    {
+     "rank": 2,
+     "title": "CYTORI THERAPEUTICS FORM 8-K 06-05-2007",
+     "url": "https://ir.plustherapeutics.com/node/9421/html"
+    },
+    {
+     "rank": 3,
+     "title": "Cytori bags Azaya drugs in asset purchase; Woodford offers a mea culpa on Northwest Bio",
+     "url": "https://endpts.com/cytori-bags-azaya-drugs-in-asset-purchase-woodford-offers-a-mea-culpa-on-northwest-bio/"
+    },
+    {
+     "rank": 4,
+     "title": "cytogen cytorad inc deal",
+     "url": "https://www.biocentury.com/article/110759/cytogen-cytorad-inc-deal"
+    },
+    {
+     "rank": 5,
+     "title": "cellcor cytogen deal",
+     "url": "https://www.biocentury.com/article/137448/cellcor-cytogen-deal"
+    },
+    {
+     "rank": 6,
+     "title": "6917dd3c 69c3 42fa b462 081a000d76cb",
+     "url": "https://ir.plustherapeutics.com/static-files/6917dd3c-69c3-42fa-b462-081a000d76cb"
+    },
+    {
+     "rank": 7,
+     "title": "8-K 1 cytori_8k06052007.htm CYTORI THERAPEUTICS FORM 8-K 06-05-2007 CYTORI THERAPEUTICS FORM 8-K 06-05-2007",
+     "url": "https://www.sec.gov/Archives/edgar/data/1095981/000109598107000029/cytori_8k06052007.htm"
+    },
+    {
+     "rank": 8,
+     "title": "cytogen cancer diagnostics imaging news",
+     "url": "https://www.biocentury.com/article/144742/cytogen-cancer-diagnostics-imaging-news"
+    },
+    {
+     "rank": 9,
+     "title": "8-K 1 cytx-8k_20190330.htm 8-K cytx-8k_20190330.DOCX.htm",
+     "url": "https://www.sec.gov/Archives/edgar/data/1095981/000156459019010318/cytx-8k_20190330.htm"
+    },
+    {
+     "rank": 10,
+     "title": "ARTICLE | Company News",
+     "url": "https://biocentury.com/article/197937/cytopia-ym-biosciences-deal"
+    }
+   ]
+  },
+  {
+   "company_id": "cytora",
+   "template": "T2",
+   "query": "\"Cytora\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Moore Kingston Smith advises Cytora on sale to Applied Systems Inc",
+     "url": "https://mooreks.co.uk/insights/moore-kingston-smith-advises-cytora-on-sale-to-applied-systems-inc/"
+    },
+    {
+     "rank": 2,
+     "title": "cytora announces expanded advisory board with former senior executive from partnerre joining",
+     "url": "https://cytora.com/risk-flow-center/blog/cytora-announces-expanded-advisory-board-with-former-senior-executive-from-partnerre-joining"
+    },
+    {
+     "rank": 3,
+     "title": "SiriusPoint chair Masojada to join Cytora's advisory board",
+     "url": "https://www.portal.insuranceinsider.com/article/2c3lzpr1ltsigqc0ftxxc/london-market-section/siriuspoint-chair-masojada-to-join-cytoras-advisory-board"
+    },
+    {
+     "rank": 4,
+     "title": "cytori pursuing restructuring plan",
+     "url": "https://sdbj.com/finance/cytori-pursuing-restructuring-plan/"
+    },
+    {
+     "rank": 5,
+     "title": "Cytora adds former Aon group COO Platt to advisory board",
+     "url": "https://theinsurer.com/?p=39088"
+    },
+    {
+     "rank": 6,
+     "title": "Cytora adds Guy Carpenter’s Rousseau to advisory board",
+     "url": "https://theinsurer.com/?p=41173"
+    },
+    {
+     "rank": 7,
+     "title": "People Moves: 29 August – 1 September 2023",
+     "url": "https://insuranceage.co.uk/node/7953586"
+    },
+    {
+     "rank": 8,
+     "title": "Cytora adds former Aspen boss Karen Green to advisory board",
+     "url": "https://postonline.co.uk/node/7833816"
+    },
+    {
+     "rank": 9,
+     "title": "Charles Riv­er launch­es ‘strate­gic re­view’ along­side ac­tivist in­vestor El­liott",
+     "url": "https://endpoints.news/?p=516503"
+    },
+    {
+     "rank": 10,
+     "title": "cara therapeutics announces exploration of strategic alternatives",
+     "url": "https://www.tipranks.com/news/the-fly/cara-therapeutics-announces-exploration-of-strategic-alternatives"
+    }
+   ]
+  },
+  {
+   "company_id": "cytora",
+   "template": "T3",
+   "query": "\"Cytora\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Tuesday, August 19, 2014",
+     "url": "https://www.socaltech.com/fullstory/0056519.html"
+    },
+    {
+     "rank": 2,
+     "title": "Cytori Therapeutics, Inc. Appoints A New Vice President Of Finance And Chief Financial Officer",
+     "url": "https://www.biospace.com/cytori-therapeutics-inc-appoints-a-new-vice-president-of-finance-and-chief-financial-officer"
+    },
+    {
+     "rank": 3,
+     "title": "Cytora Announces Expanded Advisory Board with Former Senior Executive from Aon Joining",
+     "url": "https://financialit.net/news/people-moves/member...?page=66"
+    },
+    {
+     "rank": 4,
+     "title": "Cytori Therapeutics, Inc. (CYTX) Appoints A New Vice President Of Finance And Chief Financial Officer - 8/19",
+     "url": "https://www.fiercebiotech.com/biotech/cytori-therapeutics-inc-cytx-appoints-a-new-vice-president-of-finance-and-chief-financial"
+    },
+    {
+     "rank": 5,
+     "title": "powered_by-logo reporter-logo inbusiness-news-logo GOLD-DIGITAL-EDITIONS",
+     "url": "https://www.cbn.com.cy/article/87730/a-look-at-who-is-likely-to-fill-the-cfo-position-at-cyta"
+    },
+    {
+     "rank": 6,
+     "title": "www.sdbj.com",
+     "url": "https://www.sdbj.com/?p=35347"
+    },
+    {
+     "rank": 7,
+     "title": "Pharmafile Logo",
+     "url": "https://pmlive.com/?p=45039"
+    },
+    {
+     "rank": 8,
+     "title": "People category powered by",
+     "url": "https://cbn.com.cy/article/2024/10/24/802309/a-look-at-who-is-likely-to-fill-the-cfo-position-at-cyta"
+    },
+    {
+     "rank": 9,
+     "title": "Cytori Therapeutics, Inc. Chairman Marshall G. Cox Retires; Ronald D. Henriksen Appointed as Interim Chairman",
+     "url": "https://www.biospace.com/cytori-therapeutics-inc-chairman-b-marshall-g-cox-b-retires-b-ronald-d-henriksen-b-appointed-as-interim-chairman"
+    },
+    {
+     "rank": 10,
+     "title": "cytosorbents announces bloch to resume as full time cfo",
+     "url": "https://www.tipranks.com/news/the-fly/cytosorbents-announces-bloch-to-resume-as-full-time-cfo"
+    }
+   ]
+  },
+  {
+   "company_id": "cytora",
+   "template": "T4",
+   "query": "\"Cytora\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Cytora Funding History",
+     "url": "https://www.owler.com/company/cytora/funding"
+    },
+    {
+     "rank": 2,
+     "title": "2017 01 01 cytora series a",
+     "url": "https://startupintros.com/news/2017-01-01-cytora-series-a"
+    },
+    {
+     "rank": 3,
+     "title": "osborne clarke advises cytora 25m round led eqt ventures transform commercial insurance underwriting using ai",
+     "url": "https://osborneclarke.com/news/osborne-clarke-advises-cytora-25m-round-led-eqt-ventures-transform-commercial-insurance-underwriting-using-ai"
+    },
+    {
+     "rank": 4,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/corporate/tag/5m-9-9m/91"
+    },
+    {
+     "rank": 5,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/corporate/tag/guv-news/283"
+    },
+    {
+     "rank": 6,
+     "title": "data.kando.tech",
+     "url": "https://data.kando.tech/cap-table/584831"
+    },
+    {
+     "rank": 7,
+     "title": "Back to CertoraChangelog and Sources",
+     "url": "https://seedtable.com/companies/certora/funding-rounds/series-b-2022-05"
+    },
+    {
+     "rank": 8,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/corporate/tag/europe/339"
+    },
+    {
+     "rank": 9,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/sectors/financial//page/335"
+    },
+    {
+     "rank": 10,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/corporate/tag/financial/293"
+    }
+   ]
+  },
+  {
+   "company_id": "cytora",
+   "template": "T5",
+   "query": "\"Cytora\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "University of Cambridge",
+     "url": "https://www.enterprise.cam.ac.uk/news/cambridge-enterprise-joins-2-4-million-funding-for-cytora/"
+    },
+    {
+     "rank": 2,
+     "title": "data.kando.tech",
+     "url": "https://data.kando.tech/cap-table/584831"
+    },
+    {
+     "rank": 3,
+     "title": "2017 01 01 cytora series a",
+     "url": "https://startupintros.com/news/2017-01-01-cytora-series-a"
+    },
+    {
+     "rank": 4,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/corporate/tag/20m-39-9m/181"
+    },
+    {
+     "rank": 5,
+     "title": "- News & Analysis",
+     "url": "https://globalventuring.com/corporate/tag/europe/339"
+    },
+    {
+     "rank": 6,
+     "title": "osborne clarke advises cytora 25m round led eqt ventures transform commercial insurance underwriting using ai",
+     "url": "https://osborneclarke.com/news/osborne-clarke-advises-cytora-25m-round-led-eqt-ventures-transform-commercial-insurance-underwriting-using-ai"
+    },
+    {
+     "rank": 7,
+     "title": "cytora ltd funding round series 2017 12 06",
+     "url": "https://data.kando.tech/company/cytora-ltd/funding/cytora-ltd-funding-round-series-2017-12-06"
+    },
+    {
+     "rank": 8,
+     "title": "Back to Series B round",
+     "url": "https://seedtable.com/companies/cytora/funding-rounds/series-b-2019/changelog"
+    },
+    {
+     "rank": 9,
+     "title": "Financial Transaction:",
+     "url": "https://data.kando.tech/company/cytora-ltd/funding/cytora-ltd-series-6-dec-2017"
+    },
+    {
+     "rank": 10,
+     "title": "Financial Transaction:",
+     "url": "https://data.kando.tech/company/cytora-ltd/funding/cytora-ltd-series-b-16-apr-2019"
+    }
+   ]
+  },
+  {
+   "company_id": "artificial_labs",
+   "template": "T1",
+   "query": "\"Artificial Labs\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "publicis sapient acquires full stake in publicis sapient ai labs",
+     "url": "https://www.elderresearch.com/about-us/news/publicis-sapient-acquires-full-stake-in-publicis-sapient-ai-labs/"
+    },
+    {
+     "rank": 2,
+     "title": "www.elderresearch.com",
+     "url": "https://www.elderresearch.com/?p=7853"
+    },
+    {
+     "rank": 3,
+     "title": "medcitynews.com",
+     "url": "https://medcitynews.com/?p=55694"
+    },
+    {
+     "rank": 4,
+     "title": "perkinelmer acquires cambridgesoft artuslabs beef software cache",
+     "url": "https://www.genomeweb.com/informatics/perkinelmer-acquires-cambridgesoft-artuslabs-beef-software-cache"
+    },
+    {
+     "rank": 5,
+     "title": "publicis groupe acquires ai research joint venture",
+     "url": "https://hellopartner.com/2023/05/24/publicis-groupe-acquires-ai-research-joint-venture"
+    },
+    {
+     "rank": 6,
+     "title": "PerkinElmer, Inc. Signs Agreement to Acquire CambridgeSoft Corporation and Completes Purchase of ArtusLabs",
+     "url": "https://www.biospace.com/perkinelmer-inc-signs-agreement-to-acquire-cambridgesoft-corporation-and-completes-purchase-of-artuslabs"
+    },
+    {
+     "rank": 7,
+     "title": "bioworld.com",
+     "url": "https://www.bioworld.com/articles/474804"
+    },
+    {
+     "rank": 8,
+     "title": "Walmart Labs India makes second acquisition in 3 months, acqui-hires Int.ai",
+     "url": "https://media.dealstreetasia.com/stories/walmart-labs-india-int-ai-113838"
+    },
+    {
+     "rank": 9,
+     "title": "Agilent Technologies (A) Acquires Artificial Intelligence Technology",
+     "url": "https://www.streetinsider.com/Corporate+News/Agilent+Technologies+%28A%29+Acquires+Artificial+Intelligence+Technology/19638847.html"
+    }
+   ]
+  },
+  {
+   "company_id": "artificial_labs",
+   "template": "T2",
+   "query": "\"Artificial Labs\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Regulatoriskt pressmeddelande",
+     "url": "https://www.inderes.se/releases/teneo-ai-has-initiated-a-strategic-review"
+    },
+    {
+     "rank": 2,
+     "title": "advises artificial labs",
+     "url": "https://debevoise.com/news/2024/02/advises-artificial-labs"
+    },
+    {
+     "rank": 3,
+     "title": "Avant Technologies Announces Strategic Review Process Intended to Maximize Shareholder Value",
+     "url": "https://www.nasdaq.com/press-release/avant-technologies-announces-strategic-review-process-intended-maximize-shareholder"
+    },
+    {
+     "rank": 4,
+     "title": "art advanced research technologies inc announces review of strategic options and downsizing company chops workforce seeks buyer or strategic partne",
+     "url": "https://www.biospace.com/art-advanced-research-technologies-inc-announces-review-of-strategic-options-and-downsizing-company-chops-workforce-seeks-buyer-or-strategic-partne"
+    },
+    {
+     "rank": 5,
+     "title": "teneo ai has initiated a strategic review",
+     "url": "https://www.inderes.se/en/releases/teneo-ai-has-initiated-a-strategic-review"
+    },
+    {
+     "rank": 6,
+     "title": "Frontier AI Lab Introductions & Strategic Advisory Consultant",
+     "url": "https://www.upwork.com/freelance-jobs/apply/Frontier-Lab-Introductions-Strategic-Advisory-Consultant_~022068138535260274354/"
+    },
+    {
+     "rank": 7,
+     "title": "strategic ai advisory group meetings",
+     "url": "https://www.gov.wales/strategic-ai-advisory-group-meetings"
+    },
+    {
+     "rank": 8,
+     "title": "People & Markets",
+     "url": "https://www.ifre.com/story/5075255/new-boutique-adviser-artis-targets-ai-reward-3n3p3bzs4d"
+    },
+    {
+     "rank": 9,
+     "title": "strategic alternatives review",
+     "url": "https://www.papermark.com/blog/strategic-alternatives-review.md"
+    }
+   ]
+  },
+  {
+   "company_id": "artificial_labs",
+   "template": "T3",
+   "query": "\"Artificial Labs\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "EX-99.1 2 d26950_ex99-1.htm Converted by EDGARwiz",
+     "url": "https://www.sec.gov/Archives/edgar/data/1070361/000114544310001708/d26950_ex99-1.htm"
+    },
+    {
+     "rank": 2,
+     "title": "EX-99.1 2 d28923ex99-1.htm EX-99.1",
+     "url": "https://www.sec.gov/Archives/edgar/data/1070361/000114544311001228/d28923ex99-1.htm"
+    },
+    {
+     "rank": 3,
+     "title": "CFO Briefing",
+     "url": "https://www.bloomberg.com/news/newsletters/2026-04-12/oracle-hire-shows-cfos-growing-role-in-ai-boom"
+    },
+    {
+     "rank": 4,
+     "title": "M PALANISAMY A43M0I",
+     "url": "https://uk.marketscreener.com/insider/M-PALANISAMY-A43M0I/"
+    },
+    {
+     "rank": 5,
+     "title": "article alphabet names eli lilly veteran anat ashkenazi as cfo",
+     "url": "https://arc-dev.theglobeandmail.com/business/technology/article-alphabet-names-eli-lilly-veteran-anat-ashkenazi-as-cfo"
+    },
+    {
+     "rank": 6,
+     "title": "leolabs.space",
+     "url": "https://leolabs.space/2025/04/02/"
+    },
+    {
+     "rank": 7,
+     "title": "www.360dx.com",
+     "url": "https://www.360dx.com/node/61361"
+    },
+    {
+     "rank": 8,
+     "title": "pharmafile.com",
+     "url": "https://pharmafile.com/tag/cfo/"
+    },
+    {
+     "rank": 9,
+     "title": "elementsarchive.lbl.gov",
+     "url": "https://elementsarchive.lbl.gov/?p=23849"
+    },
+    {
+     "rank": 10,
+     "title": "Gordon Announces New Management",
+     "url": "https://www.skininc.com/business/industry-news/news/21854860/gordon-announces-new-management"
+    }
+   ]
+  },
+  {
+   "company_id": "artificial_labs",
+   "template": "T4",
+   "query": "\"Artificial Labs\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Predict your next investment",
+     "url": "https://www.cbinsights.com/investor/commerzventures"
+    },
+    {
+     "rank": 2,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/company/artificial-labs/financials"
+    },
+    {
+     "rank": 3,
+     "title": "2024 02 01 artificial labs series a 2",
+     "url": "https://startupintros.com/news/2024-02-01-artificial-labs-series-a-2"
+    },
+    {
+     "rank": 4,
+     "title": "2022 06 01 artificial labs series a",
+     "url": "https://startupintros.com/news/2022-06-01-artificial-labs-series-a"
+    },
+    {
+     "rank": 5,
+     "title": "advises artificial labs",
+     "url": "https://debevoise.com/news/2024/02/advises-artificial-labs"
+    },
+    {
+     "rank": 6,
+     "title": "Artificial Labs VWMENWN",
+     "url": "https://www.seedtable.com/startups/Artificial_Labs-VWMENWN"
+    },
+    {
+     "rank": 7,
+     "title": "artificial labs secures 45m series b",
+     "url": "https://www.trysignalbase.com/news/funding/artificial-labs-secures-45m-series-b"
+    },
+    {
+     "rank": 8,
+     "title": "Published 29 March, 2023; Last major updated 3 April, 2023",
+     "url": "https://wiki.aiimpacts.org/wiki/ai_timelines/ai_inputs/recent_trends_in_ai_investment"
+    },
+    {
+     "rank": 9,
+     "title": "artificial intelligence labs",
+     "url": "https://www.vcbacked.co/company/artificial-intelligence-labs"
+    },
+    {
+     "rank": 10,
+     "title": "Billionaires Niel, Saadé and Schmidt Invest in €300 Million AI Lab",
+     "url": "https://www.bloomberg.com/news/articles/2023-11-17/billionaires-niel-saade-schmidt-invest-in-300-million-ai-lab"
+    }
+   ]
+  },
+  {
+   "company_id": "artificial_labs",
+   "template": "T5",
+   "query": "\"Artificial Labs\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Predict your next investment",
+     "url": "https://www.cbinsights.com/investor/commerzventures"
+    },
+    {
+     "rank": 2,
+     "title": "Predict your next investment",
+     "url": "https://www.cbinsights.com/investor/move-capital"
+    },
+    {
+     "rank": 3,
+     "title": "Artificial Labs secures $45m Series B to fuel global expansion",
+     "url": "https://fintech.global/2026/02/03/artificial-labs-secures-45m-series-b-to-fuel-global-expansion/"
+    },
+    {
+     "rank": 4,
+     "title": "Artificial Labs raises £8M Series A+ round to drive growth",
+     "url": "https://fintech.global/2024/02/07/artificial-labs-raises-8m-series-a-round-to-drive-growth/"
+    },
+    {
+     "rank": 5,
+     "title": "Artificial Labs Raises $45M Series B To Accelerate Global Growth",
+     "url": "https://financialit.net/news/fundraising-news/artificial-labs-raises-45m-series-b-accelerate-global-growth"
+    },
+    {
+     "rank": 6,
+     "title": "Artificial Labs raises $45 million",
+     "url": "https://coverager.com/artificial-labs-raises-45-million/"
+    },
+    {
+     "rank": 7,
+     "title": "Artificial Labs raises $45 million Series B led by CommerzVentures",
+     "url": "https://digg.com/tech/c46fd6f8-572c-461c-ad82-e905e4a2700e"
+    },
+    {
+     "rank": 8,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/company/artificial-labs/financials"
+    },
+    {
+     "rank": 9,
+     "title": "2022 06 01 artificial labs series a",
+     "url": "https://startupintros.com/news/2022-06-01-artificial-labs-series-a"
+    }
+   ]
+  },
+  {
+   "company_id": "signal_ai",
+   "template": "T1",
+   "query": "\"Signal AI\" acquisition OR acquires OR sale OR sold",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "signal ai acquires social 360",
+     "url": "https://siliconcanals.com/signal-ai-acquires-social-360/"
+    },
+    {
+     "rank": 2,
+     "title": "UK-based Signal AI fortifies reputation and risk intelligence capabilities with Social 360 acquisition",
+     "url": "https://siliconcanals.com/?p=502"
+    },
+    {
+     "rank": 3,
+     "title": "Signal AI Acquires KELP In Reputation Management Deal",
+     "url": "https://www.mediapost.com/publications/article/376597"
+    },
+    {
+     "rank": 4,
+     "title": "signal ai social 360 acquisition 20240216",
+     "url": "https://www.uktech.news/ai/signal-ai-social-360-acquisition-20240216"
+    },
+    {
+     "rank": 5,
+     "title": "Boston startup that analyzes biz reputations gets bought",
+     "url": "https://www.axios.com/local/boston/2022/08/10/boston-kelp-signalai-reputations"
+    },
+    {
+     "rank": 6,
+     "title": "why the signal ai deal to buy kelp is important",
+     "url": "https://www.mediapost.com/publications/article/376623/why-the-signal-ai-deal-to-buy-kelp-is-important.html"
+    },
+    {
+     "rank": 7,
+     "title": "DRNO - Daily Research News",
+     "url": "https://www.mrweb.com/drno/printable/pn33813.htm"
+    },
+    {
+     "rank": 8,
+     "title": "Battery Ventures Agrees to Lead Growth Equity Investment in Signal AI",
+     "url": "https://www.privsource.com/acquisitions/deal/battery-ventures-agrees-to-lead-growth-equity-investment-in-signal-ai-X0Sabo"
+    },
+    {
+     "rank": 9,
+     "title": "Signal AI Acquires Memo to Add Real Publisher Readership Data to Reputation Intelligence",
+     "url": "https://www.privsource.com/acquisitions/deal/signal-ai-acquires-memo-to-add-real-publisher-readership-data-to-reputation-intelligence-aYSDq5"
+    },
+    {
+     "rank": 10,
+     "title": "signal ai acquired by battery ventures acquisition",
+     "url": "https://www.trysignalbase.com/news/acquisitions/signal-ai-acquired-by-battery-ventures-acquisition"
+    }
+   ]
+  },
+  {
+   "company_id": "signal_ai",
+   "template": "T2",
+   "query": "\"Signal AI\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Signal AI: $165 Million Raised For Risk And Reputation Intelligence Platform",
+     "url": "https://pulse2.com/signal-ai-165-million-raised-for-risk-and-reputation-intelligence-platform"
+    },
+    {
+     "rank": 2,
+     "title": "Signal AI: $165 Million Raised For Risk And Reputation Intelligence Platform",
+     "url": "https://pulse2.com/signal-ai-165-million-raised-for-risk-and-reputation-intelligence-platform/amp/"
+    },
+    {
+     "rank": 3,
+     "title": "logoTry Persana",
+     "url": "https://insights.persana.ai/Signal AI"
+    },
+    {
+     "rank": 4,
+     "title": "• Who-we-are-banner",
+     "url": "https://www.charlesrussellspeechlys.com/en/news-and-events/news/2025/10/charles-russell-speechlys-advises-battery-ventures-on-its-strategic-investment-round-in-signal-ai/"
+    },
+    {
+     "rank": 5,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/company/signal-ai/customers"
+    },
+    {
+     "rank": 6,
+     "title": "Venture Capital Access Online logo",
+     "url": "https://www.vcaonline.com/news/2025092409/signal-ai-announces-165-million-investment-round-led-by-battery-ventures-to-redefine-risk-and-reputation-intelligence-/"
+    },
+    {
+     "rank": 7,
+     "title": "Risk and reputation firm Signal AI bags $165m funding round",
+     "url": "https://fintech.global/2025/09/24/risk-and-reputation-firm-signal-ai-bags-165m-funding-round/"
+    },
+    {
+     "rank": 8,
+     "title": "signal ai appoints pr leader jennifer prosek to advisory board",
+     "url": "https://www.agilitypr.com/pr-agency-news/signal-ai-appoints-pr-leader-jennifer-prosek-to-advisory-board/"
+    },
+    {
+     "rank": 9,
+     "title": "signal ai obtient 165 millions pour developper lintelligence des risques par lia",
+     "url": "https://www.eenewseurope.com/fr/signal-ai-obtient-165-millions-pour-developper-lintelligence-des-risques-par-lia/"
+    }
+   ]
+  },
+  {
+   "company_id": "signal_ai",
+   "template": "T3",
+   "query": "\"Signal AI\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "signal ai appoints chief operations officer",
+     "url": "https://businesscloud.co.uk/blog/2021/09/28/signal-ai-appoints-chief-operations-officer/"
+    },
+    {
+     "rank": 2,
+     "title": "businesscloud.co.uk",
+     "url": "https://businesscloud.co.uk/?p=60639"
+    },
+    {
+     "rank": 3,
+     "title": "Luca Grulla",
+     "url": "https://businesscloud.co.uk/news/signal-ai-appoints-luca-grulla-as-cto/"
+    },
+    {
+     "rank": 4,
+     "title": "Signal AI Company Updates E1487921",
+     "url": "https://www.glassdoor.com/Updates/Signal-AI-Company-Updates-E1487921.htm"
+    },
+    {
+     "rank": 5,
+     "title": "Website Sponsored By:",
+     "url": "https://hsvchamber.org/gena-flynn-ai-signal-research-inc"
+    },
+    {
+     "rank": 6,
+     "title": "Signal AI Appoints Archie Norman to its Board of Directors",
+     "url": "https://salestechstar.com/scheduling-appointment-setting/signal-ai-appoints-archie-norman-to-its-board-of-directors/"
+    },
+    {
+     "rank": 7,
+     "title": "Signal AI Company Updates E1487921",
+     "url": "https://nl.glassdoor.be/Updates/Signal-AI-Company-Updates-E1487921.htm"
+    },
+    {
+     "rank": 8,
+     "title": "FF News — The Fintech News Network",
+     "url": "https://ffnews.com/news/signal-ai-appoints-archie-norman-to-its-board-of-directors"
+    },
+    {
+     "rank": 9,
+     "title": "8-K · latest 10",
+     "url": "https://www.autobound.ai/companies/asana/8-k"
+    },
+    {
+     "rank": 10,
+     "title": "signal ai appoints archie norman to board of directors",
+     "url": "https://businesscloud.co.uk/news/signal-ai-appoints-archie-norman-to-board-of-directors/"
+    }
+   ]
+  },
+  {
+   "company_id": "signal_ai",
+   "template": "T4",
+   "query": "\"Signal AI\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Signal AI: $165 Million Raised For Risk And Reputation Intelligence Platform",
+     "url": "https://pulse2.com/signal-ai-165-million-raised-for-risk-and-reputation-intelligence-platform/amp/"
+    },
+    {
+     "rank": 2,
+     "title": "Risk and reputation firm Signal AI bags $165m funding round",
+     "url": "https://fintech.global/?p=215850"
+    },
+    {
+     "rank": 3,
+     "title": "Risk and reputation firm Signal AI bags $165m funding round",
+     "url": "https://fintech.global/2025/09/24/risk-and-reputation-firm-signal-ai-bags-165m-funding-round/"
+    },
+    {
+     "rank": 4,
+     "title": "signal ai secures 165m to expand ai powered risk intelligence",
+     "url": "https://www.eenewseurope.com/en/signal-ai-secures-165m-to-expand-ai-powered-risk-intelligence/"
+    },
+    {
+     "rank": 5,
+     "title": "arcticstartup.com",
+     "url": "https://arcticstartup.com/?p=108819"
+    },
+    {
+     "rank": 6,
+     "title": "signal ai raises 25 million to automate reputation management and monitoring",
+     "url": "https://venturebeat.com/ai/signal-ai-raises-25-million-to-automate-reputation-management-and-monitoring"
+    },
+    {
+     "rank": 7,
+     "title": "signal ai raises 16m 20180227",
+     "url": "https://www.uktech.news/ai/signal-ai-raises-16m-20180227"
+    },
+    {
+     "rank": 8,
+     "title": "signal ai in 25m series c",
+     "url": "https://globalventuring.com/corporate/signal-ai-in-25m-series-c"
+    },
+    {
+     "rank": 9,
+     "title": "# Signal AI hits series C with $25m",
+     "url": "https://globalventuring.com/blog/2019/10/23/signal-ai-in-25m-series-c/?format=md"
+    }
+   ]
+  },
+  {
+   "company_id": "signal_ai",
+   "template": "T5",
+   "query": "\"Signal AI\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Get an email the moment Signal AI raises again",
+     "url": "https://seedtable.com/companies/signal-ai/funding-rounds/series-c-2025-09"
+    },
+    {
+     "rank": 2,
+     "title": "Risk and reputation firm Signal AI bags $165m funding round",
+     "url": "https://fintech.global/2025/09/24/risk-and-reputation-firm-signal-ai-bags-165m-funding-round/"
+    },
+    {
+     "rank": 3,
+     "title": "Signal AI: $165 Million Raised For Risk And Reputation Intelligence Platform",
+     "url": "https://pulse2.com/signal-ai-165-million-raised-for-risk-and-reputation-intelligence-platform/amp/"
+    },
+    {
+     "rank": 4,
+     "title": "Signal AI Company Updates E1487921",
+     "url": "https://www.glassdoor.at/Updates/Signal-AI-Company-Updates-E1487921.htm"
+    },
+    {
+     "rank": 5,
+     "title": "BusinessCloud Email Newsletter",
+     "url": "https://businesscloud.co.uk/?p=178453"
+    },
+    {
+     "rank": 6,
+     "title": "Signal AI Announces $165 Million Investment Round Led by Battery Ventures to Redefine Risk and Reputation Intelligence",
+     "url": "https://salestechstar.com/price-optimization-revenue-management/signal-ai-announces-165-million-investment-round-led-by-battery-ventures-to-redefine-risk-and-reputation-intelligence/"
+    },
+    {
+     "rank": 7,
+     "title": "signal ai announces 165 million investment round led by battery ventures to redefine risk and reputation intelligence",
+     "url": "https://bebeez.eu/2025/09/24/signal-ai-announces-165-million-investment-round-led-by-battery-ventures-to-redefine-risk-and-reputation-intelligence/"
+    },
+    {
+     "rank": 8,
+     "title": "Signal AI Announces $165 Million Investment Round Led by Battery Ventures to Redefine Risk and Reputation Intelligence",
+     "url": "https://salestechstar.com/price-optimization-revenue-management/signal-ai-announces-165-million-investment-round-led-by-battery-ventures-to-redefine-risk-and-reputation-intelligence/2/"
+    },
+    {
+     "rank": 9,
+     "title": "# Signal AI hits series C with $25m",
+     "url": "https://globalventuring.com/blog/2019/10/23/signal-ai-in-25m-series-c/?format=md"
+    },
+    {
+     "rank": 10,
+     "title": "signal ai raises 25 million series c funding round",
+     "url": "https://ukbaa.org.uk/blog/2019/10/28/signal-ai-raises-25-million-series-c-funding-round/"
+    }
+   ]
+  },
+  {
+   "company_id": "cognism",
+   "template": "T1",
+   "query": "\"Cognism\" acquisition OR acquires OR sale OR sold",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "advising cognism limited on kaspr acquisition",
+     "url": "https://www.taylorwessing.com/de/insights-and-events/news/media-centre/press-releases/2022/05/advising-cognism-limited-on-kaspr-acquisition"
+    },
+    {
+     "rank": 2,
+     "title": "Partnership News",
+     "url": "https://peakspancapital.com/resources/news/cognisms-acquisition-of-kaspr"
+    },
+    {
+     "rank": 3,
+     "title": "cognisms acquisition of kaspr",
+     "url": "https://peakspancapital.com/partnerships-news/cognisms-acquisition-of-kaspr"
+    },
+    {
+     "rank": 4,
+     "title": "How to Acquire other Startups for Cheap (28 Examples)",
+     "url": "https://founderpath.com/blog/how-to-acquire-startups"
+    },
+    {
+     "rank": 5,
+     "title": "Lawyer Monthly - July 2022",
+     "url": "https://www.lawyer-monthly.com/issues/2022/07/76/"
+    },
+    {
+     "rank": 6,
+     "title": "bluecloudventures.com",
+     "url": "https://bluecloudventures.com/2022/04"
+    },
+    {
+     "rank": 7,
+     "title": "McDermott advises Cognism on the sale of NETSTAG to Positive Group | McDermott Skip to main content",
+     "url": "https://www.mwe.com/?p=329471"
+    },
+    {
+     "rank": 8,
+     "title": "Unicorn $50m",
+     "url": "https://founderpath.com/resources/james-isilay-cognism-acquired-competitor"
+    },
+    {
+     "rank": 9,
+     "title": "www.visualthesaurus.com",
+     "url": "https://www.visualthesaurus.com/browse/en/acquisition"
+    },
+    {
+     "rank": 10,
+     "title": "new signature",
+     "url": "https://www.techzine.eu/tag/new-signature"
+    }
+   ]
+  },
+  {
+   "company_id": "cognism",
+   "template": "T2",
+   "query": "\"Cognism\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Cognis no comment on sale reports",
+     "url": "https://www.nutraingredients.com/Article/2006/08/04/Cognis-no-comment-on-sale-reports/"
+    },
+    {
+     "rank": 2,
+     "title": "Cognis no comment on sale reports",
+     "url": "https://www.foodnavigator.com/Article/2006/08/04/Cognis-no-comment-on-sale-reports/"
+    },
+    {
+     "rank": 3,
+     "title": "Cognis Deutschland GmbH & Co. KG",
+     "url": "https://eqs-news.com/news/corporate/cognis-and-its-shareholders-start-review-of-strategic-options/58743"
+    },
+    {
+     "rank": 4,
+     "title": "cognis 51855",
+     "url": "https://www.textilwirtschaft.de/fashion-management/cognis-51855"
+    },
+    {
+     "rank": 5,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/investor/cognism"
+    },
+    {
+     "rank": 6,
+     "title": "Código promocional de Cognism",
+     "url": "https://www.joinsecret.com/es/cognism"
+    },
+    {
+     "rank": 7,
+     "title": "ARTICLE | Company News",
+     "url": "https://www.biocentury.com/article/104153/intellect-neurosciences-neurology-news"
+    },
+    {
+     "rank": 8,
+     "title": "strategic alternatives review",
+     "url": "https://www.papermark.com/blog/strategic-alternatives-review.md"
+    },
+    {
+     "rank": 9,
+     "title": "Review of strategic options",
+     "url": "https://home.kpmg/pl/en/home/services/deal-advisory/valuations/review-of-strategic-options.html"
+    }
+   ]
+  },
+  {
+   "company_id": "cognism",
+   "template": "T3",
+   "query": "\"Cognism\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "cfo chair press release",
+     "url": "https://www.cognism.com/blog/cfo-chair-press-release"
+    },
+    {
+     "rank": 2,
+     "title": "cfo chair press release",
+     "url": "https://www.cognism.com/newsroom/cfo-chair-press-release"
+    },
+    {
+     "rank": 3,
+     "title": "Cognism Hires Jennifer Grunebaum As CFO and Appoints Pete Daffern As Chair Of The Board",
+     "url": "https://salestechstar.com/sales-engagement/cognism-hires-jennifer-grunebaum-as-cfo-and-appoints-pete-daffern-as-chair-of-the-board/"
+    },
+    {
+     "rank": 4,
+     "title": "Neuer CFO bei Cognis",
+     "url": "https://www.chemie.de/news/105374/"
+    },
+    {
+     "rank": 5,
+     "title": "www.cosmeticsandtoiletries.com",
+     "url": "https://www.cosmeticsandtoiletries.com/networking/news/people/57701092.html?mobi=y"
+    },
+    {
+     "rank": 6,
+     "title": "89820 klaus edelmann and marco panichi",
+     "url": "https://www.pcimag.com/articles/print/89820-klaus-edelmann-and-marco-panichi"
+    },
+    {
+     "rank": 7,
+     "title": "Painting & Coating Industry (PCI) logo Powder coating summit logo",
+     "url": "https://www.pcimag.com/articles/89820-klaus-edelmann-and-marco-panichi"
+    },
+    {
+     "rank": 8,
+     "title": "Popular now",
+     "url": "https://www.accountancytoday.co.uk/?p=4338"
+    },
+    {
+     "rank": 9,
+     "title": "2020 07 29 Cognizant Announces Chief Financial Officer Transition",
+     "url": "https://news.cognizant.com/2020-07-29-Cognizant-Announces-Chief-Financial-Officer-Transition?asPDF=1"
+    }
+   ]
+  },
+  {
+   "company_id": "cognism",
+   "template": "T4",
+   "query": "\"Cognism\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "cognism secures a 87 5 million investment",
+     "url": "https://cvca.hr/cognism-secures-a-87-5-million-investment/"
+    },
+    {
+     "rank": 2,
+     "title": "Swisscom Ventures invests USD 12.5 million in Cognism",
+     "url": "https://cvca.hr/category/news/page/5/"
+    },
+    {
+     "rank": 3,
+     "title": "cvca.hr",
+     "url": "https://cvca.hr/?p=971"
+    },
+    {
+     "rank": 4,
+     "title": "wilson sonsini advises cognism on dollar875 million series c financing",
+     "url": "https://wsgr.com/en/insights/wilson-sonsini-advises-cognism-on-dollar875-million-series-c-financing.html"
+    },
+    {
+     "rank": 5,
+     "title": "cognism funding oliver wyman 2018",
+     "url": "https://www.cognism.com/newsroom/cognism-funding-oliver-wyman-2018"
+    },
+    {
+     "rank": 6,
+     "title": "Latka logo",
+     "url": "https://getlatka.com/blog/cognism-raising-50m-on-450m-post-money-valuation-in-2023"
+    },
+    {
+     "rank": 7,
+     "title": "www.vcbacked.co",
+     "url": "https://www.vcbacked.co/company/cognism"
+    },
+    {
+     "rank": 8,
+     "title": "Predict your next investment",
+     "url": "https://www.cbinsights.com/investor/tsingbay-venture-capital"
+    },
+    {
+     "rank": 9,
+     "title": "joe barron",
+     "url": "https://www.cognism.com/newsroom/author/joe-barron"
+    }
+   ]
+  },
+  {
+   "company_id": "cognism",
+   "template": "T5",
+   "query": "\"Cognism\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "www.cbinsights.com",
+     "url": "https://www.cbinsights.com/company/cognism/financials"
+    },
+    {
+     "rank": 2,
+     "title": "cvca.hr",
+     "url": "https://cvca.hr/?p=971"
+    },
+    {
+     "rank": 3,
+     "title": "wilson sonsini advises cognism on dollar875 million series c financing",
+     "url": "https://wsgr.com/en/insights/wilson-sonsini-advises-cognism-on-dollar875-million-series-c-financing.html"
+    },
+    {
+     "rank": 4,
+     "title": "andrei tiu",
+     "url": "https://www.cognism.com/newsroom/author/andrei-tiu"
+    },
+    {
+     "rank": 5,
+     "title": "Cognism raises $87.5m to expand in Europe, US",
+     "url": "https://news.bluecloudventures.com/cognism-raises-87-5m-to-expand-in-europe-us/"
+    },
+    {
+     "rank": 6,
+     "title": "en.lider.media",
+     "url": "https://en.lider.media/?p=40794"
+    },
+    {
+     "rank": 7,
+     "title": "2022 01 01 cognism series c",
+     "url": "https://startupintros.com/news/2022-01-01-cognism-series-c"
+    },
+    {
+     "rank": 8,
+     "title": "Back to Series C round",
+     "url": "https://seedtable.com/companies/cognism/funding-rounds/series-c-2022/changelog"
+    },
+    {
+     "rank": 9,
+     "title": "Introducing Cognism",
+     "url": "https://www.newable.co.uk/?p=5559"
+    },
+    {
+     "rank": 10,
+     "title": "Cognism favicon",
+     "url": "https://raising.fi/company/cognism"
+    }
+   ]
+  },
+  {
+   "company_id": "aab",
+   "template": "T1",
+   "query": "\"AAB accountants\" acquisition OR acquires OR sale OR sold",
+   "result_count": 18,
+   "results": [
+    {
+     "rank": 1,
+     "title": "AAB Acquires two Cork-based Accountancy Firms",
+     "url": "https://aab.uk/news/aab-acquires-two-cork-based-accountancy-firms/"
+    },
+    {
+     "rank": 2,
+     "title": "aab expands irish operations with three strategic acquisitions",
+     "url": "https://accountancyawards.ie/news/aab-expands-irish-operations-with-three-strategic-acquisitions"
+    },
+    {
+     "rank": 3,
+     "title": "AAB and Hardie Caldwell announce merger",
+     "url": "https://www.scottishfinancialnews.com/article/aab-and-hardie-caldwell-announce-merger"
+    },
+    {
+     "rank": 4,
+     "title": "AAB and Hardie Caldwell announce merger",
+     "url": "https://www.scottishfinancialnews.com/articles/aab-and-hardie-caldwell-announce-merger"
+    },
+    {
+     "rank": 5,
+     "title": "aab and kreston reeves combine to form ps200 million accountancy group",
+     "url": "https://www.accountancyawards.ie/news/aab-and-kreston-reeves-combine-to-form-ps200-million-accountancy-group"
+    },
+    {
+     "rank": 6,
+     "title": "Accountancy firm Ormsby & Rhodes to merge with UK-based AAB",
+     "url": "https://www.irishtimes.com/business/2025/01/22/accountancy-firm-ormsby-rhodes-to-merge-with-uk-based-aab/"
+    },
+    {
+     "rank": 7,
+     "title": "Scottish accounting group’s acquisition ‘another powerful statement of intent’",
+     "url": "https://www.scotsman.com/business/scottish-accounting-groups-acquisition-another-powerful-statement-of-intent-9300446"
+    },
+    {
+     "rank": 8,
+     "title": "AAB buys French Duncan in largest acquisition to date",
+     "url": "https://scottishfinancialreview.com/2023/04/27/aab-buys-french-duncan-in-largest-acquisition-to-date/"
+    },
+    {
+     "rank": 9,
+     "title": "AAB invests in FM Accountants and LSMQ to deepen presence in Ireland",
+     "url": "https://finance.yahoo.com/news/aab-invests-fm-accountants-lsmq-154010023.html"
+    },
+    {
+     "rank": 10,
+     "title": "AAB Acquires two Cork-based Accountancy Firms",
+     "url": "https://aab.uk/news/aab-acquires-two-cork-based-accountancy-firms/"
+    },
+    {
+     "rank": 11,
+     "title": "AAB and Hardie Caldwell announce merger",
+     "url": "https://www.scottishfinancialnews.com/article/aab-and-hardie-caldwell-announce-merger"
+    },
+    {
+     "rank": 12,
+     "title": "Scottish accounting group’s acquisition ‘another powerful statement of intent’",
+     "url": "https://www.scotsman.com/business/scottish-accounting-groups-acquisition-another-powerful-statement-of-intent-9300446"
+    },
+    {
+     "rank": 13,
+     "title": "Back to feed",
+     "url": "https://finder.techleap.nl/news/feed/aab-acquired-by-goldman-sachs-for-growth"
+    },
+    {
+     "rank": 14,
+     "title": "Press Releases",
+     "url": "https://am.gs.com/en-ae/institutions/news/press-release/2025/AAB"
+    },
+    {
+     "rank": 15,
+     "title": "www.internationalaccountingbulletin.com",
+     "url": "https://www.internationalaccountingbulletin.com/?p=46307"
+    },
+    {
+     "rank": 16,
+     "title": "AAB welcomes Goldman Sachs as new owner for next growth phase",
+     "url": "https://www.consultancy.uk/news/40709/aab-welcomes-goldman-sachs-as-majority-owner-for-next-growth-phase"
+    },
+    {
+     "rank": 17,
+     "title": "AAB purchases French Duncan amid UK expansion",
+     "url": "https://www.consultancy.uk/news/34196/aab-purchases-french-duncan-amid-uk-expansion"
+    },
+    {
+     "rank": 18,
+     "title": "ryan crowley acquired by aab acquisition",
+     "url": "https://www.trysignalbase.com/news/acquisitions/ryan-crowley-acquired-by-aab-acquisition"
+    }
+   ]
+  },
+  {
+   "company_id": "aab",
+   "template": "T2",
+   "query": "\"AAB accountants\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "your accountant as your new best friend part 2",
+     "url": "https://aab.uk/blog/your-accountant-as-your-new-best-friend-part-2/"
+    },
+    {
+     "rank": 2,
+     "title": "AAB appoints key strategic advisor in financial services sector",
+     "url": "https://www.agcc.co.uk/news-article/aab-appoint-key-strategic-advisor-in-financial-services-sector"
+    },
+    {
+     "rank": 3,
+     "title": "addleshaw goddard advises aab on merger with sagars",
+     "url": "https://addleshawgoddard.com/en/news/2021/addleshaw-goddard-advises-aab-on-merger-with-sagars"
+    },
+    {
+     "rank": 4,
+     "title": "aab.uk",
+     "url": "https://aab.uk/news/page/7/"
+    },
+    {
+     "rank": 5,
+     "title": "john beevers",
+     "url": "https://aab.uk/people/john-beevers"
+    },
+    {
+     "rank": 6,
+     "title": "micheal moore",
+     "url": "https://aab.uk/people/micheal-moore"
+    },
+    {
+     "rank": 7,
+     "title": "aab expands technology advisory offering on back of edinburgh office growth",
+     "url": "https://aab.uk/news/aab-expands-technology-advisory-offering-on-back-of-edinburgh-office-growth"
+    },
+    {
+     "rank": 8,
+     "title": "ali cooper",
+     "url": "https://aab.uk/people/ali-cooper/"
+    },
+    {
+     "rank": 9,
+     "title": "investment international",
+     "url": "https://investment-international.com/?p=31971"
+    }
+   ]
+  },
+  {
+   "company_id": "aab",
+   "template": "T3",
+   "query": "\"AAB accountants\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "AAB hires new CEO as it targets £100m revenue",
+     "url": "https://scottishfinancialreview.com/2023/11/07/aab-hires-new-ceo-as-it-targets-100m-revenue/"
+    },
+    {
+     "rank": 2,
+     "title": "Scots accountancy group AAB names top businessman as new chair",
+     "url": "https://www.scotsman.com/business/scots-accountancy-group-aab-names-top-businessman-as-new-chair-3541915"
+    },
+    {
+     "rank": 3,
+     "title": "Accounting Advisory Board",
+     "url": "https://uaf.edu/cbsm/about/advisory-groups/accounting-advisory-board.php"
+    },
+    {
+     "rank": 4,
+     "title": "www.scottishfinancialnews.com",
+     "url": "https://www.scottishfinancialnews.com/category/news/appointments?page=97"
+    },
+    {
+     "rank": 5,
+     "title": "AASB unveils new chair",
+     "url": "https://accountantsdaily.com.au/appointments?start=416"
+    },
+    {
+     "rank": 6,
+     "title": "14270 aasb unveils new chair",
+     "url": "https://accountantsdaily.com.au/appointments/14270-aasb-unveils-new-chair"
+    },
+    {
+     "rank": 7,
+     "title": "advisory audit board chair",
+     "url": "https://www.parliament.scot/about/how-parliament-works/parliament-organisations-groups-and-people/advisory-audit-board/advisory-audit-board-chair"
+    },
+    {
+     "rank": 8,
+     "title": "aab chair information for applicants 2025",
+     "url": "https://www.parliament.scot/-/media/files/aab/aab-chair/aab-chair-information-for-applicants-2025.pdf"
+    },
+    {
+     "rank": 9,
+     "title": "Advisory Audit Board - Independent Members",
+     "url": "https://www.parliament.scot/about/how-parliament-works/parliament-organisations-groups-and-people/advisory-audit-board/advisory-audit-board-independent-members"
+    }
+   ]
+  },
+  {
+   "company_id": "aab",
+   "template": "T4",
+   "query": "\"AAB accountants\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/aab-secures-significant-investment-august-equity/"
+    },
+    {
+     "rank": 2,
+     "title": "Accountancy firm Ormsby & Rhodes to merge with UK-based AAB",
+     "url": "https://www.irishtimes.com/business/2025/01/22/accountancy-firm-ormsby-rhodes-to-merge-with-uk-based-aab/"
+    },
+    {
+     "rank": 3,
+     "title": "FPM announces merger with AAB",
+     "url": "https://www.newsletter.co.uk/business/consumer/fpm-announces-merger-with-aab-3681339"
+    },
+    {
+     "rank": 4,
+     "title": "External, internal and joint venture audit services",
+     "url": "https://aab.uk/news/1468-aab-secures-significant-six-figure-investment-for-luxury-fashion-brand/"
+    },
+    {
+     "rank": 5,
+     "title": "10 February 2026",
+     "url": "https://www.addleshawgoddard.com/en/news/2026/ag-advises-aab-investment-kreston-reeves-create-200m-group/"
+    },
+    {
+     "rank": 6,
+     "title": "aab appoint brian mcmurray as head of equity funding",
+     "url": "https://aab.uk/news/aab-appoint-brian-mcmurray-as-head-of-equity-funding"
+    },
+    {
+     "rank": 7,
+     "title": "aab announces new investment from goldman sachs alternatives",
+     "url": "https://aab.uk/news/aab-announces-new-investment-from-goldman-sachs-alternatives/"
+    },
+    {
+     "rank": 8,
+     "title": "AAB welcomes Goldman Sachs as new owner for next growth phase",
+     "url": "https://www.consultancy.uk/news/40709/aab-welcomes-goldman-sachs-as-majority-owner-for-next-growth-phase"
+    },
+    {
+     "rank": 9,
+     "title": "August Equity Makes Significant Investment in Anderson Anderson & Brown (AAB)",
+     "url": "https://www.privsource.com/acquisitions/deal/3ASybv"
+    }
+   ]
+  },
+  {
+   "company_id": "aab",
+   "template": "T5",
+   "query": "\"AAB accountants\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "aab sells stake to boost growth",
+     "url": "https://www.pressandjournal.co.uk/fp/business/3556866/aab-sells-stake-to-boost-growth/"
+    },
+    {
+     "rank": 2,
+     "title": "AAB welcomes Goldman Sachs as new owner for next growth phase",
+     "url": "https://www.consultancy.uk/news/40709/aab-welcomes-goldman-sachs-as-majority-owner-for-next-growth-phase"
+    },
+    {
+     "rank": 3,
+     "title": "Goldman Sachs Alternatives Acquires AAB from August Equity",
+     "url": "https://www.privsource.com/acquisitions/deal/0oSM5p"
+    },
+    {
+     "rank": 4,
+     "title": "The Press and Journal (Inverness, Highlands, and Islands)",
+     "url": "https://db.westchesterlibraries.org:2090/uk/the-press-and-journal-inverness-highlands-and-islands/20240223/282484303696078"
+    },
+    {
+     "rank": 5,
+     "title": "Back to feed",
+     "url": "https://finder.techleap.nl/news/feed/aab-acquired-by-goldman-sachs-for-growth"
+    },
+    {
+     "rank": 6,
+     "title": "www.internationalaccountingbulletin.com",
+     "url": "https://www.internationalaccountingbulletin.com/?p=41797"
+    },
+    {
+     "rank": 7,
+     "title": "www.accountancytoday.co.uk",
+     "url": "https://www.accountancytoday.co.uk/tag/aab/page/2/"
+    },
+    {
+     "rank": 8,
+     "title": "AAB crowned Top Dealmakers for 15th consecutive year",
+     "url": "https://www.scottishfinancialnews.com/articles/aab-crowned-top-dealmakers-for-15th-consecutive-year"
+    },
+    {
+     "rank": 9,
+     "title": "Hayfin in Arctos-Backed MBO",
+     "url": "https://www.clearygottlieb.com/news-and-insights/news-listing/hayfin-in-arctos-backed-mbo"
+    }
+   ]
+  },
+  {
+   "company_id": "xeinadin",
+   "template": "T1",
+   "query": "\"Xeinadin\" acquisition OR acquires OR sale OR sold",
+   "result_count": 9,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Xeinadin Group acquires WoodWhite Accountants",
+     "url": "https://xeinadin.com/xeinadin-group-acquires-woodwhite-accountants"
+    },
+    {
+     "rank": 2,
+     "title": "Xeinadin announces third acquisition of the year",
+     "url": "https://xeinadin.com/xeinadin-group-growth-continues-with-third-announcement-of-an-acquisition-this-year"
+    },
+    {
+     "rank": 3,
+     "title": "www.accountancytoday.co.uk",
+     "url": "https://www.accountancytoday.co.uk/2022/06/22/xeinadin-group-acquires-scott-and-wilkinson/"
+    },
+    {
+     "rank": 4,
+     "title": "Xeinadin acquires Raffingers in largest deal to date",
+     "url": "https://accountancyage.com/2025/03/19/xeinadin-acquires-raffingers-in-largest-deal-to-date/?amp=1"
+    },
+    {
+     "rank": 5,
+     "title": "xeinadin acquires nottingham accountancy firm in continued expansion",
+     "url": "https://accountancyawards.ie/news/xeinadin-acquires-nottingham-accountancy-firm-in-continued-expansion"
+    },
+    {
+     "rank": 6,
+     "title": "xeinadin acquires century old dublin practice hayden brown to deepen city centre presence",
+     "url": "https://accountancyawards.ie/news/xeinadin-acquires-century-old-dublin-practice-hayden-brown-to-deepen-city-centre-presence"
+    },
+    {
+     "rank": 7,
+     "title": "Xeinadin makes largest acquisition to date with Irish accountancy & wealth management firm Quintas",
+     "url": "https://www.gmchamber.co.uk/news-opinions/member-news/xeinadin-makes-largest-acquisition-to-date-with-irish-accountancy-wealth-management-firm-quintas"
+    },
+    {
+     "rank": 8,
+     "title": "Xeinadin expands with acquisition of AGS Accountants in UK",
+     "url": "https://finance.yahoo.com/news/xeinadin-expands-acquisition-ags-accountants-140828841.html"
+    },
+    {
+     "rank": 9,
+     "title": "xeinadin acquires mckeogh gallagher ryan as financial services consolidation ramps up",
+     "url": "https://www.businesspost.ie/news/xeinadin-acquires-mckeogh-gallagher-ryan-as-financial-services-consolidation-ramps-up/"
+    }
+   ]
+  },
+  {
+   "company_id": "xeinadin",
+   "template": "T2",
+   "query": "\"Xeinadin\" advisers OR adviser OR \"strategic review\" OR \"exploring options\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "Hill Dickinson advises professional services group Xeinadin on ‘significant’ investment by Exponent Private Equity",
+     "url": "https://www.hilldickinson.com/our-view/deals/hill-dickinson-advises-professional-services-group-xeinadin-on-significant-investment-by-exponent-private-equity/"
+    },
+    {
+     "rank": 2,
+     "title": "xeinadin restructures corporate finance capability",
+     "url": "https://www.accountancytoday.co.uk/2022/06/29/xeinadin-restructures-corporate-finance-capability/"
+    },
+    {
+     "rank": 3,
+     "title": "Hill Dickinson advises professional services group Xeinadin on strategic partnership with Exponent",
+     "url": "https://www.hilldickinson.com/our-view/deals/hill-dickinson-advises-professional-services-group-xeinadin-on-strategic-partnership-with-exponent/"
+    },
+    {
+     "rank": 4,
+     "title": "xeinadin group appoints sec newgate as its strategic communications adviser",
+     "url": "https://manage.xeinadin.com/blog/2021/05/20/xeinadin-group-appoints-sec-newgate-as-its-strategic-communications-adviser/"
+    },
+    {
+     "rank": 5,
+     "title": "Xeinadin promotes 10 new partners across UK and Ireland",
+     "url": "https://accountancyage.com/?p=293421"
+    },
+    {
+     "rank": 6,
+     "title": "www.accountancytoday.co.uk",
+     "url": "https://www.accountancytoday.co.uk/tag/xeinadin/"
+    },
+    {
+     "rank": 7,
+     "title": "www.internationalaccountingbulletin.com",
+     "url": "https://www.internationalaccountingbulletin.com/?p=40923"
+    },
+    {
+     "rank": 8,
+     "title": "Xeinadin promotes 10 new partners across UK and Ireland",
+     "url": "https://accountancyage.com/2025/07/09/xeinadin-promotes-10-new-partners-across-uk-and-ireland/"
+    },
+    {
+     "rank": 9,
+     "title": "Xeinadin Appoints SEC Newgate as its Strategic Communications Advisor",
+     "url": "https://xeinadin.com/xeinadin-group-appoints-sec-newgate-as-its-strategic-communications-adviser"
+    },
+    {
+     "rank": 10,
+     "title": "Macfarlanes advises Exponent Private Equity on significant investment into Xeinadin Group",
+     "url": "https://www.macfarlanes.com/what-we-think/2022/macfarlanes-advises-exponent-private-equity-on-significant-investment-into-xeinadin-group"
+    }
+   ]
+  },
+  {
+   "company_id": "xeinadin",
+   "template": "T3",
+   "query": "\"Xeinadin\" CFO OR \"chief financial officer\" OR chair OR appoints",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "xeinadin appoints kevin dangerfield as cfo",
+     "url": "https://www.accountancytoday.co.uk/2025/07/21/xeinadin-appoints-kevin-dangerfield-as-cfo/"
+    },
+    {
+     "rank": 2,
+     "title": "Xeinadin appoints new CFO for UK and Ireland",
+     "url": "https://xeinadin.com/xeinadin-appoints-new-cfo-for-uk-and-ireland"
+    },
+    {
+     "rank": 3,
+     "title": "Register to get free articles",
+     "url": "https://www.accountancytoday.co.uk/?p=74359"
+    },
+    {
+     "rank": 4,
+     "title": "Popular now",
+     "url": "https://www.accountancytoday.co.uk/?p=109392"
+    },
+    {
+     "rank": 5,
+     "title": "Popular now",
+     "url": "https://www.accountancytoday.co.uk/?p=131201"
+    },
+    {
+     "rank": 6,
+     "title": "www.accountancytoday.co.uk",
+     "url": "https://www.accountancytoday.co.uk/2021/08/04/xeinadin-names-simon-nice-group-cfo/"
+    },
+    {
+     "rank": 7,
+     "title": "Xeinadin appoints Simon Nice as Chief Finance Officer",
+     "url": "https://xeinadin.com/xeinadin-group-appoints-simon-nice-as-chief-finance-officer"
+    },
+    {
+     "rank": 8,
+     "title": "xeinadin group strengthens board with heavyweight appointments",
+     "url": "https://manage.xeinadin.com/blog/2021/07/31/xeinadin-group-strengthens-board-with-heavyweight-appointments/"
+    },
+    {
+     "rank": 9,
+     "title": "PriestleySoundy advises Alastair Marsh on his appointment as independent non-executive Chair of Xeinadin Group",
+     "url": "https://priestleysoundy.com/priestleysoundy-advises-alastair-marsh-with-his-appointment-as-independent-non-executive-chair-of-xeinadin-group/"
+    },
+    {
+     "rank": 10,
+     "title": "xeinadin group appoints simon nice as chief finance officer",
+     "url": "https://manage.xeinadin.com/blog/2021/08/09/xeinadin-group-appoints-simon-nice-as-chief-finance-officer/"
+    }
+   ]
+  },
+  {
+   "company_id": "xeinadin",
+   "template": "T4",
+   "query": "\"Xeinadin\" investment OR funding OR backed OR \"private equity\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "White & Case advises Exponent Private Equity on financing of investment in Xeinadin Group",
+     "url": "https://www.whitecase.com/news/press-release/white-case-advises-exponent-private-equity-financing-investment-xeinadin-group"
+    },
+    {
+     "rank": 2,
+     "title": "Investors Count",
+     "url": "https://www.cbinsights.com/company/xeinadin/financials"
+    },
+    {
+     "rank": 3,
+     "title": "professional services group xeinadin agrees private equity partnership and investment",
+     "url": "https://marketingstockport.co.uk/news/professional-services-group-xeinadin-agrees-private-equity-partnership-and-investment/"
+    },
+    {
+     "rank": 4,
+     "title": "xeinadin group completes private equity partnership agreement",
+     "url": "https://marketingstockport.co.uk/news/xeinadin-group-completes-private-equity-partnership-agreement/"
+    },
+    {
+     "rank": 5,
+     "title": "Hill Dickinson advises professional services group Xeinadin on ‘significant’ investment by Exponent Private Equity",
+     "url": "https://www.hilldickinson.com/our-view/deals/hill-dickinson-advises-professional-services-group-xeinadin-on-significant-investment-by-exponent-private-equity/"
+    },
+    {
+     "rank": 6,
+     "title": "xeinadin agrees strategic partnership from exponent",
+     "url": "https://xeinadin.com/xeinadin-agrees-strategic-partnership-from-exponent/"
+    },
+    {
+     "rank": 7,
+     "title": "www.internationalaccountingbulletin.com",
+     "url": "https://www.internationalaccountingbulletin.com/?p=40923"
+    },
+    {
+     "rank": 8,
+     "title": "Macfarlanes advises Exponent Private Equity on significant investment into Xeinadin Group",
+     "url": "https://www.macfarlanes.com/what-we-think/2022/macfarlanes-advises-exponent-private-equity-on-significant-investment-into-xeinadin-group"
+    },
+    {
+     "rank": 9,
+     "title": "Hill Dickinson advises professional services group Xeinadin on strategic partnership with Exponent",
+     "url": "https://www.hilldickinson.com/our-view/deals/hill-dickinson-advises-professional-services-group-xeinadin-on-strategic-partnership-with-exponent/"
+    },
+    {
+     "rank": 10,
+     "title": "FORWARD FEATURES CALENDAR",
+     "url": "https://www.privateequitywire.co.uk/?p=102951"
+    }
+   ]
+  },
+  {
+   "company_id": "xeinadin",
+   "template": "T5",
+   "query": "\"Xeinadin\" \"invests in\" OR \"majority stake\" OR \"management buyout\" OR \"Series A\" OR \"Series B\" OR \"Series C\"",
+   "result_count": 10,
+   "results": [
+    {
+     "rank": 1,
+     "title": "xeinadin group completes private equity partnership agreement",
+     "url": "https://marketingstockport.co.uk/news/xeinadin-group-completes-private-equity-partnership-agreement/"
+    },
+    {
+     "rank": 2,
+     "title": "Bay firm in major partnership deal to support 'ambitious growth plans'",
+     "url": "https://www.torbayweekly.co.uk/news/bay-firm-in-major-partnership-deal-to-support-ambitious-growth-plans-7420778"
+    },
+    {
+     "rank": 3,
+     "title": "Exponent Makes Minority Investment in Xeinadin Group",
+     "url": "https://www.privsource.com/acquisitions/deal/WNSXzM"
+    },
+    {
+     "rank": 4,
+     "title": "Hill Dickinson advises professional services group Xeinadin on ‘significant’ investment by Exponent Private Equity",
+     "url": "https://www.hilldickinson.com/our-view/deals/hill-dickinson-advises-professional-services-group-xeinadin-on-significant-investment-by-exponent-private-equity/"
+    },
+    {
+     "rank": 5,
+     "title": "professional services group xeinadin agrees private equity partnership and investment",
+     "url": "https://marketingstockport.co.uk/news/professional-services-group-xeinadin-agrees-private-equity-partnership-and-investment/"
+    },
+    {
+     "rank": 6,
+     "title": "Hill Dickinson advises professional services group Xeinadin on strategic partnership with Exponent",
+     "url": "https://www.hilldickinson.com/our-view/deals/hill-dickinson-advises-professional-services-group-xeinadin-on-strategic-partnership-with-exponent/"
+    },
+    {
+     "rank": 7,
+     "title": "Popular now",
+     "url": "https://www.accountancytoday.co.uk/?p=88243"
+    },
+    {
+     "rank": 8,
+     "title": "February 2022",
+     "url": "https://canaccordgenuity.com/capital-markets/transactions/2022/february/xeinadin_feb2022"
+    },
+    {
+     "rank": 9,
+     "title": "www.exponentpe.com",
+     "url": "https://www.exponentpe.com/node/698"
+    },
+    {
+     "rank": 10,
+     "title": "Macfarlanes advises Exponent Private Equity on significant investment into Xeinadin Group",
+     "url": "https://www.macfarlanes.com/what-we-think/2022/macfarlanes-advises-exponent-private-equity-on-significant-investment-into-xeinadin-group"
+    }
+   ]
+  }
+ ]
+}

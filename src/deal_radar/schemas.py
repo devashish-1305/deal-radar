@@ -79,6 +79,7 @@ class Evidence(BaseModel):
     publication_date: date | None
     retrieved_at: datetime
     title: str | None = None
+    tags: list[Literal["late", "ownership_history"]] = []
 
 
 class Signal(BaseModel):

@@ -110,3 +110,16 @@ def test_snapshot_window_end_must_be_12_months():
     Snapshot(company_id="c1", prediction_date=date(2024, 2, 29), window_end=date(2025, 2, 28))
     with pytest.raises(ValidationError):
         Snapshot(company_id="c1", prediction_date=date(2024, 2, 29), window_end=date(2025, 3, 1))
+
+
+def test_evidence_tags_default_empty_and_restricted():
+    from datetime import datetime
+
+    from deal_radar.schemas import Evidence
+
+    base = dict(evidence_id="e", company_id="c", url="https://x", source_type="news",
+                publication_date=None, retrieved_at=datetime(2026, 10, 27))
+    assert Evidence(**base).tags == []
+    assert Evidence(**base, tags=["late", "ownership_history"]).tags == ["late", "ownership_history"]
+    with pytest.raises(ValidationError):
+        Evidence(**base, tags=["rumour"])
