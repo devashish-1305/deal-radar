@@ -1,6 +1,7 @@
 """Step 6a: content-leak exclusion and gold labels."""
 
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -116,8 +117,16 @@ def test_gold_quotes_are_verbatim_in_stored_text():
             assert norm(g["evidence_quote"]) in text, (eid, g["evidence_quote"])
 
 
-def test_no_llm_cache_exists_in_phase_a():
-    assert not (ROOT / "data" / "raw" / "llm").exists()
+PHASE_A_COMMIT = "4dbb030"  # "step 6a: gold labels", committed before any LLM call or output existed
+
+
+def test_gold_labels_unchanged_since_phase_a():
+    """Independence: the gold file must be byte-identical to the Phase A commit (made with no data/raw/llm/)."""
+    shown = subprocess.run(["git", "show", f"{PHASE_A_COMMIT}:data/cases/gold_signals.json"],
+                           cwd=ROOT, capture_output=True, text=True)
+    if shown.returncode != 0:
+        pytest.skip("git history unavailable")
+    assert GOLD.read_text() == shown.stdout
 
 
 def test_review_doc_covers_every_gold_id():
