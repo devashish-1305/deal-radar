@@ -175,6 +175,8 @@ def render(rows, out, comparisons, config, confirmed, pairs, clues) -> str:
         best = max(early, key=lambda c: CATEGORY_RANK[c["category"]], default=None)
         label = "no support" if best is None or best["category"] == "unconfirmed-only" else best["category"]
         per_pair[p.pair_id] = (simple, label, best)
+    fragile = {pid for pid, (simple, label, best) in per_pair.items() if best is not None and simple
+               and cmp_of["verified_only"][(pid, best["horizon"])]["outcome"] != "win"}
     n_simple = sum(v[0] for v in per_pair.values())
     counts = Counter(v[1] for v in per_pair.values())
     L += ["", "### H3: useful signals appear at least 6 months before the announcement", "",
@@ -185,7 +187,8 @@ def render(rows, out, comparisons, config, confirmed, pairs, clues) -> str:
           f"{'not contradicted' if counts['clock-driven'] + counts['other'] else 'contradicted'} on this sample.", "",
           "| Pair | (a) support | (b) category | Strongest early win (horizon: drivers) |", "|---|---|---|---|"]
     for pid, (simple, label, best) in per_pair.items():
-        L.append(f"| {pid} | {'yes' if simple else 'no'} | {label} | "
+        support = ("yes (technically supported, fragile)" if pid in fragile else "yes") if simple else "no"
+        L.append(f"| {pid} | {support} | {label} | "
                  f"{best['horizon'] + ': ' + ', '.join(best['drivers']) if best else '—'} |")
     disagree = [pid for pid, (simple, label, _) in per_pair.items() if simple != (label in ("clock-driven", "other"))]
     if disagree:
@@ -193,13 +196,12 @@ def render(rows, out, comparisons, config, confirmed, pairs, clues) -> str:
         L.append(f"- (a) and (b) disagree for {', '.join(disagree)}: the early win is weak (debt-only), which "
                  "(a) counts as support and (b) does not, because debt events do not separate deals from controls "
                  "elsewhere in this sample.")
-    fragile = [(pid, best) for pid, (simple, label, best) in per_pair.items() if best is not None and simple
-               and cmp_of["verified_only"][(pid, best["horizon"])]["outcome"] != "win"]
-    for pid, best in fragile:
-        L.append(f"- **Flag ({pid}):** its supporting {best['horizon']} win is classified as pre-registered "
-                 f"({best['category']}: {', '.join(best['drivers'])}), but it is **not a win under verified-only**: it "
-                 "needs a gold-unconfirmed LLM term (see 'Wins that depend on unconfirmed extraction'). Read this "
-                 "pair's support as fragile.")
+    for pid in sorted(fragile):
+        best = per_pair[pid][2]
+        L.append(f"- **{pid}: technically supported, fragile.** Its supporting {best['horizon']} win meets the "
+                 f"pre-registered rule ({best['category']}: {', '.join(best['drivers'])}; not solely gold-unconfirmed "
+                 "terms), but it is **not a win under verified-only**: it needs a gold-unconfirmed LLM term (see "
+                 "'Wins that depend on unconfirmed extraction').")
     L += ["- Late clues (below) count against H3, never for it.", "",
           "## Late clues (Step 7; shown separately, never scored)", "",
           "| Pair | Company | Type | Status | Published |", "|---|---|---|---|---|"]

@@ -149,12 +149,12 @@ Each term with its Step 7 provenance ids and gold_confirmed flag (true/false for
 | P1 | yes | clock-driven | 6m: clock |
 | P2 | yes | weak (debt-only) | 12m: debt_event_12m |
 | P3 | no | no support | — |
-| P4 | yes | other | 12m: readiness_18m, fundraise_12m |
+| P4 | yes (technically supported, fragile) | other | 12m: readiness_18m, fundraise_12m |
 | P5 | no | no support | — |
 | P6 | yes | clock-driven | 12m: clock, debt_event_12m |
 
 - (a) and (b) disagree for P2: the early win is weak (debt-only), which (a) counts as support and (b) does not, because debt events do not separate deals from controls elsewhere in this sample.
-- **Flag (P4):** its supporting 12m win is classified as pre-registered (other: readiness_18m, fundraise_12m), but it is **not a win under verified-only**: it needs a gold-unconfirmed LLM term (see 'Wins that depend on unconfirmed extraction'). Read this pair's support as fragile.
+- **P4: technically supported, fragile.** Its supporting 12m win meets the pre-registered rule (other: readiness_18m, fundraise_12m; not solely gold-unconfirmed terms), but it is **not a win under verified-only**: it needs a gold-unconfirmed LLM term (see 'Wins that depend on unconfirmed extraction').
 - Late clues (below) count against H3, never for it.
 
 ## Late clues (Step 7; shown separately, never scored)
