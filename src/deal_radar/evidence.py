@@ -55,11 +55,13 @@ def evidence_id(company_id: str, url: str) -> str:
 
 
 def select_results(
-    results: list[dict], aliases: list[str], limit: int, disallowed: list[str], opened: set[str]
+    results: list[dict], aliases: list[str], limit: int, disallowed: list[str], opened: set[str],
+    skip_domains: list[str] = (),
 ) -> list[tuple[dict, str]]:
     """Mechanical selection for one template: returns (result, decision) where decision is 'open' or a reason.
 
     `opened` holds canonical URLs already opened for this company and is updated in place.
+    `skip_domains` are undated aggregator profile sites (pass 2 only).
     """
     decisions = []
     taken = 0
@@ -67,6 +69,8 @@ def select_results(
         key = canonical_url(r["url"])
         if on_domain(r["url"], disallowed):
             decision = "disallowed_site"
+        elif on_domain(r["url"], list(skip_domains)):
+            decision = "aggregator_profile_site"
         elif not (names_company(r["title"], aliases) or names_company(r["url"], aliases)):
             decision = "does_not_name_company"
         elif key in opened:

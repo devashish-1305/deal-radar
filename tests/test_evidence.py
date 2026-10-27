@@ -192,3 +192,58 @@ def test_both_companies_in_each_pair_ran_the_same_templates():
     _, _, pairs = load_cases(ROOT / "data" / "cases")
     for p in pairs:
         assert templates[p.deal_company_id] == templates[p.control_company_id] == set(spec["protocol"]["templates"])
+
+
+# --- Step 5.1: pass 2 and logged exceptions ------------------------------------------------------
+
+EXCEPTIONS = ROOT / "data" / "cases" / "evidence_exceptions.json"
+GUARD_EXCLUDED = [  # removed by the modified_after_anchor guard in Step 5; must never come back
+    "https://www.ldc.co.uk/portfolio/hsl-compliance-investment-in-expansion/",
+    "https://mooreks.co.uk/insights/moore-kingston-smith-advises-cytora-on-sale-to-applied-systems-inc/",
+    "https://startupintros.com/news/2024-02-01-artificial-labs-series-a-2",
+    "https://www.mwe.com/?p=329471",
+]
+
+
+def test_pass2_skips_aggregator_profiles_and_urls_opened_in_pass1():
+    results = [
+        {"rank": 1, "title": "Fakeco funding", "url": "https://www.cbinsights.com/company/fakeco"},
+        {"rank": 2, "title": "Fakeco news", "url": "https://news.example/old"},
+        {"rank": 3, "title": "Fakeco more", "url": "https://news.example/new"},
+    ]
+    opened = {canonical_url("https://news.example/old")}
+    decisions = [d for _, d in select_results(results, ["Fakeco"], 6, [], opened, ["cbinsights.com"])]
+    assert decisions == ["aggregator_profile_site", "already_opened", "open"]
+
+
+def test_pass2_rules_are_logged_in_the_protocol():
+    p2 = json.loads(QUERIES.read_text())["protocol"]["pass2"]
+    assert p2["per_template_open_limit"] == 6
+    assert {"cbinsights.com", "pitchbook.com", "glassdoor.com", "owler.com", "crunchbase.com",
+            "dealroom.co", "tracxn.com"} <= set(p2["skip_domains"])
+
+
+def test_only_the_two_authorised_exceptions_exist():
+    rows = json.loads(EXCEPTIONS.read_text())
+    assert {(r["company_id"], r["kind"].split(" ")[0]) for r in rows} <= {
+        ("xeinadin", "intent_signal"), ("hsl_compliance", "ownership_history")}
+    for r in rows:
+        assert "selection-rule quirk" in r["justification"] or "Not applied" in r["justification"]
+        assert "harmless" not in r["justification"].lower()
+    xein = next(r for r in rows if r["company_id"] == "xeinadin")
+    assert "harder" in xein["justification"]
+
+
+def test_applied_exceptions_are_dated_and_pre_anchor():
+    items = {e["url"]: e for e in real_evidence()}
+    anchor_of = anchors()
+    for r in json.loads(EXCEPTIONS.read_text()):
+        if r.get("url") and r["url"] in items:
+            e = items[r["url"]]
+            assert e["publication_date"] is not None
+            assert date.fromisoformat(e["publication_date"]) < anchor_of[r["company_id"]]
+
+
+def test_guard_excluded_pages_never_return():
+    urls = {e["url"] for e in real_evidence()}
+    assert not urls & set(GUARD_EXCLUDED)

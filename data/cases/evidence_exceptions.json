@@ -1,0 +1,16 @@
+[
+ {
+  "company_id": "xeinadin",
+  "kind": "intent_signal (sale preparation)",
+  "url": "https://www.internationalaccountingbulletin.com/?p=40923",
+  "logged_in": {"template": "T2", "rank": 7, "also": "T4 #7"},
+  "justification": "Included because it meets the date and pre-anchor rules (the page's own datePublished is 2025-05-26, before the 2025-07-01 anchor, and it states no modified date on or after the anchor) and was missed by a selection-rule quirk: the logged result had a bare-domain title (www.internationalaccountingbulletin.com) and an ID-only URL (?p=40923), neither of which names the company, so neither pass opened it. Xeinadin is a control; adding an intent signal to a control makes the test harder for the method, not easier."
+ },
+ {
+  "company_id": "hsl_compliance",
+  "kind": "ownership_history (LDC 2019 investment announcement)",
+  "url": null,
+  "not_applied_reason": "not found in the logged result lists",
+  "justification": "Not applied. The only LDC news results in the logged lists (ldc.co.uk/?p=1499, ?p=12896, ?p=18039, ?p=20035) all serve the LDC homepage when fetched (generic title, no article, no date), so the 2019 announcement is not among the logged results and its absence is not a selection-rule quirk. Finding it would need a new search, which Step 5.1 does not allow. Recorded as 'ownership history: not found by protocol'; the LDC portfolio page that states 'Entry date May 2019' remains excluded by the modified_after_anchor guard."
+ }
+]

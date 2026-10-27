@@ -10,6 +10,26 @@
   "tags": []
  },
  {
+  "evidence_id": "ev-hsl_compliance-b54ca9408a",
+  "company_id": "hsl_compliance",
+  "url": "https://hslcompliancelimited.teamtailor.com/pages/about-hsl-compliance",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:42:26.715258Z",
+  "title": "About HSL Compliance",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-hsl_compliance-eeda17c848",
+  "company_id": "hsl_compliance",
+  "url": "https://privateequityinfo.com/directory/private-equity-portfolio-company/1/hsl-compliance",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:42:28.219481Z",
+  "title": "HSL Compliance - Portfolio Company Profile, Executives and Private Equity Owner",
+  "tags": []
+ },
+ {
   "evidence_id": "ev-ptsg-2276fbd570",
   "company_id": "ptsg",
   "url": "https://www.macquarie.com/ch/en/about/news/2019/macquarie-completes-acquisition-of-the-uks-premier-technical-services-group-for-more-than-300-million.html",
@@ -63,6 +83,16 @@
   "publication_date": null,
   "retrieved_at": "2026-10-27T16:27:36.422999Z",
   "title": "News - Causaly",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-causaly-3ebc4f5038",
+  "company_id": "causaly",
+  "url": "https://plminstitute.org/hot-topics/technology/causaly-scores-60m-to-enhance-ai-platform-for-biomedical-research/",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:42:35.725887Z",
+  "title": "Causaly scores $60M to enhance AI platform for biomedical research - Personalized Lifestyle Medicine Institute",
   "tags": []
  },
  {
@@ -170,6 +200,16 @@
   "tags": []
  },
  {
+  "evidence_id": "ev-signal_ai-fc9d3d7854",
+  "company_id": "signal_ai",
+  "url": "https://www.uktech.news/ai/signal-ai-social-360-acquisition-20240216",
+  "source_type": "news",
+  "publication_date": "2024-02-16",
+  "retrieved_at": "2026-10-27T16:43:22.556534Z",
+  "title": "Signal AI acquires risk data firm Social 360",
+  "tags": []
+ },
+ {
   "evidence_id": "ev-cognism-9174328bcd",
   "company_id": "cognism",
   "url": "https://founderpath.com/resources/james-isilay-cognism-acquired-competitor",
@@ -230,6 +270,16 @@
   "tags": []
  },
  {
+  "evidence_id": "ev-cognism-03812b1d2c",
+  "company_id": "cognism",
+  "url": "https://www.vcbacked.co/company/cognism",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:43:57.253579Z",
+  "title": "Cognism Funding &amp; Investors - Series C - London",
+  "tags": []
+ },
+ {
   "evidence_id": "ev-aab-e5685ef297",
   "company_id": "aab",
   "url": "https://accountancyawards.ie/news/aab-expands-irish-operations-with-three-strategic-acquisitions",
@@ -269,6 +319,36 @@
   "publication_date": "2025-01-22",
   "retrieved_at": "2026-10-27T16:30:02.203264Z",
   "title": "Accountancy firm Ormsby &amp; Rhodes to merge with UK-based AAB",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-aab-94c6254fe3",
+  "company_id": "aab",
+  "url": "https://www.accountancyawards.ie/news/aab-and-kreston-reeves-combine-to-form-ps200-million-accountancy-group",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:44:14.611302Z",
+  "title": "AAB and Kreston Reeves combine to form £200m accountancy group",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-aab-86dc89141c",
+  "company_id": "aab",
+  "url": "https://aab.uk/news/page/7/",
+  "source_type": "press_release",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:44:20.579168Z",
+  "title": "News Archive | Page 7 of 35 | AAB",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-aab-7df98bdb1d",
+  "company_id": "aab",
+  "url": "https://www.accountancytoday.co.uk/tag/aab/page/2/",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:44:32.549970Z",
+  "title": "AAB News | Accountancy Today",
   "tags": []
  },
  {
@@ -312,5 +392,57 @@
   "retrieved_at": "2026-10-27T16:30:44.997088Z",
   "title": "Xeinadin Group | Sole Financial Adviser | Canaccord Genuity",
   "tags": []
+ },
+ {
+  "evidence_id": "ev-xeinadin-776e274fc5",
+  "company_id": "xeinadin",
+  "url": "https://accountancyage.com/2025/03/19/xeinadin-acquires-raffingers-in-largest-deal-to-date/?amp=1",
+  "source_type": "news",
+  "publication_date": "2025-03-19",
+  "retrieved_at": "2026-10-27T16:44:34.750544Z",
+  "title": "Xeinadin acquires Raffingers in largest deal to date - Accountancy Age",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-xeinadin-8c3ca2a53a",
+  "company_id": "xeinadin",
+  "url": "https://accountancyawards.ie/news/xeinadin-acquires-nottingham-accountancy-firm-in-continued-expansion",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:44:36.600856Z",
+  "title": "Xeinadin acquires Nottingham accountancy firm in continued expansion",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-xeinadin-97b7f32609",
+  "company_id": "xeinadin",
+  "url": "https://accountancyawards.ie/news/xeinadin-acquires-century-old-dublin-practice-hayden-brown-to-deepen-city-centre-presence",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:44:38.372212Z",
+  "title": "Xeinadin acquires century-old Dublin practice Hayden Brown to deepen city centre presence",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-xeinadin-5b039d6b94",
+  "company_id": "xeinadin",
+  "url": "https://www.accountancytoday.co.uk/tag/xeinadin/",
+  "source_type": "news",
+  "publication_date": null,
+  "retrieved_at": "2026-10-27T16:44:43.673004Z",
+  "title": "Xeinadin | News, Analysis &amp; Commentary",
+  "tags": []
+ },
+ {
+  "evidence_id": "ev-xeinadin-1678c55951",
+  "company_id": "xeinadin",
+  "url": "https://www.internationalaccountingbulletin.com/?p=40923",
+  "source_type": "news",
+  "publication_date": "2025-05-26",
+  "retrieved_at": "2026-10-27T16:45:01.888605Z",
+  "title": "Xeinadin reportedly gearing up for £800m private equity sale",
+  "tags": [
+   "late"
+  ]
  }
 ]

@@ -40,7 +40,23 @@
     "enterprise.cam.ac.uk"
    ]
   },
-  "source_type_rule": "press_release if the domain is the company's own site, a PR wire or an investor (PE/VC) site listed above; otherwise news."
+  "source_type_rule": "press_release if the domain is the company's own site, a PR wire or an investor (PE/VC) site listed above; otherwise news.",
+  "pass2": {
+   "added": "Step 5.1",
+   "per_template_open_limit": 6,
+   "selection_rule": "In result order, open results whose title or URL names the company (aliases, token match, case-insensitive). The WebSearch tool returned only a title and URL per result, with no per-result snippet, so no snippets were logged and none could be used; no new searches were run to obtain them. URLs opened in pass 1 are skipped and count towards the limit.",
+   "skip_domains": [
+    "cbinsights.com",
+    "pitchbook.com",
+    "glassdoor.com",
+    "glassdoor.at",
+    "glassdoor.be",
+    "owler.com",
+    "crunchbase.com",
+    "dealroom.co",
+    "tracxn.com"
+   ]
+  }
  },
  "companies": {
   "hsl_compliance": {

@@ -106,100 +106,141 @@ def source_type(url: str, own_domains: list[str], press: dict) -> str:
     return "press_release" if on_domain(url, domains) else "news"
 
 
+def plan_pass(stage, rules, cfg, order, queries_by, disallowed, prior):
+    """Mechanical selection for one pass. `prior[cid][template]` holds canonical URLs opened in earlier passes;
+    they count towards this pass's per-template limit (the limit is cumulative) and are never reopened."""
+    candidates, notes = [], {cid: {"queries": [], "excluded": []} for cid in order}
+    for cid in order:
+        opened = set().union(*prior[cid].values()) if prior[cid] else set()
+        for q in sorted(queries_by[cid], key=lambda q: q["template"]):
+            limit = max(rules["per_template_open_limit"] - len(prior[cid].get(q["template"], ())), 0)
+            decisions = select_results(q["results"], cfg[cid]["aliases"], limit, disallowed, opened,
+                                       rules.get("skip_domains", []))
+            new = [r for r, d in decisions if d == "open"]
+            notes[cid]["queries"].append((q["template"], q["query"], q["result_count"], len(new)))
+            for r, d in decisions:
+                if d == "open":
+                    candidates.append({"stage": stage, "company_id": cid, "template": q["template"],
+                                       "rank": r["rank"], "url": r["url"]})
+                else:
+                    notes[cid]["excluded"].append((q["template"], r["rank"], d, r["url"]))
+    return candidates, notes
+
+
+def evaluate(c, cfg, context, overrides, protocol, robots, last_hit):
+    """Fetch and apply the content, date, guard and window rules. Sets c['outcome']; returns True if keepable."""
+    cid, url = c["company_id"], c["url"]
+    c["evidence_id"] = eid = evidence_id(cid, url)
+    page = fetch(url, robots, last_hit)
+    c["fetched_at"] = page["fetched_at"]
+    if not page["ok"]:
+        c["outcome"] = f"blocked: {page['reason']}"
+        return False
+    html = page["html"]
+    text, title = html_to_text(html), page_title(html)
+    c["title"] = title
+    if len(text) < MIN_TEXT_CHARS:
+        c["outcome"] = "blocked: thin_or_paywalled_text"
+        return False
+    if not names_company(f"{title}\n{text}", cfg[cid]["aliases"]):
+        c["outcome"] = "discarded: page_does_not_name_company"
+        return False
+    if modified_after(html, context[cid]["anchor"]):
+        c["outcome"] = "discarded: modified_after_anchor"
+        return False
+    stated = published_dates(html)
+    override = overrides.get(eid, {})
+    pub, c["date_source"] = (stated.pop(), "metadata") if len(stated) == 1 else (None, "metadata_conflict" if stated else "none")
+    if pub is None and override.get("manual_publication_date"):
+        pub, c["date_source"] = date.fromisoformat(override["manual_publication_date"]), "manual_dateline"
+        c["date_evidence"] = override["date_evidence"]
+    ownership = bool(override.get("ownership_history"))
+    if ownership:
+        c["ownership_basis"] = override["ownership_basis"]
+    status, tags = window_status(pub, context[cid]["anchor"], ownership)
+    c.update(publication_date=pub, tags=tags, text=text,
+             source_type=source_type(url, cfg[cid]["own_domains"], protocol["press_release_domains"]))
+    if status != "keep":
+        c["outcome"] = f"discarded: {status}"
+        return False
+    return True
+
+
+def dedupe(items, keep_first=()):
+    """Same company + same normalised title = syndicated copy. Items in keep_first win; otherwise earliest date."""
+    winners = {}
+    for c in list(keep_first) + sorted(items, key=lambda c: (c["publication_date"] is None, c["publication_date"] or date.max, c["template"], c["rank"])):
+        key = (c["company_id"], " ".join(tokens(c["title"])))
+        if key in winners:
+            if c not in keep_first:
+                c["outcome"] = f"discarded: duplicate_of {winners[key]['evidence_id']}"
+        else:
+            winners[key] = c
+    return [c for c in items if not c.get("outcome")]
+
+
 def main() -> None:
     spec = json.loads((CASES / "evidence_queries.json").read_text())
     protocol, cfg = spec["protocol"], spec["companies"]
-    overrides_path = CASES / "evidence_overrides.json"
-    overrides = json.loads(overrides_path.read_text()) if overrides_path.exists() else {}
+    overrides = json.loads((CASES / "evidence_overrides.json").read_text())
+    exceptions = json.loads((CASES / "evidence_exceptions.json").read_text())
     _, _, pairs = load_cases(CASES)
     order, context = [], {}
     for p in pairs:
         for cid, role in ((p.deal_company_id, "deal"), (p.control_company_id, "control")):
             order.append(cid)
             context[cid] = {"pair": p.pair_id, "role": role, "anchor": p.anchor_date}
-
     queries_by = defaultdict(list)
     for q in spec["queries"]:
         queries_by[q["company_id"]].append(q)
-
-    log = {cid: {"queries": [], "excluded": [], "opened": []} for cid in order}
-    candidates = []
-    for cid in order:
-        opened: set[str] = set()
-        for q in sorted(queries_by[cid], key=lambda q: q["template"]):
-            decisions = select_results(q["results"], cfg[cid]["aliases"], protocol["per_template_open_limit"],
-                                       protocol["disallowed_domains"], opened)
-            n_open = sum(d == "open" for _, d in decisions)
-            log[cid]["queries"].append((q["template"], q["query"], q["result_count"], n_open))
-            for r, d in decisions:
-                if d == "open":
-                    candidates.append({"company_id": cid, "template": q["template"], "rank": r["rank"], "url": r["url"]})
-                else:
-                    log[cid]["excluded"].append((q["template"], r["rank"], d, r["url"]))
-
     robots, last_hit = {}, {}
-    kept = []
-    for c in candidates:
-        cid, url = c["company_id"], c["url"]
-        c["evidence_id"] = eid = evidence_id(cid, url)
-        page = fetch(url, robots, last_hit)
-        c["fetched_at"] = page["fetched_at"]
-        if not page["ok"]:
-            c["outcome"] = f"blocked: {page['reason']}"
-            continue
-        html = page["html"]
-        text, title = html_to_text(html), page_title(html)
-        c["title"] = title
-        if len(text) < MIN_TEXT_CHARS:
-            c["outcome"] = "blocked: thin_or_paywalled_text"
-            continue
-        if not names_company(f"{title}\n{text}", cfg[cid]["aliases"]):
-            c["outcome"] = "discarded: page_does_not_name_company"
-            continue
-        if modified_after(html, context[cid]["anchor"]):
-            c["outcome"] = "discarded: modified_after_anchor"
-            continue
-        stated = published_dates(html)
-        override = overrides.get(eid, {})
-        pub, c["date_source"] = (stated.pop(), "metadata") if len(stated) == 1 else (None, "metadata_conflict" if stated else "none")
-        if pub is None and override.get("manual_publication_date"):
-            pub, c["date_source"] = date.fromisoformat(override["manual_publication_date"]), "manual_dateline"
-            c["date_evidence"] = override["date_evidence"]
-        ownership = bool(override.get("ownership_history"))
-        if ownership:
-            c["ownership_basis"] = override["ownership_basis"]
-        status, tags = window_status(pub, context[cid]["anchor"], ownership)
-        c.update(publication_date=pub, tags=tags, text=text,
-                 source_type=source_type(url, cfg[cid]["own_domains"], protocol["press_release_domains"]))
-        if status != "keep":
-            c["outcome"] = f"discarded: {status}"
-            continue
-        kept.append(c)
+    cap = protocol["per_company_keep_cap"]
 
-    # Syndicated copies: same company and same normalised title -> keep the earliest publication.
-    groups = defaultdict(list)
-    for c in kept:
-        groups[(c["company_id"], " ".join(tokens(c["title"])))].append(c)
-    survivors = []
-    for group in groups.values():
-        group.sort(key=lambda c: (c["publication_date"] is None, c["publication_date"] or date.max, c["template"], c["rank"]))
-        survivors.append(group[0])
-        for dup in group[1:]:
-            dup["outcome"] = f"discarded: duplicate_of {group[0]['evidence_id']}"
-
-    # Per-company cap: press releases first, then template order, then result rank.
+    # Pass 1 (unchanged protocol).
+    pass1, notes1 = plan_pass("pass1", protocol, cfg, order, queries_by, protocol["disallowed_domains"],
+                              {cid: {} for cid in order})
+    kept1 = dedupe([c for c in pass1 if evaluate(c, cfg, context, overrides, protocol, robots, last_hit)])
     final = []
-    by_company = defaultdict(list)
-    for c in survivors:
-        by_company[c["company_id"]].append(c)
-    for cid, items in by_company.items():
-        items.sort(key=lambda c: (c["source_type"] != "press_release", c["template"], c["rank"]))
+    for cid in order:
+        items = sorted((c for c in kept1 if c["company_id"] == cid),
+                       key=lambda c: (c["source_type"] != "press_release", c["template"], c["rank"]))
         for i, c in enumerate(items):
-            if i < protocol["per_company_keep_cap"]:
-                c["outcome"] = "kept"
+            c["outcome"] = "kept" if i < cap else "discarded: over_company_cap"
+            if i < cap:
                 final.append(c)
-            else:
-                c["outcome"] = "discarded: over_company_cap"
+
+    # Pass 2: same 60 result lists, higher cumulative limit, aggregator profile sites skipped.
+    prior = {cid: defaultdict(set) for cid in order}
+    for c in pass1:
+        prior[c["company_id"]][c["template"]].add(canonical_url(c["url"]))
+    pass2, notes2 = plan_pass("pass2", protocol["pass2"], cfg, order, queries_by, protocol["disallowed_domains"], prior)
+    kept2 = dedupe([c for c in pass2 if evaluate(c, cfg, context, overrides, protocol, robots, last_hit)],
+                   keep_first=final)
+    for cid in order:
+        room = cap - sum(c["company_id"] == cid for c in final)
+        items = sorted((c for c in kept2 if c["company_id"] == cid),
+                       key=lambda c: (c["source_type"] != "press_release", c["template"], c["rank"]))
+        for i, c in enumerate(items):
+            c["outcome"] = "kept" if i < room else "discarded: over_company_cap"
+            if i < room:
+                final.append(c)
+
+    # Logged exceptions: applied only if the page was not already opened by pass 1 or pass 2.
+    seen = {(c["company_id"], canonical_url(c["url"])) for c in pass1 + pass2}
+    exception_rows = []
+    for x in exceptions:
+        if not x.get("url"):
+            exception_rows.append({**x, "outcome": "not applied: " + x["not_applied_reason"]})
+            continue
+        if (x["company_id"], canonical_url(x["url"])) in seen:
+            exception_rows.append({**x, "outcome": "not needed: already opened by the protocol"})
+            continue
+        c = {"stage": "exception", "company_id": x["company_id"], "template": x["logged_in"]["template"],
+             "rank": x["logged_in"]["rank"], "url": x["url"]}
+        if evaluate(c, cfg, context, overrides, protocol, robots, last_hit):
+            c["outcome"] = "kept (exception)"
+            final.append(c)
+        exception_rows.append({**x, "candidate": c, "outcome": c["outcome"]})
 
     ARTICLES.mkdir(parents=True, exist_ok=True)
     keep_ids = {c["evidence_id"] for c in final}
@@ -207,7 +248,8 @@ def main() -> None:
         if stale.stem not in keep_ids:
             stale.unlink()
     records = []
-    for c in sorted(final, key=lambda c: (order.index(c["company_id"]), c["template"], c["rank"])):
+    stage_rank = {"pass1": 0, "pass2": 1, "exception": 2}
+    for c in sorted(final, key=lambda c: (order.index(c["company_id"]), stage_rank[c["stage"]], c["template"], c["rank"])):
         (ARTICLES / f"{c['evidence_id']}.txt").write_text(c["text"])
         records.append(Evidence(
             evidence_id=c["evidence_id"], company_id=c["company_id"], url=c["url"], source_type=c["source_type"],
@@ -215,24 +257,33 @@ def main() -> None:
         ).model_dump(mode="json"))
     OUT.write_text(json.dumps(records, indent=1, ensure_ascii=False) + "\n")
 
-    for c in candidates:
-        log[c["company_id"]]["opened"].append(c)
-    LOG.write_text(render_log(protocol, cfg, order, context, log, candidates))
-    print(f"queries {len(spec['queries'])}, opened {len(candidates)}, kept {len(records)}")
-    print("outcomes:", dict(Counter(c["outcome"].split(":")[0] if ":" in c["outcome"] else c["outcome"] for c in candidates)))
+    LOG.write_text(render_log(protocol, cfg, order, context, notes1, notes2, pass1, pass2, exception_rows, final))
+    for stage, items in (("pass1", pass1), ("pass2", pass2)):
+        print(f"{stage}: opened {len(items)}, outcomes {dict(Counter(c['outcome'].split(':')[0] for c in items))}")
+    print("exceptions:", [(x["company_id"], x["outcome"]) for x in exception_rows])
+    print(f"kept total {len(records)}")
 
 
-def render_log(protocol, cfg, order, context, log, candidates) -> str:
-    L = ["# Evidence log (Step 5)", "",
-         "Generated by `scripts/collect_evidence.py` from `data/cases/evidence_queries.json` and "
-         "`data/cases/evidence_overrides.json`. Do not edit by hand.", "",
+def _usable(items):
+    return sum(c["publication_date"] is not None for c in items)
+
+
+def render_log(protocol, cfg, order, context, notes1, notes2, pass1, pass2, exception_rows, final) -> str:
+    p2 = protocol["pass2"]
+    L = ["# Evidence log (Step 5 / 5.1)", "",
+         "Generated by `scripts/collect_evidence.py` from `data/cases/evidence_queries.json`, "
+         "`data/cases/evidence_overrides.json` and `data/cases/evidence_exceptions.json`. Do not edit by hand.", "",
          "## Protocol",
          f"- **{protocol['note']}**",
-         f"- Search tool: {protocol['search_tool']}; searched on {protocol['searched_on']}.",
+         f"- Search tool: {protocol['search_tool']}; searched on {protocol['searched_on']}. No new searches after that.",
          "- Templates (identical for every company):"]
     L += [f"  - {k}: `{v}`" for k, v in protocol["templates"].items()]
-    L += [f"- Selection: {protocol['selection_rule']} Per-template limit L = {protocol['per_template_open_limit']}; "
-          f"per-company cap = {protocol['per_company_keep_cap']} (press releases first, then template order, then rank).",
+    L += [f"- **Pass 1** selection: {protocol['selection_rule']} Per-template limit L = {protocol['per_template_open_limit']}.",
+          f"- **Pass 2** selection (Step 5.1, same 60 result lists, same rule for all 12 companies): {p2['selection_rule']} "
+          f"Per-template limit L = {p2['per_template_open_limit']} (cumulative with pass 1). "
+          f"Aggregator profile sites skipped by domain: {', '.join(p2['skip_domains'])}.",
+          f"- Per-company cap = {protocol['per_company_keep_cap']} kept items (pass 1 first; pass 2 fills remaining room; "
+          "press releases first, then template order, then rank). Logged exceptions sit outside the cap and are listed explicitly.",
           f"- Source type: {protocol['source_type_rule']}",
           "- Window: publication date in [anchor − 24 months, anchor), using the pair's anchor for both companies. "
           "`late` = [anchor − 3 months, anchor). Anything on/after the anchor is discarded.",
@@ -243,54 +294,78 @@ def render_log(protocol, cfg, order, context, log, candidates) -> str:
           "`article:modified_time`, `og:updated_time`) is discarded as `modified_after_anchor`, because its current text "
           "may post-date the anchor (CLAUDE.md: content published later never counts). Modified dates are never used "
           "as publication dates.",
+          "  - **Documented leakage example (LDC / HSL Compliance):** `ldc.co.uk/portfolio/hsl-compliance-investment-in-expansion/` "
+          "states datePublished 2025-01-08 (before the 2025-02-04 anchor) but dateModified 2025-11-18, and its fetched text "
+          "already reads \"Exit type: Private equity sale · Exit date: January 2025\". Without the guard it would have been "
+          "kept as a pre-anchor page while carrying the outcome. It stays excluded, as do the other three pages the guard removed.",
           "- Ownership history: PE-backed → the current sponsor's investment announcement. VC-backed → the last priced "
           "round before the anchor, tagged only if the opened page documents it. **For VC-backed companies this is a "
           "funding-age proxy, not a holding-period start**; Step 7 decides whether to use it (exploratory only, not in PRD §8).",
           "- Fetching: `requests` with robots.txt respected, 1 s per-domain delay. Blocked, paywalled, non-HTML or "
-          f"thin pages (< {MIN_TEXT_CHARS} chars of text) are logged and skipped, never worked around.", ""]
+          f"thin pages (< {MIN_TEXT_CHARS} chars of text) are logged and skipped, never worked around.",
+          "- **Missing evidence is never treated as absence of a signal.** A gap below means \"not found by protocol\".", ""]
 
-    L += ["## Summary", "",
-          "| Company | Pair | Role | Anchor | Kept | Late | Undated (unusable) | Ownership history found |",
-          "|---|---|---|---|---|---|---|---|"]
+    L += ["## Summary (kept / usable = dated, per stage, cumulative)", "",
+          "| Company | Pair | Role | After pass 1 kept / usable | After pass 2 kept / usable | After exceptions kept / usable | Late (final) | Ownership history | Gaps |",
+          "|---|---|---|---|---|---|---|---|---|"]
     for cid in order:
-        kept = [c for c in log[cid]["opened"] if c.get("outcome") == "kept"]
-        L.append(f"| {cid} | {context[cid]['pair']} | {context[cid]['role']} | {context[cid]['anchor']} | {len(kept)} | "
-                 f"{sum('late' in c['tags'] for c in kept)} | {sum(c['publication_date'] is None for c in kept)} | "
-                 f"{'y' if any('ownership_history' in c['tags'] for c in kept) else 'n'} |")
+        mine = [c for c in final if c["company_id"] == cid]
+        s1 = [c for c in mine if c["stage"] == "pass1"]
+        s2 = s1 + [c for c in mine if c["stage"] == "pass2"]
+        gaps = []
+        if not _usable(mine):
+            gaps.append("no usable item: not found by protocol")
+        if not any("ownership_history" in c["tags"] for c in mine):
+            gaps.append("ownership history: not found by protocol")
+        L.append(f"| {cid} | {context[cid]['pair']} | {context[cid]['role']} | {len(s1)} / {_usable(s1)} | "
+                 f"{len(s2)} / {_usable(s2)} | {len(mine)} / {_usable(mine)} | {sum('late' in c['tags'] for c in mine)} | "
+                 f"{'y' if any('ownership_history' in c['tags'] for c in mine) else 'n'} | {'; '.join(gaps) or '-'} |")
 
-    blocked = [c for c in candidates if c["outcome"].startswith("blocked")]
-    L += ["", "## Blocked or paywalled pages (not fetched or unusable, not worked around)", ""]
-    L += [f"- {c['company_id']} · {c['template']} #{c['rank']} · {c['outcome'].split(': ', 1)[1]} · {c['url']}" for c in blocked] or ["- none"]
+    L += ["", "## Logged exceptions (Step 5.1 B)", ""]
+    for x in exception_rows:
+        c = x.get("candidate")
+        detail = (f" · published {c.get('publication_date')} ({c.get('date_source')}) · tags {c.get('tags')}"
+                  if c and "publication_date" in c else "")
+        L += [f"- **{x['company_id']} · {x['kind']}** · {x['outcome']}{detail}",
+              f"  - URL: {x.get('url') or '-'}" + (f" (logged in {x['logged_in']['template']} #{x['logged_in']['rank']}"
+                                                  f"{', ' + x['logged_in']['also'] if x['logged_in'].get('also') else ''})" if x.get('logged_in') else ""),
+              f"  - Justification: {x['justification']}"]
 
-    undated = [c for c in candidates if c.get("outcome") == "kept" and c["publication_date"] is None]
+    for stage, items, notes in (("Pass 1", pass1, notes1), ("Pass 2", pass2, notes2)):
+        blocked = [c for c in items if c["outcome"].startswith("blocked")]
+        L += ["", f"## {stage}: blocked or paywalled pages (not worked around)", ""]
+        L += [f"- {c['company_id']} · {c['template']} #{c['rank']} · {c['outcome'].split(': ', 1)[1]} · {c['url']}" for c in blocked] or ["- none"]
+
+    kept_all = [c for c in pass1 + pass2 if c.get("outcome") == "kept"] + [x["candidate"] for x in exception_rows if x.get("candidate") and x["candidate"]["outcome"].startswith("kept")]
     L += ["", "## Kept items with publication_date None (unusable)", ""]
-    L += [f"- {c['evidence_id']} · {c['date_source']} · {c['url']}" for c in undated] or ["- none"]
-
-    manual = [c for c in candidates if c.get("date_source") == "manual_dateline"]
+    L += [f"- {c['evidence_id']} · {c['stage']} · {c['date_source']} · {c['url']}" for c in kept_all if c["publication_date"] is None] or ["- none"]
+    manual = [c for c in pass1 + pass2 if c.get("date_source") == "manual_dateline"]
     L += ["", "## Manual datelines (quoted from the fetched page)", ""]
-    L += [f"- {c['evidence_id']} · {c['publication_date']} · \"{c['date_evidence']}\"" for c in manual] or ["- none"]
-
-    owned = [c for c in candidates if c.get("ownership_basis")]
+    L += [f"- {c['evidence_id']} · {c['stage']} · {c['publication_date']} · \"{c['date_evidence']}\"" for c in manual] or ["- none"]
+    owned = [c for c in pass1 + pass2 if c.get("ownership_basis")]
     L += ["", "## Ownership-history judgements (quoted from the fetched page)", ""]
-    L += [f"- {c['evidence_id']} · {c.get('publication_date')} · {c['outcome']} · \"{c['ownership_basis']}\"" for c in owned] or ["- none"]
+    L += [f"- {c['evidence_id']} · {c['stage']} · {c.get('publication_date')} · {c['outcome']} · \"{c['ownership_basis']}\"" for c in owned] or ["- none"]
 
-    for cid in order:
-        entry = log[cid]
-        opened = entry["opened"]
-        outcomes = Counter(c["outcome"].split(" ")[0].rstrip(":") for c in opened)
-        L += ["", f"## {cid} ({context[cid]['pair']}, {context[cid]['role']}, anchor {context[cid]['anchor']})", "",
-              f"Search name `{cfg[cid]['search_name']}`; aliases {cfg[cid]['aliases']}. "
-              f"Results found {sum(q[2] for q in entry['queries'])}, opened {len(opened)}, "
-              f"kept {outcomes.get('kept', 0)}, discarded {outcomes.get('discarded', 0)}, blocked {outcomes.get('blocked', 0)}.", "",
-              "| Template | Query | Results | Opened |", "|---|---|---|---|"]
-        L += [f"| {t} | `{q}` | {n} | {o} |" for t, q, n, o in entry["queries"]]
-        L += ["", "Opened:", ""]
-        for c in opened:
-            date_part = f" · published {c['publication_date']} ({c.get('date_source')})" if "publication_date" in c else ""
-            tag_part = f" · tags {c['tags']}" if c.get("tags") else ""
-            L.append(f"- {c['template']} #{c['rank']} · **{c['outcome']}**{date_part}{tag_part} · {c['url']}")
-        L += ["", "Not opened:", ""]
-        L += [f"- {t} #{rank} · {reason} · {url}" for t, rank, reason, url in entry["excluded"]]
+    for stage, items, notes in (("Pass 1", pass1, notes1), ("Pass 2", pass2, notes2)):
+        L += ["", f"# {stage} detail"]
+        for cid in order:
+            opened = [c for c in items if c["company_id"] == cid]
+            outcomes = Counter(c["outcome"].split(" ")[0].rstrip(":") for c in opened)
+            L += ["", f"## {stage} · {cid} ({context[cid]['pair']}, {context[cid]['role']}, anchor {context[cid]['anchor']})", "",
+                  f"Search name `{cfg[cid]['search_name']}`; aliases {cfg[cid]['aliases']}. "
+                  f"Results {sum(q[2] for q in notes[cid]['queries'])}, opened {len(opened)}, kept {outcomes.get('kept', 0)}, "
+                  f"discarded {outcomes.get('discarded', 0)}, blocked {outcomes.get('blocked', 0)}.", "",
+                  "| Template | Query | Results | Opened in this pass |", "|---|---|---|---|"]
+            L += [f"| {t} | `{q}` | {n} | {o} |" for t, q, n, o in notes[cid]["queries"]]
+            L += ["", "Opened:", ""]
+            for c in opened:
+                date_part = f" · published {c['publication_date']} ({c.get('date_source')})" if "publication_date" in c else ""
+                tag_part = f" · tags {c['tags']}" if c.get("tags") else ""
+                L.append(f"- {c['template']} #{c['rank']} · **{c['outcome']}**{date_part}{tag_part} · {c['url']}")
+            if not opened:
+                L.append("- none")
+            L += ["", "Not opened:", ""]
+            L += [f"- {t} #{rank} · {reason} · {url}" for t, rank, reason, url in notes[cid]["excluded"]]
     return "\n".join(L) + "\n"
 
 
