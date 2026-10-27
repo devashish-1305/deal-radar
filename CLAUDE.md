@@ -35,6 +35,10 @@ Items 1–4 and 6 apply to EVERY step. Item 5 (user approval) is required only a
 - Every extracted signal must carry: source URL, publication date, verbatim evidence quote, and status (confirmed / attributed / speculative).
 - Never fabricate companies, deals, dates, URLs or quotes. If something is unknown, record it as unknown.
 - Secrets live only in .env.
+- Data commit policy:
+  - Commit structured records (signals, dates, URLs, short evidence quotes) and Companies House data (Open Government Licence).
+  - NEVER commit full article text or full documents. These live only in data/raw/, which is git-ignored, to respect copyright and terms of use.
+  - Evidence quotes are the shortest verbatim span that supports the signal, max 25 words.
 
 ## Testing rules
 - pytest.
@@ -54,8 +58,8 @@ Items 1–4 and 6 apply to EVERY step. Item 5 (user approval) is required only a
 ## Step tracker
 | Step | Status | Gate |
 |---|---|---|
-| 1 Scaffold + PRD | in review | Gate |
-| 2 Data contracts + tests | not started | |
+| 1 Scaffold + PRD | done | Gate |
+| 2 Data contracts + tests | done | |
 | 3 Case selection (matched pairs) | not started | Gate |
 | 4 Companies House fetcher | not started | |
 | 5 Dated evidence collection | not started | |
