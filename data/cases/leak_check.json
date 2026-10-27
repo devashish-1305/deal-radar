@@ -1,0 +1,12 @@
+{
+ "note": "Content-leak check (Step 6a). Used ONLY to exclude pages whose stored text reveals the pair's outcome (e.g. sidebars or company tags added after the anchor). Never used in search queries. Any hit excludes the page as content_leak; the stored raw text is not modified.",
+ "buyers_by_pair": {
+  "P1": ["IK Partners", "IK Small Cap"],
+  "P2": ["UiPath"],
+  "P3": ["IonQ"],
+  "P4": ["Applied Systems"],
+  "P5": ["Battery Ventures"],
+  "P6": ["Goldman Sachs"]
+ },
+ "outcome_phrases": ["{alias} acquired by", "{alias} has been acquired", "{alias} sold to", "acquisition of {alias}", "acquires {alias}", "sale of {alias}"]
+}

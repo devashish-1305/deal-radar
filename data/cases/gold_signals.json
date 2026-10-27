@@ -1,0 +1,150 @@
+{
+ "rules": [
+  "Target company only: sector-context sentences (peer deals, sector consolidation) are not labelled, so external_context types have no gold labels.",
+  "A sponsor's investment in the target is labelled pe_holding_period only (not also recently_acquired; Step 7 derives that from the same date). Later restatements of the start date are labelled too.",
+  "Every disclosed equity round is labelled large_recent_fundraise as a fact, whatever its size or age. PRD §8 does not define 'large' or 'recent'; Step 7 applies size and recency thresholds.",
+  "Acquisitions made BY the target are not a PRD §8 signal and are not labelled.",
+  "Advisers on a completed past deal are not advisers_appointed (which means a mandate for a prospective transaction).",
+  "Status: confirmed = stated by the company or a deal party; attributed = a report citing a named source; speculative = unsourced conjecture.",
+  "Quotes: shortest verbatim span from the article body, max 25 words, never from sidebars or page chrome.",
+  "Scope: Evidence usable at the pair anchor (publication_date not None and < anchor) after the Step 6a content_leak exclusion."
+ ],
+ "signals": {
+  "ev-ptsg-2276fbd570": [
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "has today announced the successful completion of its latest private equity investment, the acquisition of the UK’s Premier Technical Services Group (PTSG)",
+    "status": "confirmed"
+   }
+  ],
+  "ev-ptsg-a027db6cd8": [
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "it has entered an agreement with Macquarie Capital Principal Finance (“Macquarie Capital”) to jointly acquire a majority stake in Premier Technical Services Group Ltd",
+    "status": "confirmed"
+   },
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "Macquarie Capital acquired a majority stake in PTSG in 2019 in a take-private transaction.",
+    "status": "confirmed"
+   }
+  ],
+  "ev-peak_ai-a644f27c4f": [
+   {
+    "signal_type": "large_recent_fundraise",
+    "signal_class": "counter_signal",
+    "evidence_quote": "British startup Peak AI has closed a $75 million Series C funding round, led by SoftBank Vision Fund 2.",
+    "status": "confirmed"
+   },
+   {
+    "signal_type": "large_recent_fundraise",
+    "signal_class": "counter_signal",
+    "evidence_quote": "Peak’s Series B, which closed in February, raised the firm $21m, with Oxx leading that round.",
+    "status": "confirmed"
+   }
+  ],
+  "ev-oxford_ionics-543ab30517": [
+   {
+    "signal_type": "large_recent_fundraise",
+    "signal_class": "counter_signal",
+    "evidence_quote": "Oxford Ionics raises £30m with participation from Prosus Ventures",
+    "status": "confirmed"
+   }
+  ],
+  "ev-cytora-65c38c74db": [],
+  "ev-artificial_labs-bc9a862bce": [
+   {
+    "signal_type": "large_recent_fundraise",
+    "signal_class": "counter_signal",
+    "evidence_quote": "Artificial Labs, a leading algorithmic underwriting InsurTech, has successfully concluded an £8M Series A+ funding round",
+    "status": "confirmed"
+   },
+   {
+    "signal_type": "new_cfo_or_chair",
+    "signal_class": "readiness",
+    "evidence_quote": "the appointments of Ascot founder Martin Reith as Chairman in 2022",
+    "status": "confirmed"
+   }
+  ],
+  "ev-signal_ai-85c934c567": [],
+  "ev-signal_ai-fc9d3d7854": [
+   {
+    "signal_type": "large_recent_fundraise",
+    "signal_class": "counter_signal",
+    "evidence_quote": "Signal AI, which raised $50m in 2021",
+    "status": "confirmed"
+   }
+  ],
+  "ev-cognism-5244a86892": [],
+  "ev-aab-8a6861f66c": [
+   {
+    "signal_type": "governance_change",
+    "signal_class": "readiness",
+    "evidence_quote": "AAB announced the appointment of Emma Lancaster as its new chief executive.",
+    "status": "confirmed"
+   },
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "Since securing investment from August Equity in October 2021, AAB Group has completed nine acquisitions",
+    "status": "confirmed"
+   }
+  ],
+  "ev-aab-f2a91fefa7": [
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "Anderson Anderson & Brown (AAB) has secured a significant investment from August Equity",
+    "status": "confirmed"
+   }
+  ],
+  "ev-aab-f5ed4daff0": [
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "Since securing investment from August Equity in 2021, AAB has trebled in size",
+    "status": "confirmed"
+   }
+  ],
+  "ev-xeinadin-27a448b196": [
+   {
+    "signal_type": "new_cfo_or_chair",
+    "signal_class": "readiness",
+    "evidence_quote": "Xeinadin appoints new CFO for UK and Ireland",
+    "status": "confirmed"
+   }
+  ],
+  "ev-xeinadin-c34d355840": [
+   {
+    "signal_type": "pe_holding_period",
+    "signal_class": "timing_clock",
+    "evidence_quote": "Exponent, which has a track record in the professional services sector, will make a significant minority investment in Xeinadin",
+    "status": "confirmed"
+   },
+   {
+    "signal_type": "governance_change",
+    "signal_class": "readiness",
+    "evidence_quote": "Mark Taylor and Tom Lightowler of Exponent will join Xeinadin’s Board",
+    "status": "confirmed"
+   }
+  ],
+  "ev-xeinadin-776e274fc5": [],
+  "ev-xeinadin-1678c55951": [
+   {
+    "signal_type": "exploring_options",
+    "signal_class": "direct_intent",
+    "evidence_quote": "Xeinadin is preparing for a sale exceeding £800m (approximately $1.1bn) to private equity investors, The Times has reported.",
+    "status": "attributed"
+   },
+   {
+    "signal_type": "advisers_appointed",
+    "signal_class": "direct_intent",
+    "evidence_quote": "has engaged Evercore’s investment banking advisers to initiate the auction process.",
+    "status": "attributed"
+   }
+  ]
+ }
+}

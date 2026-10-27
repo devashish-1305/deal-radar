@@ -1,25 +1,5 @@
 [
  {
-  "evidence_id": "ev-hsl_compliance-99d9835669",
-  "company_id": "hsl_compliance",
-  "url": "https://pitchbook.com/profiles/company/681203-53",
-  "source_type": "news",
-  "publication_date": null,
-  "retrieved_at": "2026-10-27T16:26:51.775683Z",
-  "title": "HSL Compliance 2026 Company Profile: Valuation, Funding & Investors | PitchBook",
-  "tags": []
- },
- {
-  "evidence_id": "ev-hsl_compliance-b54ca9408a",
-  "company_id": "hsl_compliance",
-  "url": "https://hslcompliancelimited.teamtailor.com/pages/about-hsl-compliance",
-  "source_type": "news",
-  "publication_date": null,
-  "retrieved_at": "2026-10-27T16:42:26.715258Z",
-  "title": "About HSL Compliance",
-  "tags": []
- },
- {
   "evidence_id": "ev-hsl_compliance-eeda17c848",
   "company_id": "hsl_compliance",
   "url": "https://privateequityinfo.com/directory/private-equity-portfolio-company/1/hsl-compliance",
@@ -128,16 +108,6 @@
   "tags": []
  },
  {
-  "evidence_id": "ev-oxford_ionics-f7f92b5f3c",
-  "company_id": "oxford_ionics",
-  "url": "https://thequantuminsider.com/?p=2358185",
-  "source_type": "news",
-  "publication_date": "2023-09-01",
-  "retrieved_at": "2026-10-27T16:27:52.299107Z",
-  "title": "Oxford Ionics Secures £2 Million in Funding From UK&#039;s National Security Strategic Investment Fund",
-  "tags": []
- },
- {
   "evidence_id": "ev-universal_quantum-8c36d2891f",
   "company_id": "universal_quantum",
   "url": "https://www.cbinsights.com/company/universal-quantum/financials",
@@ -187,16 +157,6 @@
   "publication_date": "2024-02-16",
   "retrieved_at": "2026-10-27T16:28:49.148285Z",
   "title": "UK-based Signal AI fortifies reputation and risk intelligence capabilities with Social 360 acquisition - Silicon Canals",
-  "tags": []
- },
- {
-  "evidence_id": "ev-signal_ai-637c921455",
-  "company_id": "signal_ai",
-  "url": "https://www.glassdoor.com/Updates/Signal-AI-Company-Updates-E1487921.htm",
-  "source_type": "news",
-  "publication_date": null,
-  "retrieved_at": "2026-10-27T16:28:57.578437Z",
-  "title": "Signal AI Company Updates",
   "tags": []
  },
  {
@@ -280,16 +240,6 @@
   "tags": []
  },
  {
-  "evidence_id": "ev-aab-e5685ef297",
-  "company_id": "aab",
-  "url": "https://accountancyawards.ie/news/aab-expands-irish-operations-with-three-strategic-acquisitions",
-  "source_type": "news",
-  "publication_date": null,
-  "retrieved_at": "2026-10-27T16:29:44.444257Z",
-  "title": "AAB expands Irish operations with three strategic acquisitions",
-  "tags": []
- },
- {
   "evidence_id": "ev-aab-8a6861f66c",
   "company_id": "aab",
   "url": "https://scottishfinancialreview.com/2023/11/07/aab-hires-new-ceo-as-it-targets-100m-revenue/",
@@ -319,16 +269,6 @@
   "publication_date": "2025-01-22",
   "retrieved_at": "2026-10-27T16:30:02.203264Z",
   "title": "Accountancy firm Ormsby &amp; Rhodes to merge with UK-based AAB",
-  "tags": []
- },
- {
-  "evidence_id": "ev-aab-94c6254fe3",
-  "company_id": "aab",
-  "url": "https://www.accountancyawards.ie/news/aab-and-kreston-reeves-combine-to-form-ps200-million-accountancy-group",
-  "source_type": "news",
-  "publication_date": null,
-  "retrieved_at": "2026-10-27T16:44:14.611302Z",
-  "title": "AAB and Kreston Reeves combine to form £200m accountancy group",
   "tags": []
  },
  {

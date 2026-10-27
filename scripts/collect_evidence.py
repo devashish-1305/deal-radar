@@ -2,7 +2,8 @@
 
 Run from the repo root:  PYTHONPATH=src .venv/bin/python scripts/collect_evidence.py
 Inputs:  data/cases/evidence_queries.json (query log + protocol), data/cases/evidence_overrides.json (manual
-         datelines / ownership-history judgements, each with a quote from the fetched page).
+         datelines / ownership-history judgements, each with a quote from the fetched page),
+         data/cases/leak_check.json (buyer names / outcome phrases, used only to exclude leaked pages).
 Outputs: data/processed/evidence.json, data/raw/articles/<evidence_id>.txt (git-ignored), docs/evidence_log.md.
 Pages are fetched with requests after a robots.txt check; anything blocked is logged, never worked around.
 """
@@ -21,6 +22,7 @@ import requests
 from deal_radar.cases import load_cases
 from deal_radar.evidence import (
     canonical_url,
+    content_leak,
     evidence_id,
     html_to_text,
     modified_after,
@@ -163,6 +165,11 @@ def evaluate(c, cfg, context, overrides, protocol, robots, last_hit):
     if status != "keep":
         c["outcome"] = f"discarded: {status}"
         return False
+    # Checked last, so only pages that would otherwise be kept are reported as leaks.
+    leak = content_leak(f"{title}\n{text}", cfg[cid]["aliases"], context[cid]["buyers"], context[cid]["outcome_phrases"])
+    if leak:
+        c["outcome"], c["leak_hit"] = "discarded: content_leak", leak
+        return False
     return True
 
 
@@ -184,12 +191,14 @@ def main() -> None:
     protocol, cfg = spec["protocol"], spec["companies"]
     overrides = json.loads((CASES / "evidence_overrides.json").read_text())
     exceptions = json.loads((CASES / "evidence_exceptions.json").read_text())
+    leak_cfg = json.loads((CASES / "leak_check.json").read_text())
     _, _, pairs = load_cases(CASES)
     order, context = [], {}
     for p in pairs:
         for cid, role in ((p.deal_company_id, "deal"), (p.control_company_id, "control")):
             order.append(cid)
-            context[cid] = {"pair": p.pair_id, "role": role, "anchor": p.anchor_date}
+            context[cid] = {"pair": p.pair_id, "role": role, "anchor": p.anchor_date,
+                            "buyers": leak_cfg["buyers_by_pair"][p.pair_id], "outcome_phrases": leak_cfg["outcome_phrases"]}
     queries_by = defaultdict(list)
     for q in spec["queries"]:
         queries_by[q["company_id"]].append(q)
@@ -244,6 +253,8 @@ def main() -> None:
 
     ARTICLES.mkdir(parents=True, exist_ok=True)
     keep_ids = {c["evidence_id"] for c in final}
+    # Leaked pages are excluded but their stored text is left untouched (audit trail).
+    keep_ids |= {c["evidence_id"] for c in pass1 + pass2 if c.get("outcome") == "discarded: content_leak"}
     for stale in ARTICLES.glob("*.txt"):
         if stale.stem not in keep_ids:
             stale.unlink()
@@ -298,6 +309,14 @@ def render_log(protocol, cfg, order, context, notes1, notes2, pass1, pass2, exce
           "states datePublished 2025-01-08 (before the 2025-02-04 anchor) but dateModified 2025-11-18, and its fetched text "
           "already reads \"Exit type: Private equity sale · Exit date: January 2025\". Without the guard it would have been "
           "kept as a pre-anchor page while carrying the outcome. It stays excluded, as do the other three pages the guard removed.",
+          "- **Content-leak check (Step 6a):** a page whose stored text names the pair's buyer "
+          "(`data/cases/leak_check.json`, used only for this check, never in queries) or a target-outcome phrase "
+          "(e.g. \"<target> acquired by\", \"acquisition of <target>\") is discarded as `content_leak`. Once a page "
+          "carries post-anchor content we cannot know what else changed, so it is excluded, not sanitised. "
+          "Stored raw text is not modified.",
+          "  - **Documented example (Oxford Ionics):** `thequantuminsider.com` article published 2023-09-01 "
+          "(NSSIF £2m) whose fetched page carries the tag \"Oxford Ionics [Acquired by IonQ]\" and a related-article "
+          "link \"IonQ Completes Acquisition of Oxford Ionics\" (Sept 2025).",
           "- Ownership history: PE-backed → the current sponsor's investment announcement. VC-backed → the last priced "
           "round before the anchor, tagged only if the opened page documents it. **For VC-backed companies this is a "
           "funding-age proxy, not a holding-period start**; Step 7 decides whether to use it (exploratory only, not in PRD §8).",
@@ -342,6 +361,11 @@ def render_log(protocol, cfg, order, context, notes1, notes2, pass1, pass2, exce
     manual = [c for c in pass1 + pass2 if c.get("date_source") == "manual_dateline"]
     L += ["", "## Manual datelines (quoted from the fetched page)", ""]
     L += [f"- {c['evidence_id']} · {c['stage']} · {c['publication_date']} · \"{c['date_evidence']}\"" for c in manual] or ["- none"]
+    leaked = [c for c in pass1 + pass2 + [x["candidate"] for x in exception_rows if x.get("candidate")]
+              if c.get("outcome") == "discarded: content_leak"]
+    L += ["", "## Excluded as content_leak (Step 6a)", ""]
+    L += [f"- {c['evidence_id']} · {c['stage']} · published {c.get('publication_date')} · hit \"{c['leak_hit']}\" · {c['url']}"
+          for c in leaked] or ["- none"]
     owned = [c for c in pass1 + pass2 if c.get("ownership_basis")]
     L += ["", "## Ownership-history judgements (quoted from the fetched page)", ""]
     L += [f"- {c['evidence_id']} · {c['stage']} · {c.get('publication_date')} · {c['outcome']} · \"{c['ownership_basis']}\"" for c in owned] or ["- none"]

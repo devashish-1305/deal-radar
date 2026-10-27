@@ -206,3 +206,13 @@ def window_status(pub: date | None, anchor: date, ownership_history: bool) -> tu
     if pub >= add_months(anchor, -LATE_MONTHS):
         tags = ["late", *tags]
     return "keep", tags
+
+
+def content_leak(text: str, aliases: list[str], buyers: list[str], phrases: list[str]) -> str | None:
+    """The first buyer name or target-outcome phrase found in the text (whole tokens, case-insensitive), else None.
+
+    A hit means the stored page reveals the pair's outcome (e.g. a sidebar added after the anchor), so the page is
+    excluded as a whole: once it carries post-anchor content we cannot know what else changed.
+    """
+    patterns = list(buyers) + [p.format(alias=a) for p in phrases for a in aliases]
+    return next((p for p in patterns if names_company(text, [p])), None)
