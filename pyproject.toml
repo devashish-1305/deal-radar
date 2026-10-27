@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deal-radar"
+version = "0.1.0"
+description = "Rank private companies by likelihood of an announced change of control."
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic",
+    "pandas",
+    "requests",
+    "python-dotenv",
+    "anthropic",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
