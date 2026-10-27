@@ -20,6 +20,7 @@ from run_scoring import PE_PAIRS, confirmed_signal_ids  # noqa: E402
 
 from deal_radar.cases import load_cases  # noqa: E402
 from deal_radar.features import late_clues, load_json_list  # noqa: E402
+from deal_radar.rules import is_usable  # noqa: E402
 from deal_radar.schemas import Evidence, RegistryEvent, Signal  # noqa: E402
 from deal_radar.score import VARIANTS, compare_pairs, contributions, hypothesis_verdicts, load_config  # noqa: E402
 
@@ -28,6 +29,13 @@ CASES = ROOT / "data" / "cases"
 CHARTS = PROCESSED / "charts"
 FINDINGS = ROOT / "docs" / "findings.md"
 PROXY = ("ptsg", "xeinadin")
+USABLE_RULE = ("**Usable** (one rule for news and registry events alike): an item is usable if it has a publication "
+               "date strictly before its pair's anchor (deal announcement) date (`rules.is_usable`).")
+
+
+def usable_at_anchor(items: list, anchor: dict) -> list:
+    """The shared usability rule for news evidence and registry events: rules.is_usable at the pair's anchor."""
+    return [x for x in items if is_usable(x, anchor[x.company_id])]
 
 
 def load_all() -> dict:
@@ -69,7 +77,7 @@ def funnel(d: dict) -> dict:
     anchor = {}
     for p in d["pairs"]:
         anchor[p.deal_company_id] = anchor[p.control_company_id] = p.anchor_date
-    usable = [e for e in d["evidence"] if e.publication_date is not None and e.publication_date < anchor[e.company_id]]
+    usable = usable_at_anchor(d["evidence"], anchor)
     events = d["events"]
     out = {
         "search_results": sum(q["result_count"] for q in d["queries"]),
@@ -83,13 +91,13 @@ def funnel(d: dict) -> dict:
         "registry_events": len(events),
         "registry_with_publication_date": sum(e.publication_date is not None for e in events),
         "registry_without_usable_publication_date": sum(e.publication_date is None for e in events),
-        "registry_usable_before_anchor": sum(e.publication_date is not None and e.publication_date < anchor[e.company_id]
-                                             for e in events),
+        "registry_usable_before_anchor": len(usable_at_anchor(events, anchor)),
         "usable_dated_by_company": {cid: sum(e.company_id == cid for e in usable) for cid in anchor},
         "officer_events": sum(e.event_type.startswith("officer") for e in events),
         "officer_events_with_occupation": sum(e.event_type.startswith("officer") and bool(e.details.get("occupation"))
                                               for e in events),
         "modified_after_anchor": log.count("**discarded: modified_after_anchor**"),
+        "after_anchor": log.count("**discarded: after_anchor**"),
         "content_leak": len([ln for ln in log.split("## Excluded as content_leak")[1].split("\n## ")[0].splitlines()
                              if ln.startswith("- ev-")]),
     }
@@ -190,6 +198,7 @@ def render(d: dict, f: dict) -> str:
          f"{n_pairs} matched pairs, {n_comp} correlated deal-vs-control comparisons. Scores are ranking aids, never "
          "probabilities, and nothing here claims predictive performance. PTSG and Xeinadin holding periods are an "
          "**announcement-based proxy** (sponsor entry = announcement; completion not confirmed).", "",
+         USABLE_RULE, "",
          "## Headline", "",
          f"1. **Tested:** a transparent, pre-registered score on {n_pairs} matched UK pairs (one company that announced "
          "a change of control in Jan–Sep 2025, one similar company with no publicly observed transaction), at 12, 6 "
@@ -243,7 +252,7 @@ def render(d: dict, f: dict) -> str:
                  f"{f['search_results']} search results ({f['unique_urls']} unique URLs) from {f['queries']} queries; "
                  f"{f['pages_opened']} pages opened, of which {f['blocked_or_paywalled']} blocked or paywalled, "
                  f"{f['discarded']} discarded and {f['kept']} kept; {f['usable_dated']} kept items are dated before "
-                 f"their pair's deal date. {len(zero_news)} of {len(f['usable_dated_by_company'])} companies have no usable "
+                 f"their pair's deal date (usable). {len(zero_news)} of {len(f['usable_dated_by_company'])} companies have no usable "
                  f"dated news ({', '.join(zero_news)}). Registry: {f['registry_events']} events, "
                  f"{f['registry_usable_before_anchor']} usable before the deal dates. Sources: `docs/evidence_log.md`, "
                  "`data/processed/charts/evidence_funnel.json`.",
@@ -253,12 +262,14 @@ def render(d: dict, f: dict) -> str:
                  "as absence of a signal.")
     L += finding(5, "Leakage traps were real and were caught",
                  "Pages that look old can carry information from after the deal date.",
-                 f"{f['modified_after_anchor']} opened pages were excluded at the modified-after check because their "
-                 "metadata showed edits on or after the pair's deal date (some would also have failed the "
-                 "publication-date check). The documented case is the LDC page on HSL Compliance: published before "
-                 f"the deal, but its current text already shows the exit (see `docs/evidence_log.md`). {f['content_leak']} opened pages were excluded by the "
-                 f"content-leak check, e.g. an Oxford Ionics article whose page furniture names the buyer (hit "
-                 f"\"{oxford_hit}\").",
+                 f"Discard reasons recorded in `docs/evidence_log.md`: {f['modified_after_anchor']} pages "
+                 "`modified_after_anchor` (metadata shows an edit on or after the pair's deal date; this guard runs "
+                 "before date filtering, so the count includes pages that date filtering would also have removed) and "
+                 f"{f['content_leak']} pages `content_leak` (stored text names the buyer or the outcome). The documented "
+                 "case is the LDC page on HSL Compliance: published before the deal, but its current text already shows "
+                 "the exit. Content-leak example: an Oxford Ionics article whose page furniture names the buyer (hit "
+                 f"\"{oxford_hit}\"). Separately, as ordinary date filtering, {f['after_anchor']} pages were discarded "
+                 "as published on or after the deal date (`after_anchor`).",
                  "Make publication-date gating, the modified-after check and the content-leak check standard in every "
                  "pipeline stage.",
                  "The checks are conservative and may exclude some clean pages; they cannot catch edits that leave no "

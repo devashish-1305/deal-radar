@@ -184,3 +184,33 @@ def test_run_all_cache_mode_equals_committed_mode(no_network):
     committed = digest()
     assert run_all.main() == "cache"
     assert digest() == committed
+
+
+def test_usable_counts_use_one_rule_for_news_and_registry():
+    from deal_radar.cases import load_cases
+    from deal_radar.rules import is_usable
+    from deal_radar.schemas import Evidence, RegistryEvent
+    _, _, pairs = load_cases(ROOT / "data" / "cases")
+    anchor = {}
+    for p in pairs:
+        anchor[p.deal_company_id] = anchor[p.control_company_id] = p.anchor_date
+    evidence = [Evidence.model_validate(e) for e in read_json(PROCESSED / "evidence.json")]
+    events = [RegistryEvent.model_validate(e) for e in read_json(PROCESSED / "registry_events.json")["events"]]
+    news = sum(is_usable(e, anchor[e.company_id]) for e in evidence)
+    registry = sum(is_usable(e, anchor[e.company_id]) for e in events)
+    f = build_findings.funnel(build_findings.load_all())
+    assert (f["usable_dated"], f["registry_usable_before_anchor"]) == (news, registry)
+    text = FINDINGS.read_text()
+    assert build_findings.USABLE_RULE in text
+    assert f"({news} usable dated articles vs {registry} usable registry events)" in text
+
+
+def test_leakage_counts_are_single_reasons_from_the_log():
+    log = (ROOT / "docs" / "evidence_log.md").read_text()
+    f = build_findings.funnel(build_findings.load_all())
+    assert f["modified_after_anchor"] == log.count("**discarded: modified_after_anchor**")
+    assert f["after_anchor"] == log.count("**discarded: after_anchor**")
+    text = FINDINGS.read_text()
+    assert f"{f['modified_after_anchor']} pages `modified_after_anchor`" in text
+    assert f"{f['content_leak']} pages `content_leak`" in text
+    assert f"{f['after_anchor']} pages were discarded as published on or after the deal date (`after_anchor`)" in text
