@@ -1,0 +1,1018 @@
+[
+ {
+  "company_id": "hsl_compliance",
+  "pair_id": "P1",
+  "role": "deal",
+  "prediction_date": "2024-02-04",
+  "horizon": "12m",
+  "label": "positive",
+  "score": 1.944,
+  "band": "Medium",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.944,
+    "ids": [
+     "11738872-psc_added-ad583df478"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.944,
+   "full_minus_clock": 0,
+   "sensitivity": 0.972,
+   "verified_only": 1.944
+  }
+ },
+ {
+  "company_id": "hsl_compliance",
+  "pair_id": "P1",
+  "role": "deal",
+  "prediction_date": "2024-08-04",
+  "horizon": "6m",
+  "label": "positive",
+  "score": 2.0,
+  "band": "Medium",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 2.0,
+    "ids": [
+     "11738872-psc_added-ad583df478"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 2.0,
+   "full_minus_clock": 0,
+   "sensitivity": 1.0,
+   "verified_only": 2.0
+  }
+ },
+ {
+  "company_id": "hsl_compliance",
+  "pair_id": "P1",
+  "role": "deal",
+  "prediction_date": "2024-11-04",
+  "horizon": "3m",
+  "label": "positive",
+  "score": 2.0,
+  "band": "Medium",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 2.0,
+    "ids": [
+     "11738872-psc_added-ad583df478"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 2.0,
+   "full_minus_clock": 0,
+   "sensitivity": 1.0,
+   "verified_only": 2.0
+  }
+ },
+ {
+  "company_id": "ptsg",
+  "pair_id": "P1",
+  "role": "control",
+  "prediction_date": "2024-02-04",
+  "horizon": "12m",
+  "label": "no_publicly_observed_transaction",
+  "score": 2.088,
+  "band": "Medium",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.088,
+    "ids": [
+     "ev-ptsg-a027db6cd8"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "06005074-charge_satisfied-7de4b1e366"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.088,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.544,
+   "verified_only": 2.088
+  }
+ },
+ {
+  "company_id": "ptsg",
+  "pair_id": "P1",
+  "role": "control",
+  "prediction_date": "2024-08-04",
+  "horizon": "6m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.288,
+  "band": "Low",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.288,
+    "ids": [
+     "ev-ptsg-a027db6cd8"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.288,
+   "full_minus_clock": 0,
+   "sensitivity": 0.644,
+   "verified_only": 1.288
+  }
+ },
+ {
+  "company_id": "ptsg",
+  "pair_id": "P1",
+  "role": "control",
+  "prediction_date": "2024-11-04",
+  "horizon": "3m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.388,
+  "band": "Low",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.388,
+    "ids": [
+     "ev-ptsg-a027db6cd8"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.388,
+   "full_minus_clock": 0,
+   "sensitivity": 0.694,
+   "verified_only": 1.388
+  }
+ },
+ {
+  "company_id": "peak_ai",
+  "pair_id": "P2",
+  "role": "deal",
+  "prediction_date": "2024-03-12",
+  "horizon": "12m",
+  "label": "positive",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "09307701-charge_created-364cd15c45"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "peak_ai",
+  "pair_id": "P2",
+  "role": "deal",
+  "prediction_date": "2024-09-12",
+  "horizon": "6m",
+  "label": "positive",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "09307701-charge_created-364cd15c45"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "peak_ai",
+  "pair_id": "P2",
+  "role": "deal",
+  "prediction_date": "2024-12-12",
+  "horizon": "3m",
+  "label": "positive",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "09307701-charge_created-364cd15c45"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "causaly",
+  "pair_id": "P2",
+  "role": "control",
+  "prediction_date": "2024-03-12",
+  "horizon": "12m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Low",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "causaly",
+  "pair_id": "P2",
+  "role": "control",
+  "prediction_date": "2024-09-12",
+  "horizon": "6m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Low",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "causaly",
+  "pair_id": "P2",
+  "role": "control",
+  "prediction_date": "2024-12-12",
+  "horizon": "3m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Low",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "oxford_ionics",
+  "pair_id": "P3",
+  "role": "deal",
+  "prediction_date": "2024-06-09",
+  "horizon": "12m",
+  "label": "positive",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "oxford_ionics",
+  "pair_id": "P3",
+  "role": "deal",
+  "prediction_date": "2024-12-09",
+  "horizon": "6m",
+  "label": "positive",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "oxford_ionics",
+  "pair_id": "P3",
+  "role": "deal",
+  "prediction_date": "2025-03-09",
+  "horizon": "3m",
+  "label": "positive",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "universal_quantum",
+  "pair_id": "P3",
+  "role": "control",
+  "prediction_date": "2024-06-09",
+  "horizon": "12m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Low",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "11710367-charge_created-b6dabc4786",
+     "11710367-charge_satisfied-17edf96502"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "universal_quantum",
+  "pair_id": "P3",
+  "role": "control",
+  "prediction_date": "2024-12-09",
+  "horizon": "6m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Low",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "universal_quantum",
+  "pair_id": "P3",
+  "role": "control",
+  "prediction_date": "2025-03-09",
+  "horizon": "3m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Low",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "cytora",
+  "pair_id": "P4",
+  "role": "deal",
+  "prediction_date": "2024-09-09",
+  "horizon": "12m",
+  "label": "positive",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-cytora-65c38c74db-0"
+    ],
+    "gold_confirmed": false
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "cytora",
+  "pair_id": "P4",
+  "role": "deal",
+  "prediction_date": "2025-03-09",
+  "horizon": "6m",
+  "label": "positive",
+  "score": 2.0,
+  "band": "Medium",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "08229538-charge_created-4a6fe531dd"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-cytora-65c38c74db-0"
+    ],
+    "gold_confirmed": false
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 2.0,
+   "sensitivity": 2.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "cytora",
+  "pair_id": "P4",
+  "role": "deal",
+  "prediction_date": "2025-06-09",
+  "horizon": "3m",
+  "label": "positive",
+  "score": 2.0,
+  "band": "Medium",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "08229538-charge_created-4a6fe531dd"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-cytora-65c38c74db-0"
+    ],
+    "gold_confirmed": false
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 2.0,
+   "sensitivity": 2.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "artificial_labs",
+  "pair_id": "P4",
+  "role": "control",
+  "prediction_date": "2024-09-09",
+  "horizon": "12m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "08766928-charge_created-e0f9e3b6a7"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "fundraise_12m",
+    "value": -1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-artificial_labs-bc9a862bce-0"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0.0,
+   "sensitivity": 0.0,
+   "verified_only": 0.0
+  }
+ },
+ {
+  "company_id": "artificial_labs",
+  "pair_id": "P4",
+  "role": "control",
+  "prediction_date": "2025-03-09",
+  "horizon": "6m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "08766928-charge_created-e0f9e3b6a7"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "artificial_labs",
+  "pair_id": "P4",
+  "role": "control",
+  "prediction_date": "2025-06-09",
+  "horizon": "3m",
+  "label": "no_publicly_observed_transaction",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "signal_ai",
+  "pair_id": "P5",
+  "role": "deal",
+  "prediction_date": "2024-09-24",
+  "horizon": "12m",
+  "label": "positive",
+  "score": 0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 0,
+   "sensitivity": 0,
+   "verified_only": 0
+  }
+ },
+ {
+  "company_id": "signal_ai",
+  "pair_id": "P5",
+  "role": "deal",
+  "prediction_date": "2025-03-24",
+  "horizon": "6m",
+  "label": "positive",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "08468207-charge_created-6b69d0e0f4",
+     "08468207-charge_created-e24a5d882e",
+     "08468207-charge_satisfied-1428642b0c",
+     "08468207-charge_satisfied-d2f078bc97"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "signal_ai",
+  "pair_id": "P5",
+  "role": "deal",
+  "prediction_date": "2025-06-24",
+  "horizon": "3m",
+  "label": "positive",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "08468207-charge_created-6b69d0e0f4",
+     "08468207-charge_created-e24a5d882e",
+     "08468207-charge_satisfied-1428642b0c",
+     "08468207-charge_satisfied-d2f078bc97"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "cognism",
+  "pair_id": "P5",
+  "role": "control",
+  "prediction_date": "2024-09-24",
+  "horizon": "12m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "09392705-charge_created-946440243c",
+     "09392705-charge_created-c7f114245f",
+     "09392705-charge_created-ecf2d33778",
+     "09392705-charge_created-f8983d8612"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "cognism",
+  "pair_id": "P5",
+  "role": "control",
+  "prediction_date": "2025-03-24",
+  "horizon": "6m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "09392705-charge_created-946440243c",
+     "09392705-charge_created-c7f114245f",
+     "09392705-charge_created-ecf2d33778",
+     "09392705-charge_created-f8983d8612"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "cognism",
+  "pair_id": "P5",
+  "role": "control",
+  "prediction_date": "2025-06-24",
+  "horizon": "3m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.0,
+  "band": "Low",
+  "confidence": "Medium",
+  "contributions": [
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "09392705-charge_created-946440243c",
+     "09392705-charge_created-c7f114245f",
+     "09392705-charge_created-ecf2d33778",
+     "09392705-charge_created-f8983d8612"
+    ],
+    "gold_confirmed": "n/a"
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.0,
+   "verified_only": 1.0
+  }
+ },
+ {
+  "company_id": "aab",
+  "pair_id": "P6",
+  "role": "deal",
+  "prediction_date": "2024-07-01",
+  "horizon": "12m",
+  "label": "positive",
+  "score": 3.08,
+  "band": "High",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.08,
+    "ids": [
+     "13638179-psc_added-5b18f0a9ff"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "SO301668-charge_satisfied-3b1f7592ae",
+     "SO301668-charge_satisfied-c911630bfa"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-aab-8a6861f66c-1"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.08,
+   "full_minus_clock": 2.0,
+   "sensitivity": 2.54,
+   "verified_only": 3.08
+  }
+ },
+ {
+  "company_id": "aab",
+  "pair_id": "P6",
+  "role": "deal",
+  "prediction_date": "2025-01-01",
+  "horizon": "6m",
+  "label": "positive",
+  "score": 3.284,
+  "band": "High",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.284,
+    "ids": [
+     "13638179-psc_added-5b18f0a9ff"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "13639406-charge_created-6d5e710f48",
+     "13639975-charge_created-23c1e5a199",
+     "13639975-charge_created-e67d799e32",
+     "SO301668-charge_created-7be6a0b74c"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-aab-8a6861f66c-1"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.284,
+   "full_minus_clock": 2.0,
+   "sensitivity": 2.642,
+   "verified_only": 3.284
+  }
+ },
+ {
+  "company_id": "aab",
+  "pair_id": "P6",
+  "role": "deal",
+  "prediction_date": "2025-04-01",
+  "horizon": "3m",
+  "label": "positive",
+  "score": 3.38,
+  "band": "High",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.38,
+    "ids": [
+     "13638179-psc_added-5b18f0a9ff"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "debt_event_12m",
+    "value": 1.0,
+    "ids": [
+     "13639406-charge_created-6d5e710f48",
+     "13639975-charge_created-13296ceda9",
+     "13639975-charge_created-23c1e5a199",
+     "13639975-charge_created-5625c3f247",
+     "13639975-charge_created-a8bf13792f",
+     "13639975-charge_created-e67d799e32",
+     "13639975-charge_created-f1e1b9e667",
+     "13639975-charge_created-96d3d8da44",
+     "SO301668-charge_created-7be6a0b74c",
+     "SO301668-charge_created-885db83154",
+     "SO301668-charge_created-d6404f8c61"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-aab-8a6861f66c-1"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.38,
+   "full_minus_clock": 2.0,
+   "sensitivity": 2.69,
+   "verified_only": 3.38
+  }
+ },
+ {
+  "company_id": "xeinadin",
+  "pair_id": "P6",
+  "role": "control",
+  "prediction_date": "2024-07-01",
+  "horizon": "12m",
+  "label": "no_publicly_observed_transaction",
+  "score": 1.956,
+  "band": "Medium",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 0.956,
+    "ids": [
+     "ev-xeinadin-c34d355840"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-xeinadin-27a448b196-0"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 0.956,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.478,
+   "verified_only": 1.956
+  }
+ },
+ {
+  "company_id": "xeinadin",
+  "pair_id": "P6",
+  "role": "control",
+  "prediction_date": "2025-01-01",
+  "horizon": "6m",
+  "label": "no_publicly_observed_transaction",
+  "score": 2.156,
+  "band": "Medium",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.156,
+    "ids": [
+     "ev-xeinadin-c34d355840"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-xeinadin-27a448b196-0"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.156,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.578,
+   "verified_only": 2.156
+  }
+ },
+ {
+  "company_id": "xeinadin",
+  "pair_id": "P6",
+  "role": "control",
+  "prediction_date": "2025-04-01",
+  "horizon": "3m",
+  "label": "no_publicly_observed_transaction",
+  "score": 2.256,
+  "band": "Medium",
+  "confidence": "High",
+  "contributions": [
+   {
+    "term": "clock",
+    "value": 1.256,
+    "ids": [
+     "ev-xeinadin-c34d355840"
+    ],
+    "gold_confirmed": "n/a"
+   },
+   {
+    "term": "readiness_18m",
+    "value": 1.0,
+    "ids": [
+     "claude-sonnet-5-5-ev-xeinadin-27a448b196-0"
+    ],
+    "gold_confirmed": true
+   }
+  ],
+  "variant_scores": {
+   "holding_only": 1.256,
+   "full_minus_clock": 1.0,
+   "sensitivity": 1.628,
+   "verified_only": 2.256
+  }
+ }
+]
