@@ -137,23 +137,24 @@ Deterministic features (including holding-period clocks) are recomputed for ever
 
 ```mermaid
 flowchart TD
-    subgraph L1["1. Weekly refresh"]
-        SCHED["Weekly<br/>schedule"]
-        UPD["Registry and<br/>news updates"]
-        WP["Weekly processing<br/>(diagram B1)"]
-        WRANK["Weekly<br/>ranked list"]
-        SCHED --> UPD --> WP --> WRANK
-        WRANK -.->|"next week"| SCHED
+    subgraph L5["5. Business check"]
+        LOGS["Client request logs<br/>(evaluation only)"]
+        RR["Research ready<br/>before client<br/>asked?"]
+        BTM["Backtest<br/>metrics"]
+        LOGS -->|"Solely to measure research readiness. Never a feature or training signal."| RR
+        RR --> BTM
+        BTM -.->|"next period"| RR
     end
-    subgraph L2["2. Recalibration"]
-        DEALS["New deal<br/>announcements"]
-        LABELS["Labels"]
-        BT["Rolling backtest<br/>vs holding-clock<br/>benchmark"]
-        UPW["Update weights<br/>or model"]
-        SC2["Scoring"]
-        DEALS --> LABELS --> BT --> UPW
-        SC2 -->|"past scores"| BT
-        UPW -.->|"new weights"| SC2
+    subgraph L4["4. Extraction quality"]
+        MON["Monitoring<br/>spot-checks vs<br/>gold set"]
+        Q10{"Accuracy<br/>dropped?"}
+        REV["Revise prompt<br/>or model"]
+        OK["Keep as is"]
+        MON --> Q10
+        Q10 -->|"yes"| REV
+        Q10 -->|"no"| OK
+        REV -.->|"re-test"| MON
+        OK -.->|"next check"| MON
     end
     subgraph L3["3. Source gate"]
         CAND["Candidate<br/>source"]
@@ -167,24 +168,23 @@ flowchart TD
         KEEP -.->|"re-test"| BT3
         DROP -.->|"next candidate"| CAND
     end
-    subgraph L4["4. Extraction quality"]
-        MON["Monitoring<br/>spot-checks vs<br/>gold set"]
-        Q10{"Accuracy<br/>dropped?"}
-        REV["Revise prompt<br/>or model"]
-        OK["Keep as is"]
-        MON --> Q10
-        Q10 -->|"yes"| REV
-        Q10 -->|"no"| OK
-        REV -.->|"re-test"| MON
-        OK -.->|"next check"| MON
+    subgraph L2["2. Recalibration"]
+        DEALS["New deal<br/>announcements"]
+        LABELS["Labels"]
+        BT["Rolling backtest<br/>vs holding-clock<br/>benchmark"]
+        UPW["Update weights<br/>or model"]
+        SC2["Scoring"]
+        DEALS --> LABELS --> BT --> UPW
+        SC2 -->|"past scores"| BT
+        UPW -.->|"new weights"| SC2
     end
-    subgraph L5["5. Business check"]
-        LOGS["Client request logs<br/>(evaluation only)"]
-        RR["Research ready<br/>before client<br/>asked?"]
-        BTM["Backtest<br/>metrics"]
-        LOGS -->|"Solely to measure research readiness. Never a feature or training signal."| RR
-        RR --> BTM
-        BTM -.->|"next period"| RR
+    subgraph L1["1. Weekly refresh"]
+        SCHED["Weekly<br/>schedule"]
+        UPD["Registry and<br/>news updates"]
+        WP["Weekly processing<br/>(diagram B1)"]
+        WRANK["Weekly<br/>ranked list"]
+        SCHED --> UPD --> WP --> WRANK
+        WRANK -.->|"next week"| SCHED
     end
     classDef free fill:#E3EFEC,stroke:#1D6B63,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
     classDef licensed fill:#DCE6F2,stroke:#2F5D8C,stroke-width:2px,color:#15213A,stroke-dasharray:5 5

@@ -194,8 +194,9 @@ def test_b2_five_closed_loops_with_dotted_returns():
     b2 = diagrams()[2]
     nodes, edges = parse(b2)
     subs = subgraphs(b2)
-    assert [v[0] for v in subs.values()] == ["1. Weekly refresh", "2. Recalibration", "3. Source gate",
-                                             "4. Extraction quality", "5. Business check"]
+    # Defined 5 -> 1 because Mermaid places subgraphs in reverse definition order: they render left to right as 1..5.
+    assert [v[0] for v in subs.values()] == ["5. Business check", "4. Extraction quality", "3. Source gate",
+                                             "2. Recalibration", "1. Weekly refresh"]
     for sid, (_, body) in subs.items():
         ids = set(re.findall(r'^\s*(\w+)[\[{]"', body, re.M))
         inside = [e for e in edges if e[0] in ids and e[2] in ids]
