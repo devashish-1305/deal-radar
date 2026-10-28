@@ -20,3 +20,4 @@
 18. Deliverables: 3 slides (approach, evidence, product/success) plus optional notebook and prompt sample — brief allows max 3 slides plus a small PoC.
 19. large_recent_fundraise is labelled for every disclosed round as a fact; PRD §8 does not define size/recency, so Step 7 applies the thresholds — keeps gold labels factual and judgement in one place.
 20. Xeinadin/Exponent 2022 significant minority investment with board seats is labelled pe_holding_period: a PE sponsor's investment with board control starts the sponsor's holding clock.
+21. Unit of observation is the operating business: positive when a new party takes control of it (including the division in a carve-out, not the selling parent); a merger of equals with no controlling party is ambiguous and excluded in v1 — keeps labels about the business we research, and avoids guessing control.

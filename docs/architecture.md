@@ -208,6 +208,8 @@ flowchart TD
 3. **Free base layer on everything, licensed lookups targeted** at PE-backed companies and the shortlist.
 4. **Every source is gated by backtest lift.** It stays only if it lifts hit rate or lead time enough to justify its cost.
 5. **Same core logic as the PoC:** point-in-time rules, verbatim-quote and company checks, transparent score, the LLM only extracts and never produces a probability.
+6. **Licensed does not mean non-public:** licensed sources carry publicly reported information; no confidential or non-public information is used.
+7. **Audit a sample of documents the cheap filter rejects** so it cannot silently miss intent; track cost per company, per document and per actionable company. Total cost = data licences + ingestion + AI + infrastructure; the PoC's $0.14 extraction run is not a production estimate.
 
 ## Why each source
 | Source | PoC finding that justifies it |

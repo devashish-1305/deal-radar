@@ -9,6 +9,8 @@ Third Bridge content/research teams.
 ## 3. Prediction target
 At a prediction date, will the company have a PUBLICLY ANNOUNCED change-of-control transaction within the next 12 months? This covers a sale to a strategic buyer, a PE buyout (including secondary buyout), a merger, or a carve-out. The announcement date is the event, not the completion date.
 
+**Unit of observation.** The operating business. A window is positive when a new party takes control of that business: a sale, a buyout, being merged into another group, or, for a carve-out, the division itself getting a new owner (the selling parent is not labelled). A merger of equals with no controlling party is ambiguous and excluded in v1. In the proof of concept every deal was a clear acquisition or majority stake, so this did not arise.
+
 ## 4. Out of scope for v1
 IPOs, refinancing/restructuring and growth/minority equity. These are future extensions because they are less reliably observable in public data.
 
