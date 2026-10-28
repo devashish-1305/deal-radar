@@ -190,6 +190,20 @@ def page_title(html: str) -> str | None:
     return title or None
 
 
+def passes_date_filter(html: str, override: dict, anchor: date) -> bool:
+    """True if the page has a publication date (metadata, or a quoted manual dateline in `override`) that the window
+    rule keeps: inside [anchor - 24 months, anchor), or older but tagged ownership_history. Undated pages never pass.
+
+    Used only to count what the modified-after guard caught beyond ordinary date filtering; it changes no outcome.
+    """
+    stated = published_dates(html)
+    pub = next(iter(stated)) if len(stated) == 1 else None
+    if pub is None and override.get("manual_publication_date"):
+        pub = date.fromisoformat(override["manual_publication_date"])
+    status, _ = window_status(pub, anchor, bool(override.get("ownership_history")))
+    return pub is not None and status == "keep"
+
+
 def window_status(pub: date | None, anchor: date, ownership_history: bool) -> tuple[str, list[str]]:
     """('keep' | 'after_anchor' | 'before_window', tags) for the window [anchor - 24 months, anchor).
 

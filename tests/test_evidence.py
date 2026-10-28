@@ -272,3 +272,52 @@ def test_override_quotes_are_at_most_25_words_and_verbatim():
             assert len(quote.split()) <= 25, (eid, field, len(quote.split()))
             if field == "ownership_basis" and (ARTICLES / f"{eid}.txt").exists():
                 assert " ".join(quote.split()) in " ".join((ARTICLES / f"{eid}.txt").read_text().split()), eid
+
+
+# --- date-filter counterfactual (evidence_log.md line) -------------------------------------------------------------
+
+LOG = ROOT / "docs" / "evidence_log.md"
+HTML_CACHE = ARTICLES / "html"
+MISSED_LINE = re.compile(r"\*\*Leaks that date filtering alone would have missed:\*\* (\d+) of the (\d+) `modified_after_anchor`")
+
+
+def test_passes_date_filter_rules():
+    from deal_radar.evidence import passes_date_filter
+    anchor = date(2025, 6, 9)
+
+    def doc(published):
+        return page(f'<script type="application/ld+json">{{"datePublished":"{published}"}}</script>') if published else page()
+    assert passes_date_filter(doc("2024-09-01"), {}, anchor)
+    assert not passes_date_filter(doc("2025-06-09"), {}, anchor)  # on the anchor
+    assert not passes_date_filter(doc("2025-09-01"), {}, anchor)  # after the anchor
+    assert not passes_date_filter(doc("2020-01-01"), {}, anchor)  # before the window
+    assert passes_date_filter(doc("2020-01-01"), {"ownership_history": True}, anchor)
+    assert not passes_date_filter(doc(None), {}, anchor)  # undated never passes
+    assert passes_date_filter(doc(None), {"manual_publication_date": "2024-09-01"}, anchor)
+
+
+def test_committed_log_records_the_date_filter_counterfactual():
+    m = MISSED_LINE.search(LOG.read_text())
+    assert m, "evidence_log.md lacks the 'would have missed' line"
+    missed, guarded = int(m.group(1)), int(m.group(2))
+    assert guarded == LOG.read_text().count("**discarded: modified_after_anchor**")
+    assert 0 <= missed <= guarded
+
+
+def test_counterfactual_count_matches_the_page_cache():
+    import hashlib
+    from deal_radar.evidence import passes_date_filter
+    if not HTML_CACHE.exists():
+        pytest.skip("data/raw/articles/html absent (e.g. CI)")
+    missed_committed = int(MISSED_LINE.search(LOG.read_text()).group(1))
+    anchor_of, overrides = anchors(), json.loads(OVERRIDES.read_text())
+    missed, company = 0, None
+    for line in LOG.read_text().splitlines():
+        header = re.match(r"## Pass \d · (\w+) \(", line)
+        if header:
+            company = header.group(1)
+        if "**discarded: modified_after_anchor**" in line:
+            url = line.rsplit(" · ", 1)[1]
+            html = (HTML_CACHE / f"{hashlib.sha1(canonical_url(url).encode()).hexdigest()[:16]}.html").read_text()
+            missed += passes_date_filter(html, overrides.get(evidence_id(company, url), {}), anchor_of[company])
+    assert missed == missed_committed
