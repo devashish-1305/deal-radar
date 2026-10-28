@@ -32,4 +32,5 @@ Upstream steps that need the network are not part of the rerun: the Companies Ho
 - [Features](docs/features.md) — point-in-time features at 12/6/3 months
 - [Scoring (pre-registered)](docs/scoring.md) and [scoring results](docs/scoring_results.md)
 - [Findings](docs/findings.md) — the single source of truth for the slides
+- [Architecture](docs/architecture.md) — the proof of concept as built, and the proposed 100,000-company design
 - Prompt sample: [prompts/extract_v1.md](prompts/extract_v1.md)
