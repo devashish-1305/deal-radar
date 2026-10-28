@@ -6,59 +6,201 @@
 
 ```mermaid
 flowchart TD
-    A1["Companies<br/>12 companies<br/>6 matched pairs"]
-    A2["Registry<br/>Companies House API<br/>971 events"]
-    A3["News<br/>Symmetric web search<br/>201 pages opened<br/>16 usable dated"]
-    A4["Leak checks<br/>32 modified-after<br/>8 content-leak<br/>4 would have passed date filters"]
-    A5["AI extracts<br/>Sonnet + verbatim-quote check<br/>100% verbatim<br/>84% precision / 89% recall after PRD rules"]
-    A6["Rules and features<br/>36 point-in-time snapshots"]
-    A7["Pre-registered score<br/>Clock only 6/12/0 (wins/ties/losses)<br/>Full 11/4/3 (wins/ties/losses)"]
-    A8["Findings"]
-    A1 --> A2 --> A3 --> A4 --> A5 --> A6 --> A7 --> A8
+    COMP["Companies<br/><b>12</b> companies<br/><b>6</b> matched pairs"]
+    REG["Registry<br/>Companies House<br/>API<br/><b>971</b> events"]
+    NEWS["News<br/>Symmetric web<br/>search<br/><b>201</b> pages opened<br/><b>16</b> usable dated"]
+    LEAKQ{"Published before<br/>deal date, not<br/>edited after, no<br/>buyer named?"}
+    EXCL["Excluded<br/><b>32</b> modified after<br/><b>8</b> content leak<br/>(<b>4</b> passed date<br/>filters)"]
+    AI["AI extracts<br/>Sonnet<br/><b>100%</b> verbatim<br/><b>84%</b> precision /<br/><b>89%</b> recall after<br/>PRD rules"]
+    OUTQ{"Quote verbatim,<br/>right company,<br/>valid type?"}
+    REJ["Rejected<br/>and logged"]
+    FAIL["Failure<br/>logged"]
+    RULES["Rules and<br/>features<br/><b>36</b> point-in-time<br/>snapshots"]
+    FULL["Full score"]
+    CLOCK["Clock-only<br/>benchmark"]
+    CMPR["Compare per pair<br/>(wins/ties/losses)<br/><b>11/4/3</b> vs <b>6/12/0</b>"]
+    FIND["Findings"]
+    GOLD["Gold labels<br/>(written first)"]
+    SCORED["Haiku and Sonnet<br/>both scored"]
+    CHOSEN["Sonnet chosen<br/><b>0</b> false intent<br/>signals<br/>(Haiku: <b>1</b>)"]
+    COMP --> REG --> NEWS --> LEAKQ
+    LEAKQ -->|"yes"| AI
+    LEAKQ -->|"no"| EXCL
+    AI --> OUTQ
+    AI -.->|"invalid JSON: retry once"| AI
+    AI -->|"still invalid"| FAIL
+    OUTQ -->|"yes"| RULES
+    OUTQ -->|"no"| REJ
+    RULES --> FULL
+    RULES --> CLOCK
+    FULL --> CMPR
+    CLOCK --> CMPR
+    CMPR --> FIND
+    GOLD --> SCORED --> CHOSEN
+    CHOSEN -.->|"model used"| AI
+    classDef built fill:#E3EFEC,stroke:#1D6B63,stroke-width:2px,color:#15213A
+    classDef ai fill:#15213A,stroke:#15213A,stroke-width:2px,color:#F6F4EE
+    classDef decision fill:#FDFCF9,stroke:#15213A,stroke-width:2px,color:#15213A
+    classDef excluded fill:#F1EEE6,stroke:#8A8F99,stroke-width:2px,color:#4A5160
+    class COMP,REG,NEWS,RULES,FULL,CLOCK,CMPR,FIND,GOLD built
+    class AI,SCORED,CHOSEN ai
+    class LEAKQ,OUTQ decision
+    class EXCL,REJ,FAIL excluded
 ```
+
+*Legend: green = built stage; navy = AI or model; diamond = decision; grey = excluded or rejected; dotted arrow = retry or loop; bold = number from a data file.*
 
 *Data collected for validation only. Web search was the test method, not the production plan.*
 
-Sources of every number: `data/cases/companies.json` and `pairs.json` (12 companies, 6 pairs); `data/processed/charts/evidence_funnel.json` (971 events, 201 pages opened, 16 usable dated); `docs/evidence_log.md` (32 modified-after pages, 8 content-leak pages, and the line recording that 4 of the 32 would have passed date filtering alone); `data/processed/charts/extraction_compare.json` (verbatim rate, precision and recall after the two PRD-derived rules); `data/processed/features.json` (36 snapshots); `data/processed/scores.json` and [findings](findings.md) (win/tie/loss counts). A test checks that each number in the diagram matches its file.
+Sources of every number: `data/cases/companies.json` and `pairs.json` (12 companies, 6 pairs); `data/processed/charts/evidence_funnel.json` (971 events, 201 pages opened, 16 usable dated); `docs/evidence_log.md` (32 modified-after pages, 8 content-leak pages, and the line recording that 4 of the 32 would have passed date filtering alone); `data/processed/charts/extraction_compare.json` (verbatim rate, precision and recall after the two PRD-derived rules, and false direct-intent signals: Sonnet 0, Haiku 1); `data/processed/features.json` (36 snapshots); `data/processed/scores.json` and [findings](findings.md) (win/tie/loss counts). A test checks that each number in the diagram matches its file.
 
 ## Architecture B: 100,000 companies (proposed, not built)
 
+Both diagrams are proposals: every node is dashed. Stage names follow the slides: Registry (free base layer), News (licensed, broad), AI extracts (the two models and the output check), Rules (features and score), Ranked list.
+
+### B1: weekly processing
+
 ```mermaid
 flowchart TD
-    subgraph ACQ["Data acquisition"]
+    subgraph SRC["Data sources"]
         direction LR
-        FREE["Free base layer (all companies, weekly)<br/>Companies House bulk data and change feed, RNS, CMA cases, press releases<br/>No fund vintage, no loan maturity, incomplete deal labels"]
-        BROAD["Licensed, broad<br/>News feed with a dated archive<br/>Intent signals, into the funnel"]
-        SEL["Licensed, selective (on demand)<br/>PE-backed companies and the shortlist only<br/>Deal database, people and jobs data, credit data (v2)"]
-        LIB["Library coverage (Third Bridge)<br/>Relevance and coverage input<br/>If permitted"]
+        FREE["Free base layer<br/>(all, weekly)<br/>Companies House<br/>bulk data, change<br/>feed, RNS, CMA,<br/>press releases<br/>No fund vintage,<br/>no loan maturity,<br/>incomplete labels"]
+        BROAD["Licensed, broad<br/>News feed with<br/>dated archive<br/>(intent signals)"]
+        SEL["Licensed,<br/>selective<br/>On demand:<br/>PE-backed and<br/>shortlist only<br/>Deal DB, people<br/>data, credit (v2)"]
+        LIB["Library coverage<br/>(Third Bridge,<br/>if permitted)<br/>Relevance and<br/>coverage input"]
         FREE ~~~ BROAD ~~~ SEL ~~~ LIB
     end
-    subgraph SIG["Signal intelligence"]
-        ER["Entity resolution"]
-        PIT["Point-in-time checks<br/>Publication-date gating, modified-after,<br/>content-leak"]
-        REL["Relevance filter<br/>Most documents stop here"]
-        ROUTE["Model routing<br/>Cheap model for bulk, stronger model only for sale-intent language<br/>Cached per document"]
-        OUT["Output checks<br/>Verbatim quote, correct company,<br/>valid signal type"]
-        FEAT["Features<br/>Same deterministic code as the PoC"]
-        ER --> PIT --> REL --> ROUTE --> OUT --> FEAT
-    end
-    subgraph DEC["Decision and feedback"]
-        SCORE["Transparent score<br/>Logistic regression only once enough<br/>reliable, time-stamped labels exist"]
-        RANK["Weekly ranked list<br/>Likelihood band and confidence band kept separate, dated evidence, intent as alerts<br/>Research priority = likelihood x client relevance x not yet covered"]
-        EVAL["Evaluation loop<br/>Rolling backtest vs holding-clock benchmark"]
-        GATE["Source gate<br/>A source stays only if it lifts hit rate or lead time<br/>enough to justify its cost"]
-        MON["Monitoring<br/>Extraction spot-checks, coverage, weekly cost"]
-        LOGS["Client request logs (Third Bridge)<br/>Evaluation only"]
-        SCORE --> RANK --> EVAL --> GATE --> MON
-        LOGS -.->|"Solely to measure research readiness. Never a feature or training signal."| EVAL
-    end
-    ACQ --> SIG
-    SIG --> DEC
-    classDef dashed stroke-dasharray: 5 5
-    class FREE,BROAD,SEL,LIB,ER,PIT,REL,ROUTE,OUT,FEAT,SCORE,RANK,EVAL,GATE,MON,LOGS dashed
+    Q1{"Company<br/>changed<br/>this week?"}
+    RECOMP["Recompute clocks<br/>only (reuse<br/>cached signals)"]
+    Q2{"Document<br/>already<br/>processed?"}
+    SKIP["Skip (cache)"]
+    Q3{"Relevant to<br/>ownership<br/>or deals?"}
+    STOP["Stop<br/>(most documents)"]
+    Q4{"Passes<br/>point-in-time<br/>checks?"}
+    EXCLUDE["Exclude"]
+    Q5{"Sale-intent<br/>language?"}
+    STRONG["Stronger model"]
+    CHEAP["Cheap model"]
+    Q6{"Quote verbatim,<br/>right company,<br/>valid type?"}
+    REJECT["Reject and log"]
+    Q7{"PE-backed or<br/>shortlisted?"}
+    LIC["Licensed lookups<br/>(deal DB,<br/>people data)"]
+    Q8{"Intent found?"}
+    ALERT["Alert<br/>(not scored)"]
+    FEAT["Features"]
+    SCORE["Score"]
+    RANK["Weekly ranked list<br/>(likelihood +<br/>confidence bands)"]
+    SRC --> Q1
+    Q1 -->|"no"| RECOMP
+    Q1 -->|"yes"| Q2
+    RECOMP --> FEAT
+    Q2 -->|"yes"| SKIP
+    Q2 -->|"no"| Q3
+    SKIP -->|"cached signals"| FEAT
+    Q3 -->|"no"| STOP
+    Q3 -->|"yes"| Q4
+    Q4 -->|"no"| EXCLUDE
+    Q4 -->|"yes"| Q5
+    Q5 -->|"yes"| STRONG
+    Q5 -->|"no"| CHEAP
+    STRONG --> Q6
+    CHEAP --> Q6
+    Q6 -->|"no"| REJECT
+    Q6 -->|"yes"| Q7
+    Q7 -->|"yes"| LIC
+    Q7 -->|"no"| Q8
+    LIC --> Q8
+    Q8 -->|"yes"| ALERT
+    Q8 -->|"no"| FEAT
+    ALERT --> FEAT
+    ALERT -.->|"shown beside the list"| RANK
+    FEAT --> SCORE --> RANK
+    classDef free fill:#E3EFEC,stroke:#1D6B63,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef licensed fill:#DCE6F2,stroke:#2F5D8C,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef internal fill:#F6E3D3,stroke:#A54A15,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef decisionB fill:#FDFCF9,stroke:#15213A,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef excludedB fill:#F1EEE6,stroke:#8A8F99,stroke-width:2px,color:#4A5160,stroke-dasharray:5 5
+    classDef aiB fill:#15213A,stroke:#15213A,stroke-width:2px,color:#F6F4EE,stroke-dasharray:5 5
+    class FREE,RECOMP,SKIP,ALERT,FEAT,SCORE,RANK free
+    class BROAD,SEL,LIC licensed
+    class LIB internal
+    class Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8 decisionB
+    class STOP,EXCLUDE,REJECT excludedB
+    class STRONG,CHEAP aiB
 ```
 
-All nodes are dashed: **proposed, not built**. Stage names follow the slides: Registry (free base layer), News (licensed, broad), AI extracts (model routing and output checks), Rules (features and score), Ranked list. The three source groups in Data acquisition are laid out side by side (a fourth box shows the internal Library coverage input). Selective licensed lookups are on demand for PE-backed companies and the shortlist, not continuous on all 100,000: they cover a private-markets/deal database (sponsor entry, fund vintage, deal history), people and job-postings data, and credit/loan data (v2).
+*Legend: green dashed = free data or processing; blue dashed = licensed; orange dashed = Third Bridge internal; navy dashed = model; diamond = decision; grey dashed = stop or reject. All dashed = proposed, not built.*
+
+Deterministic features (including holding-period clocks) are recomputed for every company every week; only LLM extraction reuses cached evidence (PRD section 9). Selective licensed lookups run on demand for PE-backed companies and the shortlist, not continuously on all 100,000: a private-markets/deal database (sponsor entry, fund vintage, deal history), people and job-postings data, and credit/loan data (v2). The three source groups plus the internal Library coverage input sit side by side at the top and are linked to the flow as one block.
+
+### B2: feedback loops
+
+```mermaid
+flowchart TD
+    subgraph L1["1. Weekly refresh"]
+        SCHED["Weekly<br/>schedule"]
+        UPD["Registry and<br/>news updates"]
+        WP["Weekly processing<br/>(diagram B1)"]
+        WRANK["Weekly<br/>ranked list"]
+        SCHED --> UPD --> WP --> WRANK
+        WRANK -.->|"next week"| SCHED
+    end
+    subgraph L2["2. Recalibration"]
+        DEALS["New deal<br/>announcements"]
+        LABELS["Labels"]
+        BT["Rolling backtest<br/>vs holding-clock<br/>benchmark"]
+        UPW["Update weights<br/>or model"]
+        SC2["Scoring"]
+        DEALS --> LABELS --> BT --> UPW
+        SC2 -->|"past scores"| BT
+        UPW -.->|"new weights"| SC2
+    end
+    subgraph L3["3. Source gate"]
+        CAND["Candidate<br/>source"]
+        BT3["Backtest"]
+        Q9{"Lifts hit rate<br/>or lead time<br/>enough to<br/>justify cost?"}
+        KEEP["Keep in data<br/>acquisition"]
+        DROP["Drop"]
+        CAND --> BT3 --> Q9
+        Q9 -->|"yes"| KEEP
+        Q9 -->|"no"| DROP
+        KEEP -.->|"re-test"| BT3
+        DROP -.->|"next candidate"| CAND
+    end
+    subgraph L4["4. Extraction quality"]
+        MON["Monitoring<br/>spot-checks vs<br/>gold set"]
+        Q10{"Accuracy<br/>dropped?"}
+        REV["Revise prompt<br/>or model"]
+        OK["Keep as is"]
+        MON --> Q10
+        Q10 -->|"yes"| REV
+        Q10 -->|"no"| OK
+        REV -.->|"re-test"| MON
+        OK -.->|"next check"| MON
+    end
+    subgraph L5["5. Business check"]
+        LOGS["Client request logs<br/>(evaluation only)"]
+        RR["Research ready<br/>before client<br/>asked?"]
+        BTM["Backtest<br/>metrics"]
+        LOGS -->|"Solely to measure research readiness. Never a feature or training signal."| RR
+        RR --> BTM
+        BTM -.->|"next period"| RR
+    end
+    classDef free fill:#E3EFEC,stroke:#1D6B63,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef licensed fill:#DCE6F2,stroke:#2F5D8C,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef internal fill:#F6E3D3,stroke:#A54A15,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef decisionB fill:#FDFCF9,stroke:#15213A,stroke-width:2px,color:#15213A,stroke-dasharray:5 5
+    classDef excludedB fill:#F1EEE6,stroke:#8A8F99,stroke-width:2px,color:#4A5160,stroke-dasharray:5 5
+    classDef aiB fill:#15213A,stroke:#15213A,stroke-width:2px,color:#F6F4EE,stroke-dasharray:5 5
+    class SCHED,UPD,WP,WRANK,DEALS,LABELS,BT,UPW,SC2,BT3,MON,OK free
+    class CAND,KEEP licensed
+    class LOGS,RR,BTM internal
+    class Q9,Q10 decisionB
+    class DROP excludedB
+    class REV aiB
+```
+
+*Legend: as above; dotted arrow = the loop returns to its start. Each loop is independent; client request logs appear only in loop 5 and link only to the readiness check.*
 
 ## Design rules
 1. **Licensed data only, no scraping** (for example, no LinkedIn scraping). Respect every source's terms of use.

@@ -15,7 +15,13 @@ from deal_radar.cases import load_cases  # noqa: E402
 DOC = (ROOT / "docs" / "architecture.md").read_text()
 PROCESSED = ROOT / "data" / "processed"
 LOGS_LABEL = "Solely to measure research readiness. Never a feature or training signal."
-ARROW = re.compile(r"(~~~|-\.->(?:\|\"[^\"]*\"\|)?|-->)")
+ARROW = re.compile(r"(~~~|-\.->(?:\|\"[^\"]*\"\|)?|-->(?:\|\"[^\"]*\"\|)?)")
+MAX_LINE_CHARS = 22  # design target is ~18 characters per line; small tolerance for unbreakable words
+CLASSDEF = re.compile(r"^\s*classDef (\w+) (.+)$", re.M)
+CLASS = re.compile(r"^\s*class ([\w,]+) (\w+)\s*$", re.M)
+B1_DIAMONDS = ["Company changed this week?", "Document already processed?", "Relevant to ownership or deals?",
+               "Passes point-in-time checks?", "Sale-intent language?", "Quote verbatim, right company, valid type?",
+               "PE-backed or shortlisted?", "Intent found?"]
 
 
 def diagrams() -> list[str]:
@@ -26,8 +32,18 @@ def read_json(path):
     return json.loads(Path(path).read_text())
 
 
-def nodes_and_edges(block: str):
-    nodes = {m.group(1): m.group(2) for m in re.finditer(r'^\s*(\w+)\["([^"]*)"\]', block, re.M)}
+def visible_lines(label: str) -> list[str]:
+    return [re.sub(r"</?b>", "", part) for part in label.split("<br/>")]
+
+
+def visible(label: str) -> str:
+    return " ".join(visible_lines(label))
+
+
+def parse(block: str):
+    """(nodes {id: (kind, label)}, edges [(src, arrow, dst, label)]) for one Mermaid block."""
+    nodes = {m.group(1): ("box", m.group(2)) for m in re.finditer(r'^\s*(\w+)\["([^"]*)"\]', block, re.M)}
+    nodes |= {m.group(1): ("diamond", m.group(2)) for m in re.finditer(r'^\s*(\w+)\{"([^"]*)"\}', block, re.M)}
     edges = []
     for line in block.splitlines():
         parts = ARROW.split(line.strip())
@@ -40,77 +56,160 @@ def nodes_and_edges(block: str):
     return nodes, edges
 
 
-# --- Architecture A: every number comes from a committed file ------------------------------------------------------
+def subgraphs(block: str) -> dict:
+    return {m.group(1): (m.group(2), m.group(3)) for m in
+            re.finditer(r'subgraph (\w+)\["([^"]*)"\]\n(.*?)\n    end', block, re.S)}
+
+
+def classes(block: str) -> tuple[dict, dict]:
+    defs = {m.group(1): m.group(2) for m in CLASSDEF.finditer(block)}
+    assigned = {n: cls for ids, cls in CLASS.findall(block) for n in ids.split(",")}
+    return defs, assigned
+
+
+# --- all three diagrams: structure and styling ---------------------------------------------------------------------
+
+def test_three_diagrams_each_flowchart_td_without_comments():
+    blocks = diagrams()
+    assert len(blocks) == 3
+    for b in blocks:
+        assert b.startswith("flowchart TD") and "%%" not in b
+
+
+def test_every_node_is_classed_with_explicit_colours_and_b_is_dashed():
+    a, b1, b2 = diagrams()
+    for idx, block in enumerate((a, b1, b2)):
+        nodes, _ = parse(block)
+        defs, assigned = classes(block)
+        assert set(assigned) == set(nodes), set(nodes) ^ set(assigned)
+        for cls, spec in defs.items():
+            assert all(k in spec for k in ("fill:#", "stroke:#", "stroke-width:2px", "color:#")), cls
+        used = set(assigned.values())
+        assert used <= set(defs)
+        for cls in used:
+            assert ("stroke-dasharray" in defs[cls]) == (idx > 0), (idx, cls)  # A solid; B1 and B2 dashed
+    assert set(classes(a)[1].values()) <= {"built", "ai", "decision", "excluded"}
+
+
+def test_every_diamond_has_labelled_yes_no_edges_and_no_orphans():
+    for block in diagrams():
+        nodes, edges = parse(block)
+        subs = subgraphs(block)
+        for nid, (kind, _) in nodes.items():
+            out = [e for e in edges if e[0] == nid and e[1] != "~~~"]
+            if kind == "diamond":
+                assert sorted(e[3] for e in out) == ["no", "yes"], nid
+            assert [e for e in edges if nid in (e[0], e[2])], f"orphan {nid}"
+        for src, _, dst, _ in edges:
+            assert {src, dst} <= set(nodes) | set(subs)
+
+
+def test_visible_label_lines_are_short():
+    for block in diagrams():
+        for nid, (_, label) in parse(block)[0].items():
+            for line in visible_lines(label):
+                assert len(line) <= MAX_LINE_CHARS, (nid, line)
+
+
+# --- Architecture A: every number comes from a committed file ---------------------------------------------------------
+
+def evidence_log_missed() -> int:
+    return int(re.search(r"would have missed:\*\* (\d+) of the", (ROOT / "docs" / "evidence_log.md").read_text()).group(1))
+
 
 def expected_a_numbers() -> set[int]:
     d = build_findings.load_all()
     f = build_findings.funnel(d)
     companies, _, pairs = load_cases(ROOT / "data" / "cases")
     ex = read_json(PROCESSED / "charts" / "extraction_compare.json")
-    log = (ROOT / "docs" / "evidence_log.md").read_text()
-    missed = int(re.search(r"would have missed:\*\* (\d+) of the", log).group(1))
-    wtl = build_findings.wtl
     numbers = {len(companies), len(pairs), f["registry_events"], f["pages_opened"], f["usable_dated"],
-               f["modified_after_anchor"], f["content_leak"], missed,
+               f["modified_after_anchor"], f["content_leak"], evidence_log_missed(),
                round(ex["models"]["sonnet"]["verbatim_quote_rate"] * 100),
                round(ex["sonnet_after_prd_rules"]["precision"] * 100), round(ex["sonnet_after_prd_rules"]["recall"] * 100),
-               len(read_json(PROCESSED / "features.json"))}
+               len(read_json(PROCESSED / "features.json")),
+               ex["models"]["sonnet"]["false_direct_intent"], ex["models"]["haiku"]["false_direct_intent"]}
     for variant in ("holding_only", "full"):
-        numbers |= set(wtl(d["comparisons"][variant]))
+        numbers |= set(build_findings.wtl(d["comparisons"][variant]))
     return numbers
 
 
 def test_every_number_in_architecture_a_appears_in_its_source_file():
     a = diagrams()[0]
-    labels = " ".join(nodes_and_edges(a)[0].values())  # node labels only (not node ids such as A1)
-    shown = {int(n) for n in re.findall(r"\d+", labels)}
-    assert shown == expected_a_numbers()
+    labels = " ".join(visible(label) for _, label in parse(a)[0].values())  # labels only (not node ids such as A1)
+    assert {int(n) for n in re.findall(r"\d+", labels)} == expected_a_numbers()
     d = build_findings.load_all()
     full, hold = build_findings.wtl(d["comparisons"]["full"]), build_findings.wtl(d["comparisons"]["holding_only"])
-    assert f"Clock only {hold[0]}/{hold[1]}/{hold[2]}" in a and f"Full {full[0]}/{full[1]}/{full[2]}" in a
+    assert f"{full[0]}/{full[1]}/{full[2]} vs {hold[0]}/{hold[1]}/{hold[2]}" in labels
 
 
-def test_architecture_a_labels_and_caption():
+def test_architecture_a_decisions_loops_and_model_choice():
     a = diagrams()[0]
-    assert a.startswith("flowchart TD")
-    assert "4 would have passed date filters" in a
+    nodes, edges = parse(a)
+    text = {k: visible(v[1]) for k, v in nodes.items()}
+    ex = read_json(PROCESSED / "charts" / "extraction_compare.json")["models"]
+    # model choice: both false-intent values come from extraction_compare.json; accuracy sits on the AI extracts node
+    assert text["CHOSEN"] == f"Sonnet chosen {ex['sonnet']['false_direct_intent']} false intent signals (Haiku: {ex['haiku']['false_direct_intent']})"
+    assert "84% precision" in text["AI"] and "89% recall" in text["AI"] and "100% verbatim" in text["AI"]
+    assert not re.search(r"precision|recall", text["CHOSEN"])
+    assert text["EXCL"] == f"Excluded 32 modified after 8 content leak ({evidence_log_missed()} passed date filters)"
+    # retry self-loop, failure, and the model-used feedback edge
+    assert ("AI", "-.->", "AI", "invalid JSON: retry once") in edges
+    assert ("AI", "-->", "FAIL", "still invalid") in edges
+    assert ("CHOSEN", "-.->", "AI", "model used") in edges
+    assert ("OUTQ", "-->", "REJ", "no") in edges and ("LEAKQ", "-->", "EXCL", "no") in edges
+    assert {e[0] for e in edges if e[2] == "FULL"} == {"RULES"} and {e[0] for e in edges if e[2] == "CLOCK"} == {"RULES"}
+    assert {e[0] for e in edges if e[2] == "CMPR"} == {"FULL", "CLOCK"}
     assert "Data collected for validation only. Web search was the test method, not the production plan." in DOC
-    assert "<br/>" in a
 
 
-# --- Architecture B: structure -----------------------------------------------------------------------------------------
+# --- Architecture B1: weekly processing --------------------------------------------------------------------------------
 
-def test_architecture_b_structure():
-    b = diagrams()[1]
-    assert b.startswith("flowchart TD") and "%%" not in b
-    nodes, edges = nodes_and_edges(b)
-    subgraphs = dict(re.findall(r'subgraph (\w+)\["([^"]*)"\]', b))
-    assert subgraphs == {"ACQ": "Data acquisition", "SIG": "Signal intelligence", "DEC": "Decision and feedback"}
-    # Data acquisition is laid out left to right and linked to Signal intelligence as a whole subgraph.
-    acq = b.split("subgraph ACQ")[1].split("    end")[0]
-    assert "direction LR" in acq
-    acq_nodes = set(re.findall(r'^\s*(\w+)\["', acq, re.M))
-    assert acq_nodes == {"FREE", "BROAD", "SEL", "LIB"}
-    assert ("ACQ", "-->", "SIG", None) in edges and ("SIG", "-->", "DEC", None) in edges
-    assert not [e for e in edges if (e[0] in acq_nodes or e[2] in acq_nodes) and e[1] != "~~~"]
-    # Every edge endpoint exists.
-    for src, _, dst, _ in edges:
-        assert {src, dst} <= set(nodes) | set(subgraphs)
-    # All nodes dashed, at most 3 lines per node.
-    assert "classDef dashed stroke-dasharray" in b
-    classed = set(re.search(r"^\s*class ([\w,]+) dashed", b, re.M).group(1).split(","))
-    assert classed == set(nodes)
-    assert all(len(label.split("<br/>")) <= 3 for label in nodes.values())
+def test_b1_diamonds_in_order_and_recompute_clocks_not_cached_scores():
+    b1 = diagrams()[1]
+    nodes, edges = parse(b1)
+    order = [visible(v[1]).replace("  ", " ") for k, v in sorted(nodes.items(), key=lambda kv: b1.index(f"{kv[0]}{{")
+                                                                   if f"{kv[0]}{{" in b1 else 10**9) if v[0] == "diamond"]
+    assert order == B1_DIAMONDS
+    assert not [k for k, v in nodes.items() if "reuse cached score" in visible(v[1]).lower()]
+    (recomp,) = [e for e in edges if e[0] == "Q1" and e[3] == "no"]
+    assert "Recompute clocks only (reuse cached signals)" == visible(nodes[recomp[2]][1])
+    assert (recomp[2], "-->", "FEAT", None) in edges
+    assert ("Q1", "-->", "Q2", "yes") in edges and ("Q5", "-->", "STRONG", "yes") in edges and ("Q5", "-->", "CHEAP", "no") in edges
 
 
-def test_request_logs_link_only_to_the_evaluation_loop():
-    b = diagrams()[1]
-    nodes, edges = nodes_and_edges(b)
-    dec = b.split("subgraph DEC")[1].split("    end")[0]
-    assert "LOGS[" in dec and "LOGS[" not in b.split("subgraph DEC")[0]
-    touching = [e for e in edges if "LOGS" in (e[0], e[2])]
-    assert touching == [("LOGS", "-.->", "EVAL", LOGS_LABEL)]
-    assert "Evaluation only" in nodes["LOGS"]
+def test_b1_source_group_is_left_to_right_and_linked_as_a_whole():
+    b1 = diagrams()[1]
+    nodes, edges = parse(b1)
+    label, body = subgraphs(b1)["SRC"]
+    assert "direction LR" in body
+    inner = set(re.findall(r'^\s*(\w+)\["', body, re.M))
+    assert inner == {"FREE", "BROAD", "SEL", "LIB"}
+    assert ("SRC", "-->", "Q1", None) in edges
+    assert not [e for e in edges if (e[0] in inner or e[2] in inner) and e[1] != "~~~"]
+
+
+# --- Architecture B2: feedback loops ---------------------------------------------------------------------------------------
+
+def test_b2_five_closed_loops_with_dotted_returns():
+    b2 = diagrams()[2]
+    nodes, edges = parse(b2)
+    subs = subgraphs(b2)
+    assert [v[0] for v in subs.values()] == ["1. Weekly refresh", "2. Recalibration", "3. Source gate",
+                                             "4. Extraction quality", "5. Business check"]
+    for sid, (_, body) in subs.items():
+        ids = set(re.findall(r'^\s*(\w+)[\[{]"', body, re.M))
+        inside = [e for e in edges if e[0] in ids and e[2] in ids]
+        assert any(e[1] == "-.->" and e[3] for e in inside), f"{sid} has no labelled dotted return edge"
+        assert not [e for e in edges if (e[0] in ids) != (e[2] in ids)], f"{sid} links outside itself"
+
+
+def test_request_logs_link_only_inside_the_business_check_loop():
+    a, b1, b2 = diagrams()
+    assert "LOGS" not in a and "LOGS" not in b1
+    nodes, edges = parse(b2)
+    assert "LOGS[" in subgraphs(b2)["L5"][1]
+    assert [e for e in edges if "LOGS" in (e[0], e[2])] == [("LOGS", "-->", "RR", LOGS_LABEL)]
+    assert "evaluation only" in visible(nodes["LOGS"][1])
 
 
 # --- supporting sections ---------------------------------------------------------------------------------------------------
